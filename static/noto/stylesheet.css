@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Noto Serif Georgian Lt';
+    src: local('Noto Serif Georgian Light'), local('NotoSerifGeorgian-Light'),
+        url('NotoSerifGeorgian-Light.woff2') format('woff2'),
+        url('NotoSerifGeorgian-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Serif Georgian Bk';
+    src: local('Noto Serif Georgian Black'), local('NotoSerifGeorgian-Black'),
+        url('NotoSerifGeorgian-Black.woff2') format('woff2'),
+        url('NotoSerifGeorgian-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Serif Georgian';
+    src: local('Noto Serif Georgian Regular'), local('NotoSerifGeorgian-Regular'),
+        url('NotoSerifGeorgian-Regular.woff2') format('woff2'),
+        url('NotoSerifGeorgian-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Serif Georgian';
+    src: local('Noto Serif Georgian Bold'), local('NotoSerifGeorgian-Bold'),
+        url('NotoSerifGeorgian-Bold.woff2') format('woff2'),
+        url('NotoSerifGeorgian-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+

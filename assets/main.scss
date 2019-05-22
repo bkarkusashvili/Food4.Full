@@ -1,0 +1,48 @@
+@import url('~/static/noto/stylesheet.css');
+
+@import '~bulma/sass/utilities/initial-variables';
+@import '~bulma/sass/utilities/functions';
+
+$family-primary: 'Noto Serif Georgian', 'Noto Sans Georgian', 'Noto Sans', 'Roboto', sans-serif;
+$primary: #efc5d4;
+
+$footer-padding: 1.5rem;
+
+@import '~bulma/bulma';
+
+.promo-box {
+    background-size: 100% auto;
+    background-size: cover;
+    cursor: pointer;
+    height: 15rem;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+
+    .promo-box-content {
+        flex-grow: 0;
+        color: white;
+        padding-bottom: 2em;
+        background-image: linear-gradient(rgba(34,34,34,0), rgba(34,34,34,0.9));
+
+        .title {
+            color: white;
+        }
+
+        .subtitle {
+            color: white;
+        }
+    }
+
+    &:hover .promo-box-content {
+        background-image: linear-gradient(rgba(34,34,34,0), rgba(99,99,99,0.9));
+    }
+}
+
+.tile.is-parent {
+    padding: 0;
+}
+
+.tile.is-child {
+    padding: 5px;
+}

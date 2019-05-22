@@ -28,6 +28,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '@assets/main.scss'
   ],
 
   /*
@@ -42,8 +43,6 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    '@nuxtjs/bulma',
     '@nuxtjs/pwa',
   ],
   /*
