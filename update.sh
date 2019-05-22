@@ -1,7 +1,7 @@
 #!/bin/sh
 cd $(dirname $0)
-git reset --hard
-git pull
+git fetch --all
+git reset --hard origin/master
 npm install
 npm run build
 pm2 restart all
