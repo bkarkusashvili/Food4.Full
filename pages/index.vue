@@ -5,21 +5,38 @@
         <div class="tile is-ancestor is-vertical">
           <div class="tile is-parent">
             <div class="tile is-child is-8">
-              <a class="promo-box hero" style="background-image: url('/img/pizza.jpg')" href="#">
-                <div class="promo-box-content hero-body">
-                  <h1 class="title">პიცა პეპერონით და ზეთისხილით</h1>
-                  <h2 class="subtitle">პიცა პიცა პიცა</h2>
-                </div>
-              </a>
+              <div class="youtube-embed">
+                <iframe
+                  src="https://www.youtube.com/embed/-C4sZBA6Hgg"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
             </div>
 
-            <div class="tile is-child is-4">
-              <a class="promo-box hero" style="background-image: url('/img/tomatoes.jpg')" href="#">
-                <div class="promo-box-content hero-body">
-                  <h1 class="title">პომიდორი</h1>
-                  <h2 class="subtitle">პიცა პიცა პიცა</h2>
-                </div>
-              </a>
+            <div class="tile is-4 is-parent is-vertical">
+              <div class="tile is-child">
+                <a class="promo-box hero" style="background-image: url('/img/pizza.jpg')" href="#">
+                  <div class="promo-box-content hero-body">
+                    <h1 class="title">პიცა პეპერონით და ზეთისხილით</h1>
+                    <h2 class="subtitle">პიცა პიცა პიცა</h2>
+                  </div>
+                </a>
+              </div>
+
+              <div class="tile is-child">
+                <a
+                  class="promo-box hero"
+                  style="background-image: url('/img/tomatoes.jpg')"
+                  href="#"
+                >
+                  <div class="promo-box-content hero-body">
+                    <h1 class="title">პომიდორი</h1>
+                    <h2 class="subtitle">პიცა პიცა პიცა</h2>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
 
