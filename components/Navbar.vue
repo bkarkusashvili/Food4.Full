@@ -51,25 +51,22 @@
       </div>
 
       <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary">რეგისტრაცია</a>
-            <a class="button is-primary">შესვლა</a>
-          </div>
-        </div>
+        <a class="navbar-item">რეგისტრაცია / შესვლა</a>
       </div>
     </div>
   </nav>
 </template>
 
 <style>
-.site-navbar .navbar-brand {
-    flex-grow: 1;
+.site-navbar.site-navbar.site-navbar {
+  background: transparent;
+  background: linear-gradient(rgba(34,34,34,0.9), rgba(34,34,34,0));
+  flex-shrink: 0;
 }
 
 .site-navbar .navbar-start {
-    flex-grow: 2;
-    justify-content: center;
+  flex-grow: 2;
+  justify-content: center;
 }
 </style>
 
