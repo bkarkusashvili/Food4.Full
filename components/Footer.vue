@@ -10,6 +10,6 @@
 <style>
 .site-footer.site-footer.site-footer {
     background: transparent;
-    background: linear-gradient(rgba(34,34,34,0), rgba(34,34,34,0.9));
+    /* background: linear-gradient(rgba(34,34,34,0), rgba(34,34,34,0.9)); */
 }
 </style>

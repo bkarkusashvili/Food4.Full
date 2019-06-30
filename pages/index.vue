@@ -17,12 +17,12 @@
 
             <div class="tile is-4 is-parent is-vertical">
               <div class="tile is-child">
-                <a class="promo-box hero" style="background-image: url('/img/pizza.jpg')" href="#">
+                <nuxt-link to="recipes/1" class="promo-box hero" style="background-image: url('/img/pizza.jpg')">
                   <div class="promo-box-content hero-body">
                     <h1 class="title">პიცა პეპერონით და ზეთისხილით</h1>
                     <h2 class="subtitle">პიცა პიცა პიცა</h2>
                   </div>
-                </a>
+                </nuxt-link>
               </div>
 
               <div class="tile is-child">

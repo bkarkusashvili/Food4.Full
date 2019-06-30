@@ -57,11 +57,12 @@
   </nav>
 </template>
 
-<style>
+<style lang="scss">
 .site-navbar.site-navbar.site-navbar {
   background: transparent;
-  background: linear-gradient(rgba(34,34,34,0.9), rgba(34,34,34,0));
+  /* background: linear-gradient(rgba(34,34,34,0.9), rgba(34,34,34,0)); */
   flex-shrink: 0;
+  font-family: "ArchyEDT-Bold", sans-serif;
 }
 
 .site-navbar .navbar-start {

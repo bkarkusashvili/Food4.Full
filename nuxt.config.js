@@ -1,4 +1,4 @@
-const pkg = require('./package')
+const pkg = require('./package');
 
 
 module.exports = {
@@ -70,4 +70,4 @@ module.exports = {
     extend(config, ctx) {
     }
   }
-}
+};
