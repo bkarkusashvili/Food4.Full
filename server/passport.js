@@ -1,11 +1,12 @@
 const passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy;
+    LocalStrategy = require('passport-local').Strategy,
+    db = require('./db');
 
 var User = {
-    findById: function() {
+    findById: function () {
         return { id: 1 }
     },
-    findOne: function() {
+    findOne: function () {
         return { id: 1 }
     }
 }
@@ -22,16 +23,18 @@ passport.deserializeUser(function (id, done) {
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
-        User.findOne({ username: username }, function (err, user) {
-            if (err) { return done(err); }
+        db.models.User.findOne({ username: username }).then(function (user) {
             if (!user) {
                 return done(null, false, { message: 'Incorrect username.' });
             }
-            if (!user.validPassword(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-            return done(null, user);
-        });
+            return user.comparePassword(password).then((correct) => {
+                if (!correct) {
+                    return done(null, false, { message: 'Incorrect password.' });
+                }
+
+                return done(null, user);
+            });
+        }).catch(done);
     }
 ));
 

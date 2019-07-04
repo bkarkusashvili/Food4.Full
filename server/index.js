@@ -4,6 +4,7 @@ const express = require('express'),
   consola = require('consola'),
   { Nuxt, Builder } = require('nuxt'),
   app = express(),
+  db = require('./db'),
   api = require('./api');
 
 // Import and Set Nuxt.js options
@@ -11,6 +12,7 @@ let config = require('../nuxt.config.js');
 config.dev = !(process.env.NODE_ENV === 'production');
 
 async function start() {
+  await db.connect("mongodb://localhost/food4");
   // Init Nuxt.js
   const nuxt = new Nuxt(config);
 
