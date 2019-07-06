@@ -8,13 +8,39 @@ const express = require('express'),
   api = require('./api');
 
 // Import and Set Nuxt.js options
-let config = require('../nuxt.config.js');
-config.dev = !(process.env.NODE_ENV === 'production');
+let nuxtConf = require('../nuxt.config.js');
+nuxtConf.dev = !(process.env.NODE_ENV === 'production');
+
+// Import app config
+let config;
+try {
+  // Try to load local config
+  config = require('../config.local');
+} catch (e) {
+  // Load default config if local config does not exist
+  config = require('../config.default')
+}
 
 async function start() {
   await db.connect("mongodb://localhost/food4");
+
+  // Ensure at least one admin user exists
+  db.models.User.findOne({ role: 'admin' }).then(function(foundUser) {
+    if(!foundUser) {
+      console.log("No admin user found, creating one");
+      let defaultAdmin = new db.models.User(config.admin.defaultAdmin);
+      return defaultAdmin.setPassword(config.admin.defaultAdmin.password).then(function(){
+        return defaultAdmin.save();
+      }).then(function(){
+        console.log("Created default admin user:", defaultAdmin.username);
+      });
+    } else {
+      console.log("Admin user found:", foundUser.username);
+    }
+  }).catch(console.error.bind(console));
+
   // Init Nuxt.js
-  const nuxt = new Nuxt(config);
+  const nuxt = new Nuxt(nuxtConf);
 
   const { host, port } = nuxt.options.server;
 
@@ -25,12 +51,12 @@ async function start() {
     secret: 'ajapsandali',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: !config.dev }
+    cookie: { secure: !nuxtConf.dev }
   }));
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.post('/login', function (req, res, next) {
+  app.post('/api/login', function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
       if (err) { return res.status(500).json(err); }
       if (!user) { return res.status(401).json(info.message); }
@@ -44,7 +70,7 @@ async function start() {
   app.use('/api', api);
 
   // Build only in dev mode
-  if (config.dev) {
+  if (nuxtConf.dev) {
     const builder = new Builder(nuxt);
     await builder.build();
   } else {
