@@ -22,6 +22,7 @@ function scanDir(dirPath, dirsOnly) {
 router.use('/admin', (req, res, next) => {
     if (!req.user || req.user.role !== 'admin')
         return res.status(401).send("Unauthorized");
+    next();
 });
 
 router.use('/user', (req, res, next) => {

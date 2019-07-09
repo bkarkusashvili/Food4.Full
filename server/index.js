@@ -33,10 +33,10 @@ async function start() {
       return defaultAdmin.setPassword(config.admin.defaultAdmin.password).then(function () {
         return defaultAdmin.save();
       }).then(function () {
-        consola.success("Created default admin user:", defaultAdmin.username);
+        consola.success("Created default admin user:", defaultAdmin.email);
       });
     } else {
-      consola.success("Admin user found:", foundUser.username);
+      consola.success("Admin user found:", foundUser.email);
     }
   }).catch(consola.error.bind(consola));
 
@@ -48,6 +48,10 @@ async function start() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.set('trust proxy', 1); // trust first proxy (nginx)
+  // app.use(function(req, res, next){
+  //   console.log(req.method, req.path);
+  //   next();
+  // });
   app.use(session({
     secret: config.session.secret,
     resave: false,
@@ -60,11 +64,6 @@ async function start() {
   }));
   app.use(passport.initialize());
   app.use(passport.session());
-
-  // app.use(function(req, res, next){
-  //   console.log(req.method, req.path);
-  //   next();
-  // });
 
   app.use('/api', api);
 

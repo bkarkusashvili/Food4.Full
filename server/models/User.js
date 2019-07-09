@@ -2,7 +2,7 @@ const Schema = require('mongoose').Schema,
     bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
-    username: {
+    email: {
         required: true,
         unique: true,
         type: String

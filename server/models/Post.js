@@ -1,6 +1,9 @@
 const Schema = require('mongoose').Schema;
 
 const postSchema = new Schema({
+    type: {
+        type: String
+    },
     slug: {
         type: String,
         required: true

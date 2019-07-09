@@ -1,9 +1,10 @@
 module.exports = {
     admin: {
         defaultAdmin: {
-            username: 'admin',
+            email: 'admin@food4.ge',
             password: 'admin',
-            role: 'admin'
+            role: 'admin',
+            verified: true
         }
     },
     mongoose: {
