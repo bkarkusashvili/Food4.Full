@@ -43,6 +43,7 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
     '@nuxtjs/pwa',
   ],
   /*
@@ -50,6 +51,34 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  /*
+   ** Auth module configuration
+   */
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/auth/login',
+            method: 'post',
+            propertyName: false
+          },
+          logout: {
+            url: '/api/auth/logout',
+            method: 'post'
+          },
+          user: {
+            url: '/api/auth/me',
+            method: 'get',
+            propertyName: false
+          }
+        },
+        tokenRequired: false,
+        tokenType: false
+      }
+    }
   },
 
   /*

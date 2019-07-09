@@ -61,16 +61,10 @@ async function start() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.post('/api/login', function (req, res, next) {
-    passport.authenticate('local', function (err, user, info) {
-      if (err) { return res.status(500).json(err); }
-      if (!user) { return res.status(401).json(info.message); }
-      req.logIn(user, function (err) {
-        if (err) { return res.status(500).json(err); }
-        return res.json(user);
-      });
-    })(req, res, next);
-  });
+  // app.use(function(req, res, next){
+  //   console.log(req.method, req.path);
+  //   next();
+  // });
 
   app.use('/api', api);
 

@@ -30,6 +30,10 @@ router.use('/user', (req, res, next) => {
     next();
 });
 
+router.post('/auth/login', api.auth.login);
+router.post('/auth/logout', api.auth.logout);
+router.get('/auth/me', api.auth.me);
+
 router.get('/admin/posts', api.admin.posts.index);
 router.post('/admin/posts', api.admin.posts.create);
 
