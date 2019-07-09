@@ -1,5 +1,6 @@
 const express = require('express'),
   session = require('express-session'),
+  MongoStore = require('connect-mongo')(session),
   passport = require('./passport'),
   consola = require('consola'),
   { Nuxt, Builder } = require('nuxt'),
@@ -22,22 +23,22 @@ try {
 }
 
 async function start() {
-  await db.connect("mongodb://localhost/food4");
+  await db.connect(config.mongoose.url);
 
   // Ensure at least one admin user exists
-  db.models.User.findOne({ role: 'admin' }).then(function(foundUser) {
-    if(!foundUser) {
-      console.log("No admin user found, creating one");
+  db.models.User.findOne({ role: 'admin' }).then(function (foundUser) {
+    if (!foundUser) {
+      consola.info("No admin user found, creating one");
       let defaultAdmin = new db.models.User(config.admin.defaultAdmin);
-      return defaultAdmin.setPassword(config.admin.defaultAdmin.password).then(function(){
+      return defaultAdmin.setPassword(config.admin.defaultAdmin.password).then(function () {
         return defaultAdmin.save();
-      }).then(function(){
-        console.log("Created default admin user:", defaultAdmin.username);
+      }).then(function () {
+        consola.success("Created default admin user:", defaultAdmin.username);
       });
     } else {
-      console.log("Admin user found:", foundUser.username);
+      consola.success("Admin user found:", foundUser.username);
     }
-  }).catch(console.error.bind(console));
+  }).catch(consola.error.bind(consola));
 
   // Init Nuxt.js
   const nuxt = new Nuxt(nuxtConf);
@@ -48,10 +49,14 @@ async function start() {
   app.use(express.urlencoded({ extended: true }));
   app.set('trust proxy', 1); // trust first proxy (nginx)
   app.use(session({
-    secret: 'ajapsandali',
+    secret: config.session.secret,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: !nuxtConf.dev }
+    cookie: { secure: !nuxtConf.dev },
+    store: new MongoStore({
+      mongooseConnection: db.mongoose.connection,
+      collection: config.session.collection
+    })
   }));
   app.use(passport.initialize());
   app.use(passport.session());
@@ -87,4 +92,5 @@ async function start() {
     badge: true
   });
 }
+
 start();

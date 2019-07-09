@@ -5,5 +5,12 @@ module.exports = {
             password: 'admin',
             role: 'admin'
         }
+    },
+    mongoose: {
+        url: "mongodb://localhost/food4"
+    },
+    session: {
+        secret: 'ajapsandali',
+        collection: 'session'
     }
 };

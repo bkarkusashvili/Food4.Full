@@ -3,6 +3,8 @@ const fs = require('fs'),
     mongoose = require('mongoose'),
     models = {};
 
+mongoose.set('useCreateIndex', true);
+
 var normalizedPath = path.join(__dirname, "models");
 
 fs.readdirSync(normalizedPath).forEach(function (file) {
@@ -14,5 +16,6 @@ module.exports = {
     connect(url) {
         return mongoose.connect(url, { useNewUrlParser: true });
     },
-    models: models
+    models: models,
+    mongoose: mongoose
 };

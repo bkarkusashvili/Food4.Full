@@ -16,7 +16,7 @@ const userSchema = new Schema({
         enum: ["admin", "user"],
         default: "user"
     }
-});
+}, { timestamps: true });
 
 userSchema.methods.setPassword = function (newPassword) {
     return bcrypt.hash(newPassword, 10).then((hashedPassword) => {
