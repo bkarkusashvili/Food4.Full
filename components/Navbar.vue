@@ -51,7 +51,7 @@
       </div>
 
       <div class="navbar-end">
-        <a class="navbar-item">რეგისტრაცია / შესვლა</a>
+        <nuxt-link to="/login" class="navbar-item">რეგისტრაცია / შესვლა</nuxt-link>
       </div>
     </div>
   </nav>
