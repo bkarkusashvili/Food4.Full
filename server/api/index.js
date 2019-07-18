@@ -37,12 +37,19 @@ router.get('/auth/me', api.auth.me);
 
 router.get('/admin/posts', api.admin.posts.index);
 router.post('/admin/posts', api.admin.posts.create);
+router.put('/admin/posts/:id', api.admin.posts.update);
+router.delete('/admin/posts/:id', api.admin.posts.remove);
 
 router.get('/admin/tags', api.admin.tags.index);
 router.post('/admin/tags', api.admin.tags.create);
-router.delete('/admin/tags', api.admin.tags.remove);
+router.delete('/admin/tags/:id', api.admin.tags.remove);
 
 router.get('/admin/users', api.admin.users.index);
 router.post('/admin/users', api.admin.users.create);
+
+router.get('/user/favorites', api.user.favorites.index);
+router.get('/user/favorites/:postId', api.user.favorites.one);
+router.post('/user/favorites/:postId', api.user.favorites.create);
+router.delete('/user/favorites/:postId', api.user.favorites.remove);
 
 module.exports = router;

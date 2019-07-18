@@ -59,17 +59,29 @@
         <div class="navbar-item has-dropdown is-hoverable" v-show="$auth.user">
           <a class="navbar-link">
             <span class="icon">
-              <i class="fas fa-user" aria-hidden="true"></i>
+              <i class="mdi mdi-account" aria-hidden="true"></i>
             </span>
-            {{$auth.user.name}}
+            <span>{{$auth.user.name}}</span>
           </a>
           <div class="navbar-dropdown">
-            <nuxt-link
-              to="/admin"
-              class="navbar-item"
-              v-show="$auth.user.role === 'admin'"
-            >სამართავი პანელი</nuxt-link>
-            <a class="navbar-item" v-show="$auth.user" @click="logout">გასვლა</a>
+            <nuxt-link to="/admin" class="navbar-item" v-show="$auth.user.role === 'admin'">
+              <span class="icon">
+                <i class="mdi mdi-radioactive" aria-hidden="true"></i>
+              </span>
+              <span>სამართავი პანელი</span>
+            </nuxt-link>
+            <a class="navbar-item">
+              <span class="icon">
+                <i class="mdi mdi-account" aria-hidden="true"></i>
+              </span>
+              <span>პროფილი</span>
+            </a>
+            <a class="navbar-item" v-show="$auth.user" @click="logout">
+              <span class="icon">
+                <i class="mdi mdi-exit-run" aria-hidden="true"></i>
+              </span>
+              <span>გასვლა</span>
+            </a>
           </div>
         </div>
       </div>
@@ -98,7 +110,8 @@
     color: white;
     transition: background-color 0.3s;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background: #f39a89;
       color: white;
     }
@@ -116,6 +129,11 @@
 
 .navbar-item.has-dropdown:hover .navbar-link::after {
   transform: rotate(-45deg) scaleX(-1) scaleY(-1);
+}
+
+.navbar-end .navbar-dropdown {
+  right: 0;
+  left: auto;
 }
 </style>
 
