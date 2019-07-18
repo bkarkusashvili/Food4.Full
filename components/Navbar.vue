@@ -1,7 +1,11 @@
 <template>
-  <nav class="navbar is-primary is-spaced site-navbar" role="navigation" aria-label="main navigation">
+  <nav
+    class="navbar is-primary is-spaced site-navbar"
+    role="navigation"
+    aria-label="main navigation"
+  >
     <div class="navbar-brand">
-      <nuxt-link to="/" class="navbar-item has-text-weight-bold">Food4.ge</nuxt-link>
+      <a href="/" class="navbar-item has-text-weight-bold">Food4.ge</a>
 
       <a
         role="button"
@@ -52,9 +56,22 @@
 
       <div class="navbar-end">
         <nuxt-link to="/login" class="navbar-item" v-show="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
-        <div class="navbar-item" v-show="$auth.user">{{$auth.user.name}}</div>
-        <nuxt-link to="/admin" class="navbar-item" v-show="$auth.user.role === 'admin'">პანელი</nuxt-link>
-        <a class="navbar-item" v-show="$auth.user" @click="logout">გასვლა</a>
+        <div class="navbar-item has-dropdown is-hoverable" v-show="$auth.user">
+          <a class="navbar-link">
+            <span class="icon">
+              <i class="fas fa-user" aria-hidden="true"></i>
+            </span>
+            {{$auth.user.name}}
+          </a>
+          <div class="navbar-dropdown">
+            <nuxt-link
+              to="/admin"
+              class="navbar-item"
+              v-show="$auth.user.role === 'admin'"
+            >სამართავი პანელი</nuxt-link>
+            <a class="navbar-item" v-show="$auth.user" @click="logout">გასვლა</a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -72,22 +89,50 @@
   flex-grow: 2;
   justify-content: center;
 }
+
+.site-navbar .navbar-dropdown {
+  background: #f5b1a3;
+  color: white;
+
+  .navbar-item {
+    color: white;
+    transition: background-color 0.3s;
+
+    &:hover, &:focus {
+      background: #f39a89;
+      color: white;
+    }
+  }
+}
+
+.navbar-item {
+  transition: background-color 0.3s;
+}
+
+.navbar-item.has-dropdown .navbar-link::after {
+  transform: rotate(-45deg);
+  transition: transform 0.3s;
+}
+
+.navbar-item.has-dropdown:hover .navbar-link::after {
+  transform: rotate(-45deg) scaleX(-1) scaleY(-1);
+}
 </style>
 
 <script>
 export default {
-    data() {
-        return {
-            showNav: false
-        }
+  data() {
+    return {
+      showNav: false
+    };
+  },
+  methods: {
+    toggleNav() {
+      this.showNav = !this.showNav;
     },
-    methods: {
-        toggleNav() {
-            this.showNav = !this.showNav
-        },
-        logout() {
-          this.$auth.logout();
-        }
+    logout() {
+      this.$auth.logout();
     }
-}
+  }
+};
 </script>
