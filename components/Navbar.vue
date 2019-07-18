@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-primary is-spaced site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item has-text-weight-bold" href="/">Food4.ge</a>
+      <nuxt-link to="/" class="navbar-item has-text-weight-bold">Food4.ge</nuxt-link>
 
       <a
         role="button"
@@ -51,7 +51,10 @@
       </div>
 
       <div class="navbar-end">
-        <nuxt-link to="/login" class="navbar-item">რეგისტრაცია / შესვლა</nuxt-link>
+        <nuxt-link to="/login" class="navbar-item" v-show="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
+        <div class="navbar-item" v-show="$auth.user">{{$auth.user.name}}</div>
+        <nuxt-link to="/admin" class="navbar-item" v-show="$auth.user.role === 'admin'">პანელი</nuxt-link>
+        <a class="navbar-item" v-show="$auth.user" @click="logout">გასვლა</a>
       </div>
     </div>
   </nav>
@@ -81,6 +84,9 @@ export default {
     methods: {
         toggleNav() {
             this.showNav = !this.showNav
+        },
+        logout() {
+          this.$auth.logout();
         }
     }
 }

@@ -4,7 +4,8 @@ module.exports = {
             email: 'admin@food4.ge',
             password: 'admin',
             role: 'admin',
-            verified: true
+            verified: true,
+            name: 'Admin'
         }
     },
     mongoose: {

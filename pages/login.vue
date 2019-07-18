@@ -32,4 +32,7 @@ export default {
 </script>
 
 <style>
+.login-form, .registration-form {
+  padding: 0 2em 2em 2em;
+}
 </style>
