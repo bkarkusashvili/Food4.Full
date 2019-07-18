@@ -1,6 +1,9 @@
 @import url('../static/noto/stylesheet.css');
 @import url('../static/archyedt-bold/stylesheet.css');
 
+$mdi-font-path: '~@mdi/font/fonts';
+@import '~@mdi/font/scss/materialdesignicons';
+
 @import '~bulma/sass/utilities/initial-variables';
 @import '~bulma/sass/utilities/functions';
 
