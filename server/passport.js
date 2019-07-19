@@ -1,13 +1,13 @@
 const passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    db = require('./db');
+    mongoose = require('mongoose');
 
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 
 passport.deserializeUser(function (id, done) {
-    db.models.User.findById(id, function (err, user) {
+    mongoose.model('User').findById(id, function (err, user) {
         done(err, user);
     });
 });
@@ -15,7 +15,7 @@ passport.deserializeUser(function (id, done) {
 passport.use(new LocalStrategy({
     usernameField: 'email'
 }, function (email, password, done) {
-    db.models.User.findOne({ email: email }).then(function (user) {
+    mongoose.model('User').findOne({ email: email }).then(function (user) {
         if (!user) {
             return done(null, false, { message: 'Incorrect email.' });
         }

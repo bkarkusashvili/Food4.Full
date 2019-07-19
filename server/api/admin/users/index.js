@@ -1,7 +1,7 @@
-const db = require('../../../db');
+const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    db.models.User.find({}).then(function (users) {
+    mongoose.model('User').find({}).then(function (users) {
         res.json(users);
     }).catch((error) => res.status(500).json(error));
 };

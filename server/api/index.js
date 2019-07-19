@@ -31,11 +31,15 @@ router.use('/user', (req, res, next) => {
     next();
 });
 
-router.post('/auth/login', api.auth.login);
-router.post('/auth/logout', api.auth.logout);
-router.get('/auth/me', api.auth.me);
+router.post('/auth/login', api.public.auth.login);
+router.post('/auth/logout', api.public.auth.logout);
+router.get('/auth/me', api.public.auth.me);
+
+router.get('/posts', api.public.posts.index);
+router.get('/posts/:id', api.public.posts.one);
 
 router.get('/admin/posts', api.admin.posts.index);
+router.get('/admin/posts/:id', api.admin.posts.one);
 router.post('/admin/posts', api.admin.posts.create);
 router.put('/admin/posts/:id', api.admin.posts.update);
 router.delete('/admin/posts/:id', api.admin.posts.remove);
@@ -46,6 +50,7 @@ router.delete('/admin/tags/:id', api.admin.tags.remove);
 
 router.get('/admin/users', api.admin.users.index);
 router.post('/admin/users', api.admin.users.create);
+router.delete('/admin/users/:id', api.admin.users.remove);
 
 router.get('/user/favorites', api.user.favorites.index);
 router.get('/user/favorites/:postId', api.user.favorites.one);

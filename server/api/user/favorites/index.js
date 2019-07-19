@@ -1,7 +1,7 @@
-const db = require('../../../db');
+const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    db.models.UserFavorite.find({
+    mongoose.model('UserFavorite').find({
         user: req.user.id
     }).populate('post').then(function (favorites) {
         res.json(favorites);

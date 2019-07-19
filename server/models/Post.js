@@ -11,6 +11,15 @@ const postSchema = new Schema({
     title: {
         type: String
     },
+    content: {
+        type: String
+    },
+    excerpt: {
+        type: String
+    },
+    picture: {
+        type: String
+    },
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }]
 }, { timestamps: true });
 
