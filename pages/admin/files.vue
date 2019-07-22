@@ -7,6 +7,7 @@
         <tr>
           <th>სახელი</th>
           <th>ტიპი</th>
+          <th>ზომა</th>
           <th>თარიღი</th>
           <th></th>
         </tr>
@@ -17,7 +18,8 @@
             <a :href="file.url" target="_blank">{{file.friendlyName}}</a>
           </td>
           <td>{{file.mimetype}}</td>
-          <td>{{file.createdAt}}</td>
+          <td>{{file.size | prettyBytes}}</td>
+          <td>{{file.createdAt | date}}</td>
           <td>
             <button type="button" class="button is-danger" @click="removeFile(file)">
                 <span class="icon"><i class="mdi mdi-delete"></i></span>
