@@ -20,6 +20,7 @@ const postSchema = new Schema({
     picture: {
         type: String
     },
+    ingredients: [String],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }]
 }, { timestamps: true });
 

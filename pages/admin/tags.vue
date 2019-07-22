@@ -1,4 +1,5 @@
 <template>
+  <nuxt-child />
 </template>
 
 <script>
@@ -8,10 +9,7 @@ export default {
     return {};
   },
   created() {},
-  methods: {},
-  render: {
-    ssr: false
-  }
+  methods: {}
 };
 </script>
 

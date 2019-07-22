@@ -8,10 +8,7 @@ export default {
     return {};
   },
   created() {},
-  methods: {},
-  render: {
-    ssr: false
-  }
+  methods: {}
 };
 </script>
 
