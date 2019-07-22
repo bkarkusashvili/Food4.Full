@@ -1,5 +1,6 @@
 const express = require('express'),
   session = require('express-session'),
+  fileUpload = require('express-fileupload'),
   MongoStore = require('connect-mongo')(session),
   passport = require('./passport'),
   consola = require('consola'),
@@ -45,6 +46,9 @@ async function start() {
 
   const { host, port } = nuxt.options.server;
 
+  app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.set('trust proxy', 1); // trust first proxy (nginx)

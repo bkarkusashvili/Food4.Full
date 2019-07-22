@@ -85,3 +85,5 @@ sw.*
 
 # Custom
 /config.local.js
+/static/uploads/*
+!/static/uploads/.keep

@@ -44,6 +44,13 @@ router.post('/admin/posts', api.admin.posts.create);
 router.put('/admin/posts/:id', api.admin.posts.update);
 router.delete('/admin/posts/:id', api.admin.posts.remove);
 
+
+router.get('/admin/files', api.admin.files.index);
+router.get('/admin/files/:id', api.admin.files.one);
+router.post('/admin/files', api.admin.files.upload);
+router.put('/admin/files/:id', api.admin.files.update);
+router.delete('/admin/files/:id', api.admin.files.remove);
+
 router.get('/admin/tags', api.admin.tags.index);
 router.post('/admin/tags', api.admin.tags.create);
 router.delete('/admin/tags/:id', api.admin.tags.remove);
