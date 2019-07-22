@@ -8,6 +8,6 @@ const fileSchema = new Schema({
     size: { type: Number },
     md5: { type: String },
     mimetype: { type: String }
-});
+}, { timestamps: true });
 
 module.exports = fileSchema;

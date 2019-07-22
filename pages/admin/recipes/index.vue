@@ -2,12 +2,12 @@
   <div>
     <h1 class="title">
       რეცეპტები
-      <router-link to="/admin/recipes/new" class="button is-success">
+      <nuxt-link to="/admin/recipes/new" class="button is-success">
         <span class="icon">
           <i class="mdi mdi-plus"></i>
         </span>
         <span>დამატება</span>
-      </router-link>
+      </nuxt-link>
     </h1>
 
     <table class="table is-striped is-hoverable is-fullwidth">
@@ -20,7 +20,7 @@
       </thead>
       <tbody>
         <tr v-for="post in posts" :key="post._id">
-          <td>{{post.title}}</td>
+          <td><a :href="'/recipes/' + post._id" target="_blank">{{post.title}}</a></td>
           <td>
             <span v-for="tag in post.tags" class="tag" :key="tag">{{tag}}</span>
           </td>

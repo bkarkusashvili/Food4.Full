@@ -16,10 +16,30 @@
       </div>
 
       <div class="field">
+        <label class="label">სურათი</label>
+        <div class="control">
+          <div class="file is-medium is-primary">
+            <label class="file-label">
+              <input class="file-input" type="file" ref="file" @change="uploadPicture()" />
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="mdi mdi-upload"></i>
+                </span>
+                <span class="file-label">არჩევა</span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="control" style="padding-top: 10px">
+          <img :src="post.picture" v-if="post.picture != null" alt />
+        </div>
+      </div>
+
+      <div class="field">
         <label class="label">ტეგები</label>
         <div class="control">
-          <span class="tag is-medium" v-for="(tag, index) in post.tags" :key="tag">
-            {{tag}}
+          <span class="tag is-medium" v-for="(tag, index) in post.tags" :key="tag._id">
+            {{tag.title}}
             <button type="button" class="delete" @click="removeTag(index)"></button>
           </span>
 
@@ -84,24 +104,6 @@
       </div>
 
       <div class="field">
-        <label class="label">სურათი</label>
-        <div class="control">
-          <div class="file is-fullwidth is-large is-primary has-name">
-            <label class="file-label">
-              <input class="file-input" type="file" name="resume" />
-              <span class="file-cta">
-                <span class="file-icon">
-                  <i class="mdi mdi-upload"></i>
-                </span>
-                <span class="file-label">არჩევა</span>
-              </span>
-              <span class="file-name">Screen Shot 2017-07-29 at 15.54.25.png</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
         <no-ssr>
           <vue-editor v-model="post.content" />
         </no-ssr>
@@ -128,7 +130,8 @@ export default {
   data() {
     return {
       post: {},
-      new: false
+      new: false,
+      saved: false
     };
   },
   created() {
@@ -141,7 +144,7 @@ export default {
         this.post = {
           content: "",
           title: "",
-          tags: ["ტეგი"],
+          tags: [{ _id: 1, title: "მალთაყვა" }],
           ingredients: ["ინგრედიენტი"]
         };
         return;
@@ -187,8 +190,31 @@ export default {
     canMoveDown: function(index) {
       return index < this.post.ingredients.length - 1;
     },
+    uploadPicture: function() {
+      let file = this.$refs.file.files[0],
+        formData = new FormData();
+      if (!file) return;
+      formData.append("file", file);
+      this.$axios
+        .post("/api/admin/files", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          this.post.picture = response.data.url;
+          this.$forceUpdate();
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     save: function() {
-      this.$axios.post("/api/admin/posts", this.post);
+      if (this.new) {
+        this.$axios.post("/api/admin/posts", this.post);
+      } else {
+        this.$axios.put("/api/admin/posts/" + this.post._id, this.post);
+      }
     }
   },
   computed: {

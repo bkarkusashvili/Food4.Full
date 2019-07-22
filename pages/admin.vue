@@ -26,6 +26,14 @@
                 <span>ტეგები</span>
               </nuxt-link>
             </li>
+            <li>
+              <nuxt-link to="/admin/files" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-file"></i>
+                </span>
+                <span>ფაილები</span>
+              </nuxt-link>
+            </li>
           </ul>
           <p class="menu-label">
             <span class="icon">

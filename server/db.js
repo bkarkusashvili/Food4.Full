@@ -4,6 +4,7 @@ const fs = require('fs'),
     models = {};
 
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 var normalizedPath = path.join(__dirname, "models");
 

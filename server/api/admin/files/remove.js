@@ -5,8 +5,7 @@ const util = require('util'),
 
 module.exports = function (req, res) {
     mongoose.model('File').findById(req.params.id).then(function (file) {
-        var filePath = path.join(__dirname, '../../../../static/uploads', file.path);
-        util.promisify(fs.unlink)(filePath).catch((error) => console.error("Error deleting file", error));
+        util.promisify(fs.unlink)(file.path).catch((error) => console.error("Error deleting file", error));
         return mongoose.model('File').findByIdAndRemove(file.id);
     }).then(function () {
         res.status(200).end();
