@@ -5,7 +5,9 @@
     aria-label="main navigation"
   >
     <div class="navbar-brand">
-      <a href="/" class="navbar-item has-text-weight-bold">Food4.ge</a>
+      <a href="/" class="navbar-item has-text-weight-bold">
+        <img src="/logo.png" alt />
+      </a>
 
       <a
         role="button"
@@ -61,8 +63,8 @@
           </span>
           <span>ძებნა</span>
         </a>
-        <nuxt-link to="/login" class="navbar-item" v-show="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
-        <div class="navbar-item has-dropdown is-hoverable" v-show="$auth.user">
+        <nuxt-link to="/login" class="navbar-item" v-if="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
+        <div class="navbar-item has-dropdown is-hoverable" v-if="$auth.user">
           <a class="navbar-link">
             <span class="icon">
               <i class="mdi mdi-account" aria-hidden="true"></i>
@@ -70,7 +72,7 @@
             <span>{{$auth.user.name}}</span>
           </a>
           <div class="navbar-dropdown">
-            <nuxt-link to="/admin" class="navbar-item" v-show="$auth.user.role === 'admin'">
+            <nuxt-link to="/admin" class="navbar-item" v-if="$auth.user.role === 'admin'">
               <span class="icon">
                 <i class="mdi mdi-radioactive" aria-hidden="true"></i>
               </span>
@@ -82,7 +84,7 @@
               </span>
               <span>პროფილი</span>
             </a>
-            <a class="navbar-item" v-show="$auth.user" @click="logout">
+            <a class="navbar-item" v-if="$auth.user" @click="logout">
               <span class="icon">
                 <i class="mdi mdi-exit-run" aria-hidden="true"></i>
               </span>
@@ -113,7 +115,7 @@
                     class="input is-primary"
                     type="text"
                     placeholder="ძებნა"
-                    v-model="searchTerm"
+                    v-model="query"
                     ref="searchInput"
                   />
                 </div>
@@ -158,11 +160,13 @@
   justify-content: center;
 }
 
-.site-navbar .navbar-dropdown, .site-navbar .dropdown-content {
+.site-navbar .navbar-dropdown,
+.site-navbar .dropdown-content {
   background: #f5b1a3;
   color: white;
 
-  .navbar-item, .dropdown-item {
+  .navbar-item,
+  .dropdown-item {
     color: white;
     transition: background-color 0.3s;
 
@@ -199,7 +203,7 @@ export default {
     return {
       showNav: false,
       showingSearch: false,
-      searchTerm: "",
+      query: "",
       searchSuggestions: []
     };
   },
@@ -212,7 +216,9 @@ export default {
     },
     showSearch() {
       this.showingSearch = true;
-      this.$refs.searchInput.focus();
+      setTimeout(() => {
+        this.$refs.searchInput.focus();
+      }, 10);
     },
     hideSearch() {
       this.showingSearch = false;
@@ -221,18 +227,24 @@ export default {
     clearSuggestions() {
       this.searchSuggestions = [];
     },
-    search() {
+    suggest() {
+      if (!this.query) return;
       this.$axios
-        .get("/api/posts", { params: { q: this.searchTerm } })
+        .get("/api/posts", { params: { q: this.query } })
         .then(response => {
           this.searchSuggestions = response.data;
         })
         .catch(error => console.error(error));
+    },
+    search() {
+      if (!this.query) return;
+
+      this.$router.push({ path: '/search', query: { q: this.query } });
     }
   },
   watch: {
-    searchTerm: "search",
-    '$route': 'hideSearch'
+    query: "suggest",
+    $route: "hideSearch"
   }
 };
 </script>

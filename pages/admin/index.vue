@@ -1,5 +1,4 @@
-<template>
-</template>
+<template></template>
 
 <script>
 export default {
@@ -7,10 +6,15 @@ export default {
   data() {
     return {};
   },
-  created() {},
+  created() {
+    $route.replace();
+  },
   methods: {},
   render: {
     ssr: false
+  },
+  fetch({ params, redirect }) {
+    redirect(301, '/admin/recipes');
   }
 };
 </script>
