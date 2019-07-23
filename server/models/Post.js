@@ -11,6 +11,9 @@ const postSchema = new Schema({
     title: {
         type: String
     },
+    subtitle: {
+        type: String
+    },
     content: {
         type: String
     },

@@ -16,6 +16,13 @@
       </div>
 
       <div class="field">
+        <label class="label">ქვესათაური</label>
+        <div class="control">
+          <input type="text" class="input is-large" v-model="post.subtitle" />
+        </div>
+      </div>
+
+      <div class="field">
         <label class="label">სურათი</label>
         <div class="control">
           <div class="file is-medium is-primary">
@@ -178,6 +185,7 @@ export default {
         this.post = {
           content: "",
           title: "",
+          subtitle: "",
           tags: [],
           ingredients: []
         };

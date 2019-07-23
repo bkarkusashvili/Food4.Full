@@ -1,80 +1,27 @@
 <template>
   <article class="recipe-page">
     <div class="container">
-      <div class="promo-box hero" style="background-image: url('/img/pizza.jpg')">
+      <div class="promo-box hero" :style="{'background-image': 'url(' + recipe.picture + ')'}">
         <div class="promo-box-content hero-body">
-          <h1 class="title">პიცა პეპერონით და ზეთისხილით</h1>
-          <h2 class="subtitle">პიცა პიცა პიცა</h2>
+          <h1 class="title">{{recipe.title}}</h1>
+          <!-- <h2 class="subtitle">პიცა პიცა პიცა</h2> -->
         </div>
       </div>
 
       <section class="recipe-ingredients">
         <h2 class="section-header">ინგრედიენტები</h2>
         <ul>
-          <li>
+          <li v-for="ingredient in recipe.ingredients" :key="ingredient">
             <label>
               <input type="checkbox" />
-              <span>შვრია - 4 ჭიქა</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>ქართული მიწის თხილი - 1/2 ჭიქა</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>ნუში 1/2 ჭიქა</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>ნიგოზი - 1/2 ჭიქა</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>გოგრის თესლი - 1/3 ჭიქა</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>ქიშმიში - 1/3 ჭიქა</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>ქოქოსის ზეთი (შეგიძლიათ ჩაანაცვლოთ ზეითუნის ზეთით) - 1/2 ჭიქა</span>
-            </label>
-          </li>
-
-          <li>
-            <label>
-              <input type="checkbox" />
-              <span>თაფლი - 1/2 ჭიქა</span>
+              <span>{{ingredient}}</span>
             </label>
           </li>
         </ul>
       </section>
       <section class="recipe-preparation">
         <h2 class="section-header">მომზადება</h2>
-        <p>
-          გაახურეთ გაზქურა 180 გრადუსზე<br>
-          აურიეთ ერთმანეთში მშრალი ინგრედიენტები<br>
-          აურიეთ ერთმანეთში ქოქოსის ზეთი და თაფლი და ჩაასხით მშრალ ინგრედიენტებში.<br>
-          შედგით მიღებული მასა გაზქურაში და შეამოწმეთ თავიდან 10 წუთში, შემდეგ ყოველ 5 წუთში და მოურიეთ. <br>
-          როგორც კი ფერს შეიცვლის და ნახავთ რომ შვრიაც და თხილეულიც კარგად არის დაბრაწული, გამოიღეთ და გააცივეთ ბოლომდე. დაამატეთ ქიშმიში (შეგიძლიათ დაამატოთ ნებისმიერი გამომშრალი კენკრა) <br>
-          შეინახეთ შუშის კონტეინერში. <br>
-          შეგიძლიათ მიირთვათ მაწოთან, რძესთან, შვრიის ფაფასთან ერთად. <br>
-          ჩემი არჩევანია მაწონი. ბლენდერში ჩაასხით მაწონი, ჩაამატეთ სეზონური ხილი ან კენკრა. ასევე წყალში 30 წუთით გაჩერებული ჩიის მარცვლები. <br>
-          მიღებულ მასას მოაყარეთ გრანოლა, დარჩენილი ხილი ან კენკრა და მიირთვით. <br>
-        </p>
+        <p v-html="recipe.content"></p>
       </section>
     </div>
   </article>
@@ -82,7 +29,28 @@
 
 <script>
 export default {
-  components: {}
+  components: {},
+  data() {
+    return {
+      recipe: {}
+    };
+  },
+  created() {
+    this.fetchRecipe();
+  },
+  methods: {
+    fetchRecipe() {
+      this.$axios
+        .get("/api/posts/" + this.$route.params.id)
+        .then(response => {
+          this.recipe = response.data;
+        })
+        .catch(error => console.error(error));
+    }
+  },
+  watch: {
+    $route: "fetchRecipe"
+  }
 };
 </script>
 
@@ -121,7 +89,7 @@ export default {
   .section-header {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 }
 </style>
