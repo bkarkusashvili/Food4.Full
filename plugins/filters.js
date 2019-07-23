@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import { format, parseISO, isValid } from 'date-fns'
-import { ge } from 'date-fns/locale'
+import { format, parseISO, isValid } from '@shvelo/date-fns'
+import { ka } from '@shvelo/date-fns/locale'
 
 
 // usage: {{ file.size | prettyBytes }}
@@ -33,6 +33,13 @@ Vue.filter('prettyBytes', function (num) {
 Vue.filter('date', function (date, formatString) {
     date = parseISO(date);
     if (isValid(date))
-        return format(date, formatString || "dd/MM/yyyy", { locale: ge });
+        return format(date, formatString || "dd MMM yyyy", { locale: ka });
+    return "";
+});
+
+Vue.filter('dateTime', function (date, formatString) {
+    date = parseISO(date);
+    if (isValid(date))
+        return format(date, formatString || "dd MMM yyyy hh:mm", { locale: ka });
     return "";
 });

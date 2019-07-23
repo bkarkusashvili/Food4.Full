@@ -13,7 +13,8 @@
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th>სახელი</th>
+          <th>სათაური</th>
+          <th>თარიღი</th>
           <th>ტეგები</th>
           <th></th>
         </tr>
@@ -21,14 +22,19 @@
       <tbody>
         <tr v-for="post in posts" :key="post._id">
           <td><a :href="'/recipes/' + post._id" target="_blank">{{post.title}}</a></td>
+          <td>{{post.createdAt | dateTime}}</td>
           <td>
             <span v-for="tag in post.tags" class="tag" :key="tag">{{tag}}</span>
           </td>
-          <td>
+          <td style="width: 18em">
             <nuxt-link :to="'/admin/recipes/' + post._id" class="button is-primary">
               <span class="icon"><i class="mdi mdi-file-document-edit"></i></span>
               <span>რედაქტირება</span>
             </nuxt-link>
+            <button type="button" class="button is-danger">
+              <span class="icon"><i class="mdi mdi-delete"></i></span>
+              <span>წაშლა</span>
+            </button>
           </td>
         </tr>
       </tbody>

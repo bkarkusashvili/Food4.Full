@@ -19,7 +19,7 @@
           </td>
           <td>{{file.mimetype}}</td>
           <td>{{file.size | prettyBytes}}</td>
-          <td>{{file.createdAt | date}}</td>
+          <td>{{file.createdAt | dateTime}}</td>
           <td>
             <button type="button" class="button is-danger" @click="removeFile(file)">
                 <span class="icon"><i class="mdi mdi-delete"></i></span>
