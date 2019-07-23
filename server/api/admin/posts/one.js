@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 module.exports = function(req, res) {
-    mongoose.model('Post').findById(req.params.id).then(function (post) {
+    mongoose.model('Post').findById(req.params.id).populate('tags').populate('author').then(function (post) {
         if(!post) {
             return res.status(404).send("Post not found");
         }

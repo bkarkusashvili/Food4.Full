@@ -30,7 +30,17 @@ const postSchema = new Schema({
         type: Date
     },
     ingredients: [String],
-    tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }]
+    tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+    textTags: [String],
+    author: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
+
+postSchema.index({ '$**': 'text' });
+
+postSchema.methods.setTextTags = function () {
+    if (!this.tags)
+        return;
+    this.textTags = this.tags.map((tag) => tag.title);
+}
 
 module.exports = postSchema;

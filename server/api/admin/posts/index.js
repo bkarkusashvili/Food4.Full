@@ -8,7 +8,7 @@ module.exports = function(req, res) {
         query.status = req.query.status;
     }
     
-    mongoose.model('Post').find(query).sort(order).populate('tags').select('-content').then(function (posts) {
+    mongoose.model('Post').find(query).sort(order).populate('tags').populate('author').select('-content').then(function (posts) {
         res.json(posts);
     }).catch((error) => res.status(500).json(error));
 };

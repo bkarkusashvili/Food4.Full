@@ -2,7 +2,10 @@
   <div class="error-page has-text-white hero">
     <div class="hero-body">
       <div class="container">
-        <h1 class="title" v-if="error.statusCode === 404">გვერდი არ არსებობს</h1>
+        <div class="icon">
+          <i class="mdi mdi-alert-octagon"></i>
+        </div>
+        <h1 class="title" v-if="error.statusCode === 404">გვერდი ვერ მოიძებნა</h1>
         <h1 class="title" v-else>მოხდა შეცდომა</h1>
         <nuxt-link class="subtitle button is-link" to="/">მთავარ გვერდზე დაბრუნება</nuxt-link>
       </div>
@@ -24,6 +27,12 @@ export default {
   .hero-body {
     padding: 0;
 
+    .icon {
+      font-size: 140px;
+      opacity: 0.8;
+      margin-bottom: 60px;
+    }
+    
     .title {
       color: white;
     }

@@ -7,6 +7,7 @@ module.exports = function (req, res) {
         posts.forEach(function(post){
             if(post.tags.indexOf(req.params.id) !== -1) {
                 post.tags.splice(post.tags.indexOf(req.params.id), 1);
+                post.setTextTags();
                 post.save();
             }
         });

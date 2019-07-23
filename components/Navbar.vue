@@ -54,7 +54,13 @@
         </div>
       </div>
 
-      <div class="navbar-end">
+      <div class="navbar-end" v-show="!showingSearch">
+        <a class="navbar-item" @click="showSearch()">
+          <span class="icon">
+            <i class="mdi mdi-magnify"></i>
+          </span>
+          <span>ძებნა</span>
+        </a>
         <nuxt-link to="/login" class="navbar-item" v-show="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
         <div class="navbar-item has-dropdown is-hoverable" v-show="$auth.user">
           <a class="navbar-link">
@@ -85,6 +91,56 @@
           </div>
         </div>
       </div>
+      <div class="navbar-end" v-show="showingSearch">
+        <form @submit.prevent="search()">
+          <div class="dropdown" :class="{'is-active': searchSuggestions.length}">
+            <div class="dropdown-trigger">
+              <div class="field has-addons">
+                <div class="control">
+                  <button
+                    class="button is-primary"
+                    type="reset"
+                    title="დაბრუნება"
+                    @click="hideSearch()"
+                  >
+                    <span class="icon">
+                      <i class="mdi mdi-close"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="control">
+                  <input
+                    class="input is-primary"
+                    type="text"
+                    placeholder="ძებნა"
+                    v-model="searchTerm"
+                    ref="searchInput"
+                  />
+                </div>
+                <div class="control">
+                  <button class="button is-primary" type="submit" title="ძებნა">
+                    <span class="icon">
+                      <i class="mdi mdi-magnify"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="dropdown-menu" style="min-width: 100%">
+              <div class="dropdown-content">
+                <nuxt-link
+                  :to="'/recipes/' + recipe.slug"
+                  class="dropdown-item"
+                  v-for="recipe in searchSuggestions"
+                  :key="recipe._id"
+                  @click="clearSuggestions()"
+                >{{recipe.title}}</nuxt-link>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </nav>
 </template>
@@ -102,11 +158,11 @@
   justify-content: center;
 }
 
-.site-navbar .navbar-dropdown {
+.site-navbar .navbar-dropdown, .site-navbar .dropdown-content {
   background: #f5b1a3;
   color: white;
 
-  .navbar-item {
+  .navbar-item, .dropdown-item {
     color: white;
     transition: background-color 0.3s;
 
@@ -141,7 +197,10 @@
 export default {
   data() {
     return {
-      showNav: false
+      showNav: false,
+      showingSearch: false,
+      searchTerm: "",
+      searchSuggestions: []
     };
   },
   methods: {
@@ -150,7 +209,30 @@ export default {
     },
     logout() {
       this.$auth.logout();
+    },
+    showSearch() {
+      this.showingSearch = true;
+      this.$refs.searchInput.focus();
+    },
+    hideSearch() {
+      this.showingSearch = false;
+      this.searchSuggestions = [];
+    },
+    clearSuggestions() {
+      this.searchSuggestions = [];
+    },
+    search() {
+      this.$axios
+        .get("/api/posts", { params: { q: this.searchTerm } })
+        .then(response => {
+          this.searchSuggestions = response.data;
+        })
+        .catch(error => console.error(error));
     }
+  },
+  watch: {
+    searchTerm: "search",
+    '$route': 'hideSearch'
   }
 };
 </script>

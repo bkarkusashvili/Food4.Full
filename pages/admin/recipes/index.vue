@@ -38,7 +38,7 @@
       <tbody>
         <tr v-for="post in posts" :key="post._id">
           <td>
-            <a :href="'/recipes/' + post._id" target="_blank">{{post.title}}</a>
+            <a :href="'/recipes/' + post.slug" target="_blank">{{post.title}}</a>
           </td>
           <td>
             <span class="tag is-success" v-if="post.status === 'published'">გამოქვეყნებული</span>

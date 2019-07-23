@@ -21,7 +21,7 @@
       </section>
       <section class="recipe-preparation">
         <h2 class="section-header">მომზადება</h2>
-        <p v-html="recipe.content"></p>
+        <div v-html="recipe.content"></div>
       </section>
     </div>
   </article>
@@ -35,21 +35,18 @@ export default {
       recipe: {}
     };
   },
-  created() {
-    this.fetchRecipe();
-  },
-  methods: {
-    fetchRecipe() {
-      this.$axios
-        .get("/api/posts/" + this.$route.params.id)
-        .then(response => {
-          this.recipe = response.data;
-        })
-        .catch(error => console.error(error));
-    }
-  },
-  watch: {
-    $route: "fetchRecipe"
+  created() {},
+  methods: {},
+  watch: {},
+  asyncData({ params, error, $axios }) {
+    return $axios
+      .get("/api/posts/" + params.id)
+      .then(response => {
+        return { recipe: response.data };
+      })
+      .catch(err => {
+        error({ statusCode: 404, message: "რეცეპტი ვერ მოიძებნა" });
+      });
   }
 };
 </script>
