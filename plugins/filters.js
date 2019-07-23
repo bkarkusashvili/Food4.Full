@@ -40,6 +40,6 @@ Vue.filter('date', function (date, formatString) {
 Vue.filter('dateTime', function (date, formatString) {
     date = parseISO(date);
     if (isValid(date))
-        return format(date, formatString || "dd MMM yyyy hh:mm", { locale: ka });
+        return format(date, formatString || "dd MMM yyyy HH:mm", { locale: ka });
     return "";
 });

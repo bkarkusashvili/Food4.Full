@@ -102,3 +102,11 @@ html {
         color: white;
     }
 }
+
+.tag {
+    margin-right: .5em;
+
+    &.is-disabled {
+      cursor: not-allowed;
+    }
+  }

@@ -53,6 +53,7 @@ router.delete('/admin/files/:id', api.admin.files.remove);
 
 router.get('/admin/tags', api.admin.tags.index);
 router.post('/admin/tags', api.admin.tags.create);
+router.put('/admin/tags/:id', api.admin.tags.update);
 router.delete('/admin/tags/:id', api.admin.tags.remove);
 
 router.get('/admin/users', api.admin.users.index);

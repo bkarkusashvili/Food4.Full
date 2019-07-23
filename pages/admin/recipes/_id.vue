@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recipe-edit-page">
     <form @submit.prevent="save()">
       <div class="field">
         <label class="label">სათაური</label>
@@ -43,7 +43,7 @@
             <button type="button" class="delete" @click="removeTag(index)"></button>
           </span>
 
-          <a class="tag is-primary is-medium" @click.prevent="addTag()">
+          <a class="tag is-primary is-medium" @click.prevent="openAddTagDialog()">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>
@@ -120,6 +120,38 @@
         </div>
       </div>
     </form>
+
+    <div class="modal" :class="{ 'is-active': showTagDialog }">
+      <div class="modal-background" @click="showTagDialog = false"></div>
+      <div class="modal-content">
+        <div class="box">
+          <div class="field">
+            <label class="label">ტეგები</label>
+            <div class="control">
+              <a
+                class="tag is-medium"
+                v-for="tag in tags"
+                :key="tag._id"
+                :class="{ 'is-info': !hasTag(tag), 'is-disabled': hasTag(tag) }"
+                @click="!hasTag(tag) && addTag(tag)"
+              >
+                <span class="icon">
+                  <i class="mdi mdi-plus"></i>
+                </span>
+
+                <span>{{tag.title}}</span>
+              </a>
+            </div>
+          </div>
+          <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+              <button type="button" class="button is-danger" @click="showTagDialog = false">დახურვა</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" @click="showTagDialog = false"></button>
+    </div>
   </div>
 </template>
 
@@ -131,7 +163,9 @@ export default {
     return {
       post: {},
       new: false,
-      saved: false
+      saved: false,
+      tags: [],
+      showTagDialog: false
     };
   },
   created() {
@@ -144,8 +178,8 @@ export default {
         this.post = {
           content: "",
           title: "",
-          tags: [{ _id: 1, title: "მალთაყვა" }],
-          ingredients: ["ინგრედიენტი"]
+          tags: [],
+          ingredients: []
         };
         return;
       }
@@ -157,7 +191,16 @@ export default {
         })
         .catch(error => console.error(error));
     },
-    addTag: function() {},
+    openAddTagDialog: function() {
+      this.fetchTags();
+      this.showTagDialog = true;
+    },
+    addTag: function(tag) {
+      this.post.tags.push(tag);
+    },
+    hasTag: function(tag) {
+      return this.post.tags.find(item => item._id === tag._id);
+    },
     removeTag: function(index) {
       this.post.tags.splice(index, 1);
     },
@@ -215,6 +258,14 @@ export default {
       } else {
         this.$axios.put("/api/admin/posts/" + this.post._id, this.post);
       }
+    },
+    fetchTags: function() {
+      this.$axios
+        .get("/api/admin/tags")
+        .then(response => {
+          this.tags = response.data;
+        })
+        .catch(error => console.error(error));
     }
   },
   computed: {
@@ -228,5 +279,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.recipe-edit-page {
+  
+}
 </style>
