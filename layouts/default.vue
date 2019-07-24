@@ -1,5 +1,8 @@
 <template>
   <div class="main-layout">
+    <div class="secondary-navbar" style="background: #ddece5; height: 30px; flex-shrink: 0">
+
+    </div>
     <site-navbar/>
     <nuxt class="is-fullheight" />
     <site-footer/>

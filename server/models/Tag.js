@@ -1,6 +1,6 @@
 const Schema = require('mongoose').Schema;
 
-const tagSchema = new Schema({
+const schema = new Schema({
     slug: {
         type: String,
         required: true
@@ -11,4 +11,4 @@ const tagSchema = new Schema({
 }, { timestamps: true });
 
 
-module.exports = tagSchema;
+module.exports = schema;

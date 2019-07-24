@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <div class="container page-container">
-      <div class="tabs is-large is-centered is-fullwidth is-primary">
+      <div class="tabs is-large is-centered is-primary is-toggle">
         <ul>
           <nuxt-link tag="li" to="/login" active-class="is-active" exact>
             <a>შესვლა</a>
@@ -32,6 +32,10 @@ export default {
 </script>
 
 <style>
+.login-page {
+  padding-top: 2em;
+}
+
 .login-form, .registration-form {
   padding: 0 2em 2em 2em;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="error-page has-text-white hero">
+  <div class="error-page hero">
     <div class="hero-body">
       <div class="container">
         <div class="icon">
@@ -32,13 +32,8 @@ export default {
       opacity: 0.8;
       margin-bottom: 60px;
     }
-    
-    .title {
-      color: white;
-    }
 
     .subtitle.subtitle {
-      color: white;
       margin-top: 0;
     }
   }

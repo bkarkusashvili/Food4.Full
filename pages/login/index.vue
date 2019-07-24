@@ -28,9 +28,9 @@
         {{error}}
       </div>
 
-      <div class="field is-grouped">
+      <div class="field">
         <div class="control">
-          <button class="button is-success is-large">შესვლა</button>
+          <button class="button is-success is-large is-fullwidth">შესვლა</button>
         </div>
       </div>
     </form>
@@ -72,4 +72,8 @@ export default {
 </script>
 
 <style>
+.login-form {
+  max-width: 32em;
+  margin: 0 auto;
+}
 </style>

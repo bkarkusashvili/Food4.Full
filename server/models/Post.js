@@ -1,6 +1,6 @@
 const Schema = require('mongoose').Schema;
 
-const postSchema = new Schema({
+const schema = new Schema({
     type: {
         type: String
     },
@@ -35,12 +35,12 @@ const postSchema = new Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
-postSchema.index({ '$**': 'text' });
+schema.index({ '$**': 'text' });
 
-postSchema.methods.setTextTags = function () {
+schema.methods.setTextTags = function () {
     if (!this.tags)
         return;
     this.textTags = this.tags.map((tag) => tag.title);
 }
 
-module.exports = postSchema;
+module.exports = schema;

@@ -20,7 +20,8 @@ module.exports = function (req, res) {
             friendlyName: friendlyName,
             size: file.size,
             md5: file.md5,
-            mimetype: file.mimetype
+            mimetype: file.mimetype,
+            type: file.mimetype.split('/')[0]
         });
     }).then(function (uploadedFile) {
         res.status(201).json(uploadedFile);

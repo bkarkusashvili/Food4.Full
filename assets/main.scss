@@ -1,5 +1,4 @@
 @import url('../static/noto/stylesheet.css');
-@import url('../static/archyedt-bold/stylesheet.css');
 
 $mdi-font-path: '~@mdi/font/fonts';
 @import '~@mdi/font/scss/materialdesignicons';
@@ -7,11 +6,13 @@ $mdi-font-path: '~@mdi/font/fonts';
 @import '~bulma/sass/utilities/initial-variables';
 @import '~bulma/sass/utilities/functions';
 
-$family-headings: "ArchyEDT-Bold", sans-serif;
 //$family-primary: 'Noto Serif Georgian', 'Noto Sans Georgian', 'Noto Sans', 'Roboto', sans-serif;
-$primary: #ffb2a4;
+//$primary: #ffb2a4;
 
 $footer-padding: 1.5rem;
+$navbar-item-hover-color: black;
+$navbar-dropdown-arrow: black;
+$navbar-dropdown-item-active-color: black;
 
 @import '~bulma/bulma';
 
@@ -21,7 +22,7 @@ html, body {
 
 html {
     // background: url(/img/peach.jpg) no-repeat center center fixed;
-    background: #ffb2a4;
+    //background: #ffb2a4;
     background-size: cover;
 }
 

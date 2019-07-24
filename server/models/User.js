@@ -3,21 +3,38 @@ const Schema = require('mongoose').Schema,
 
 const userSchema = new Schema({
     email: {
-        required: true,
-        unique: true,
+        type: String
+    },
+    unconfirmedEmail: {
+        type: String
+    },
+    phone: {
+        type: String
+    },
+    unconfirmedPhone: {
         type: String
     },
     name: {
         type: String
     },
     password: {
-        required: true,
         type: String
     },
     role: {
         type: String,
         default: "user"
-    }
+    },
+    addresses: [ new Schema({
+        line1: String,
+        line2: String,
+        zip: String,
+        city: String,
+        province: String,
+        country: String,
+        phone: String,
+        location: [ Schema.Types.Number ],
+        default: Boolean
+    }) ]
 }, { timestamps: true });
 
 userSchema.methods.setPassword = function (newPassword) {

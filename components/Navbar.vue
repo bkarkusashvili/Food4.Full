@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar is-primary is-spaced site-navbar"
+    class="navbar site-navbar"
     role="navigation"
     aria-label="main navigation"
   >
@@ -24,7 +24,7 @@
     </div>
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
-      <div class="navbar-start has-text-weight-bold">
+      <div class="navbar-start">
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">რეცეპტები</a>
           <div class="navbar-dropdown">
@@ -45,7 +45,7 @@
           </div>
         </div>
         <a class="navbar-item">ჩემი სახლი</a>
-        <a class="navbar-item">YouTube</a>
+        <a class="navbar-item has-text-danger has-text-weight-bold">YouTube</a>
         <a class="navbar-item">Shop</a>
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">ჩვენს შესახებ</a>
@@ -94,13 +94,13 @@
         </div>
       </div>
       <div class="navbar-end" v-show="showingSearch">
-        <form @submit.prevent="search()">
+        <form @submit.prevent="search()" class="navbar-item">
           <div class="dropdown" :class="{'is-active': searchSuggestions.length}">
             <div class="dropdown-trigger">
               <div class="field has-addons">
                 <div class="control">
                   <button
-                    class="button is-primary"
+                    class="button is-dark"
                     type="reset"
                     title="დაბრუნება"
                     @click="hideSearch()"
@@ -112,7 +112,7 @@
                 </div>
                 <div class="control">
                   <input
-                    class="input is-primary"
+                    class="input is-dark"
                     type="text"
                     placeholder="ძებნა"
                     v-model="query"
@@ -120,7 +120,7 @@
                   />
                 </div>
                 <div class="control">
-                  <button class="button is-primary" type="submit" title="ძებნა">
+                  <button class="button is-dark" type="submit" title="ძებნა">
                     <span class="icon">
                       <i class="mdi mdi-magnify"></i>
                     </span>
@@ -150,9 +150,8 @@
 <style lang="scss">
 .site-navbar.site-navbar.site-navbar {
   background: transparent;
-  /* background: linear-gradient(rgba(34,34,34,0.9), rgba(34,34,34,0)); */
   flex-shrink: 0;
-  font-family: "ArchyEDT-Bold", sans-serif;
+  background-color: #eeeeee;
 }
 
 .site-navbar .navbar-start {
@@ -162,18 +161,18 @@
 
 .site-navbar .navbar-dropdown,
 .site-navbar .dropdown-content {
-  background: #f5b1a3;
-  color: white;
+  // background: #f5b1a3;
+  // color: white;
 
   .navbar-item,
   .dropdown-item {
-    color: white;
+    //color: white;
     transition: background-color 0.3s;
 
     &:hover,
     &:focus {
-      background: #f39a89;
-      color: white;
+      // background: #f39a89;
+      // color: white;
     }
   }
 }
