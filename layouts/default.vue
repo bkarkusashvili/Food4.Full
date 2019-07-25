@@ -4,7 +4,7 @@
 
     </div>
     <site-navbar/>
-    <nuxt class="is-fullheight" />
+    <nuxt class="is-fullheight" ref="page" />
     <site-footer/>
   </div>
 </template>

@@ -47,7 +47,7 @@ async function start() {
   const { host, port } = nuxt.options.server;
 
   app.use(fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
+    limits: { fileSize: 500 * 1024 * 1024 },
   }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

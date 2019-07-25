@@ -1,6 +1,15 @@
 <template>
   <div class="quillWrapper">
     <div ref="quillContainer" :id="id"></div>
+    <input
+      v-if="useCustomImageHandler"
+      id="file-upload"
+      ref="fileInput"
+      type="file"
+      accept="image/*"
+      style="display:none;"
+      @change="emitImageInfo($event)"
+    />
   </div>
 </template>
 <script>
@@ -33,7 +42,11 @@ export default {
     },
     placeholder: String,
     disabled: Boolean,
-    editorToolbar: Array
+    editorToolbar: Array,
+    useCustomImageHandler: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {
@@ -65,6 +78,7 @@ export default {
     initializeVue2Editor() {
       this.setQuillElement();
       this.setEditorElement();
+      this.checkForCustomImageHandler();
       this.checkForInitialContent();
     },
 
@@ -78,6 +92,28 @@ export default {
         theme: "snow",
         readOnly: this.disabled ? this.disabled : false
       });
+    },
+
+    checkForCustomImageHandler() {
+      this.useCustomImageHandler === true ? this.setupCustomImageHandler() : "";
+    },
+    setupCustomImageHandler() {
+      let toolbar = this.quill.getModule("toolbar");
+      toolbar.addHandler("image", this.customImageHandler);
+    },
+    customImageHandler(image, callback) {
+      this.$refs.fileInput.click();
+    },
+    emitImageInfo($event) {
+      const resetUploader = function() {
+        var uploader = document.getElementById("file-upload");
+        uploader.value = "";
+      };
+      let file = $event.target.files[0];
+      let Editor = this.quill;
+      let range = Editor.getSelection();
+      let cursorLocation = range.index;
+      this.$emit("imageAdded", file, Editor, cursorLocation, resetUploader);
     },
 
     setEditorElement() {

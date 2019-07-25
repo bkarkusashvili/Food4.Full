@@ -111,9 +111,21 @@
       </div>
 
       <div class="field">
-        <no-ssr>
-          <vue-editor v-model="post.content" />
-        </no-ssr>
+        <label class="label">აღწერა</label>
+        <div class="control">
+          <no-ssr>
+            <vue-editor v-model="post.excerpt" id="editor-excerpt" useCustomImageHandler @imageAdded="handleImageAdded" />
+          </no-ssr>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">მომზადება</label>
+        <div class="control">
+          <no-ssr>
+            <vue-editor v-model="post.content" id="editor-content" useCustomImageHandler @imageAdded="handleImageAdded" />
+          </no-ssr>
+        </div>
       </div>
 
       <div class="field is-grouped is-grouped-centered">
@@ -186,6 +198,7 @@ export default {
           content: "",
           title: "",
           subtitle: "",
+          excerpt: "",
           tags: [],
           ingredients: []
         };
@@ -260,6 +273,25 @@ export default {
           console.error(error);
         });
     },
+    handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
+      var formData = new FormData();
+      formData.append("file", file);
+
+      this.$axios
+        .post("/api/admin/files", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(result => {
+          let url = result.data.url; // Get url from response
+          Editor.insertEmbed(cursorLocation, "image", url);
+          resetUploader();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     save: function() {
       if (this.new) {
         this.$axios.post("/api/admin/posts", this.post);
@@ -289,6 +321,5 @@ export default {
 
 <style lang="scss">
 .recipe-edit-page {
-  
 }
 </style>

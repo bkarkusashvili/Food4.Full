@@ -1,9 +1,5 @@
 <template>
-  <nav
-    class="navbar site-navbar"
-    role="navigation"
-    aria-label="main navigation"
-  >
+  <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a href="/" class="navbar-item has-text-weight-bold">
         <img src="/logo.png" alt />
@@ -222,6 +218,7 @@ export default {
     hideSearch() {
       this.showingSearch = false;
       this.searchSuggestions = [];
+      this.query = "";
     },
     clearSuggestions() {
       this.searchSuggestions = [];
@@ -238,7 +235,7 @@ export default {
     search() {
       if (!this.query) return;
 
-      this.$router.push({ path: '/search', query: { q: this.query } });
+      this.$router.push({ path: "/search", query: { q: this.query } });
     }
   },
   watch: {
