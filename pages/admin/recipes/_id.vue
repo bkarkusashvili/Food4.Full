@@ -50,7 +50,7 @@
             <button type="button" class="delete" @click="removeTag(index)"></button>
           </span>
 
-          <a class="tag is-primary is-medium" @click.prevent="openAddTagDialog()">
+          <a class="tag is-primary is-medium" @click.prevent="showTagDialog = true">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>
@@ -114,7 +114,12 @@
         <label class="label">აღწერა</label>
         <div class="control">
           <no-ssr>
-            <vue-editor v-model="post.excerpt" id="editor-excerpt" useCustomImageHandler @imageAdded="handleImageAdded" />
+            <vue-editor
+              v-model="post.excerpt"
+              id="editor-excerpt"
+              useCustomImageHandler
+              @imageAdded="handleImageAdded"
+            />
           </no-ssr>
         </div>
       </div>
@@ -123,7 +128,12 @@
         <label class="label">მომზადება</label>
         <div class="control">
           <no-ssr>
-            <vue-editor v-model="post.content" id="editor-content" useCustomImageHandler @imageAdded="handleImageAdded" />
+            <vue-editor
+              v-model="post.content"
+              id="editor-content"
+              useCustomImageHandler
+              @imageAdded="handleImageAdded"
+            />
           </no-ssr>
         </div>
       </div>
@@ -140,50 +150,26 @@
       </div>
     </form>
 
-    <div class="modal" :class="{ 'is-active': showTagDialog }">
-      <div class="modal-background" @click="showTagDialog = false"></div>
-      <div class="modal-content">
-        <div class="box">
-          <div class="field">
-            <label class="label">ტეგები</label>
-            <div class="control">
-              <a
-                class="tag is-medium"
-                v-for="tag in tags"
-                :key="tag._id"
-                :class="{ 'is-info': !hasTag(tag), 'is-disabled': hasTag(tag) }"
-                @click="!hasTag(tag) && addTag(tag)"
-              >
-                <span class="icon">
-                  <i class="mdi mdi-plus"></i>
-                </span>
-
-                <span>{{tag.title}}</span>
-              </a>
-            </div>
-          </div>
-          <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-              <button type="button" class="button is-danger" @click="showTagDialog = false">დახურვა</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="modal-close is-large" aria-label="close" @click="showTagDialog = false"></button>
-    </div>
+    <tag-chooser
+      :exclude="post.tags"
+      :show="showTagDialog"
+      @hide="showTagDialog = false"
+      @select="addTags"
+    />
   </div>
 </template>
 
 <script>
 import VueEditor from "../../../components/VueEditor";
+import TagChooser from "../../../components/TagChooser";
+
 export default {
-  components: { VueEditor },
+  components: { VueEditor, TagChooser },
   data() {
     return {
       post: {},
       new: false,
       saved: false,
-      tags: [],
       showTagDialog: false
     };
   },
@@ -212,18 +198,26 @@ export default {
         })
         .catch(error => console.error(error));
     },
-    openAddTagDialog: function() {
-      this.fetchTags();
-      this.showTagDialog = true;
-    },
     addTag: function(tag) {
+      if(this.hasTag(tag)) return;
       this.post.tags.push(tag);
     },
-    hasTag: function(tag) {
-      return this.post.tags.find(item => item._id === tag._id);
+    addTags: function(tags) {
+      if (!tags instanceof Array) return;
+      tags.forEach(tag => {
+        this.addTag(tag);
+      });
     },
     removeTag: function(index) {
       this.post.tags.splice(index, 1);
+    },
+    hasTag: function(tag) {
+      let found = false;
+      this.post.tags.forEach((t) => {
+        if(t._id === tag._id)
+          found = true;
+      });
+      return found;
     },
     addIngredient: function() {
       if (this.canAddIngredient) this.post.ingredients.push("");
@@ -298,14 +292,6 @@ export default {
       } else {
         this.$axios.put("/api/admin/posts/" + this.post._id, this.post);
       }
-    },
-    fetchTags: function() {
-      this.$axios
-        .get("/api/admin/tags")
-        .then(response => {
-          this.tags = response.data;
-        })
-        .catch(error => console.error(error));
     }
   },
   computed: {

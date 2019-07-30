@@ -17,8 +17,13 @@
           </h1>
           <h2 class="subtitle">{{post.subtitle}}</h2>
           <div v-html="post.excerpt"></div>
-          <div class="tags">
-            <span v-for="tag in post.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</span>
+
+          <nuxt-link :to="'/recipes/' + post.slug" class="button is-rounded is-primary is-large">სრულად წაკითხვა</nuxt-link>
+
+          <div class="">
+            <strong>ტეგები:</strong>
+
+            <a v-for="tag in post.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</a>
           </div>
         </div>
       </div>
