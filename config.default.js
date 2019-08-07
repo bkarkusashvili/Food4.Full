@@ -14,5 +14,9 @@ module.exports = {
     session: {
         secret: 'ajapsandali',
         collection: 'session'
+    },
+    defaultSettings: {
+        name: "default",
+        navigation: []
     }
 };

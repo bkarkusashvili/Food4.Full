@@ -31,12 +31,16 @@
         </div>
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close" @click="close()"></button>
+    <button type="button" class="modal-close is-large" aria-label="close" @click="close()"></button>
   </div>
 </template>
 <script>
 export default {
-  props: ["show", "exclude", "single"],
+  props: {
+    single: Boolean,
+    show: Boolean,
+    exclude: Array
+  },
   data() {
     return {
       tags: [],
@@ -76,7 +80,7 @@ export default {
     selectTag(tag) {
       this.selectedTags.push(tag);
       if (this.single) {
-        save();
+        this.save();
       }
     },
     deselectTag(tag) {

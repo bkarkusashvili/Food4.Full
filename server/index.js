@@ -41,6 +41,17 @@ async function start() {
     }
   }).catch(consola.error.bind(consola));
 
+  // Create default settings
+  db.models.Settings.findOne({ name: config.defaultSettings.name }).then(function (found) {
+    if (!found) {
+      consola.info("Creating default settings");
+      let defaultSettings = new db.models.Settings(config.defaultSettings);
+      return defaultSettings.save().then(function () {
+        consola.success("Created default settings:", defaultSettings);
+      });
+    }
+  }).catch(consola.error.bind(consola));
+
   // Init Nuxt.js
   const nuxt = new Nuxt(nuxtConf);
 

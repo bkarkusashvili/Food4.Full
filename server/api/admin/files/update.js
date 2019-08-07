@@ -2,9 +2,12 @@ const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
     mongoose.model('File').findById(req.params.id).then(function (file) {
+        if (!file)
+            return res.status(404).send("File not found.");
+
         if (req.body.name)
             file.friendlyName = req.body.name;
-        
+
         if (req.files && req.files.file) {
             let newFile = req.files.file;
             return newFile.mv(file.path).then(function () {
@@ -16,7 +19,8 @@ module.exports = function (req, res) {
             });
         }
         return file.save();
-    }).then(function(file){
-        res.json(file);
+    }).then(function (file) {
+        if (file)
+            res.json(file);
     }).catch((error) => res.status(500).json(error))
 }
