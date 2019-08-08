@@ -22,7 +22,12 @@
       </thead>
       <tbody>
         <tr v-for="tag in tags" :key="tag._id">
-          <td>{{tag.title}}</td>
+          <td>
+            <span class="icon" v-if="tag.invisible" title="მომხმარებლისგან დამალული">
+              <i class="mdi mdi-eye-off"></i>
+            </span>
+            <span>{{tag.title}}</span>
+          </td>
           <td>{{tag.slug}}</td>
           <td>{{tag.createdAt | dateTime}}</td>
 
@@ -60,6 +65,12 @@
               <div class="control">
                 <input type="text" class="input" v-model="editingTag.slug" />
               </div>
+            </div>
+            <div class="field">
+              <label class="checkbox">
+                <input type="checkbox" v-model="editingTag.invisible" />
+                მომხმარებლისგან დამალული
+              </label>
             </div>
             <div class="field is-grouped is-grouped-centered">
               <div class="control">

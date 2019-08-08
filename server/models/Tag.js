@@ -5,6 +5,10 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    invisible: {
+        type: Boolean,
+        default: false
+    },
     title: {
         type: String
     }

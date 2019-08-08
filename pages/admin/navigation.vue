@@ -73,7 +73,7 @@
             </div>
           </div>
           <ul class="navigation-children">
-            <li v-for="(child, childIndex) in item.children">
+            <li v-for="(child, childIndex) in item.children" :key="child">
               <div class="field is-grouped">
                 <label class="label"></label>
                 <div class="control">
