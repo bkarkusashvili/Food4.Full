@@ -18,7 +18,7 @@
       </button>
 
       <ul class="navigation-items">
-        <li v-for="(item, index) in items">
+        <li v-for="(item, index) in items" :key="item">
           <div class="field is-grouped">
             <label class="label"></label>
             <div class="control">
@@ -52,7 +52,7 @@
 
             <div class="control select">
               <select v-model="item.type" required>
-                <option disabled value>ტიპი</option>
+                <option value="parent">მშობელი</option>
                 <option value="tag">ტეგი</option>
                 <option value="link">ლინკი</option>
               </select>
@@ -108,7 +108,6 @@
 
                 <div class="control select">
                   <select v-model="child.type" required>
-                    <option disabled value>ტიპი</option>
                     <option value="tag">ტეგი</option>
                     <option value="link">ლინკი</option>
                   </select>
@@ -139,7 +138,7 @@
 </template>
 
 <script>
-import TagChooser from '../../components/TagChooser'
+import TagChooser from "../../components/TagChooser";
 
 export default {
   components: { TagChooser },
@@ -166,7 +165,7 @@ export default {
     },
     fetchData() {
       this.$axios
-        .get("/api/admin/settings")
+        .get("/settings.json")
         .then(response => {
           this.items = response.data.navigation || [];
         })
@@ -175,7 +174,7 @@ export default {
         });
     },
     tagSelected(tag) {
-      console.log(tag)
+      console.log(tag);
       if (this.itemForTag) this.itemForTag.tag = tag;
     },
     removeItem(index, array) {
@@ -193,6 +192,7 @@ export default {
     addChild(item) {
       if (!item.children || !(item.children instanceof Array))
         item.children = [];
+      item.type = "parent";
       item.children.push({
         type: "tag"
       });

@@ -16,7 +16,6 @@ module.exports = {
         collection: 'session'
     },
     defaultSettings: {
-        name: "default",
         navigation: []
     }
 };

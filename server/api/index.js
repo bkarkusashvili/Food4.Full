@@ -44,7 +44,6 @@ router.post('/admin/posts', api.admin.posts.create);
 router.put('/admin/posts/:id', api.admin.posts.update);
 router.delete('/admin/posts/:id', api.admin.posts.remove);
 
-router.get('/admin/settings', api.admin.settings.index);
 router.put('/admin/settings', api.admin.settings.update);
 
 router.get('/admin/files', api.admin.files.index);

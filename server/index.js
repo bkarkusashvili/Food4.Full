@@ -4,6 +4,7 @@ const express = require('express'),
   MongoStore = require('connect-mongo')(session),
   passport = require('./passport'),
   consola = require('consola'),
+  fs = require('fs-extra'),
   { Nuxt, Builder } = require('nuxt'),
   app = express(),
   db = require('./db'),
@@ -23,6 +24,11 @@ try {
   config = require('../config.default')
 }
 
+if(!fs.pathExistsSync('./static/settings.json')) {
+  consola.info("Writing default settings to /static/settings.json");
+  fs.writeJSONSync('./static/settings.json', config.defaultSettings);
+}
+
 async function start() {
   await db.connect(config.mongoose.url);
 
@@ -38,17 +44,6 @@ async function start() {
       });
     } else {
       consola.success("Admin user found:", foundUser.email);
-    }
-  }).catch(consola.error.bind(consola));
-
-  // Create default settings
-  db.models.Settings.findOne({ name: config.defaultSettings.name }).then(function (found) {
-    if (!found) {
-      consola.info("Creating default settings");
-      let defaultSettings = new db.models.Settings(config.defaultSettings);
-      return defaultSettings.save().then(function () {
-        consola.success("Created default settings:", defaultSettings);
-      });
     }
   }).catch(consola.error.bind(consola));
 

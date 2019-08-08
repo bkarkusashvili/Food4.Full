@@ -21,35 +21,43 @@
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-start">
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">რეცეპტები</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item">ქართული</a>
-            <a class="navbar-item">ევროპული</a>
-            <a class="navbar-item">აზიური</a>
-            <a class="navbar-item">ვეგანური</a>
-            <a class="navbar-item">დიეტური</a>
-            <a class="navbar-item">დესერტი</a>
+        <template v-for="item in $settings.navigation">
+          <div
+            :key="item"
+            class="navbar-item has-dropdown is-hoverable"
+            v-if="item.type === 'parent'"
+          >
+            <a class="navbar-link">{{item.title}}</a>
+            <div class="navbar-dropdown" v-if="item.type === 'parent'">
+              <template v-for="child in item.children">
+                <nuxt-link
+                  :key="child"
+                  v-if="child.type === 'tag'"
+                  :to="'/tag/' + child.tag.slug"
+                  class="navbar-item"
+                >{{child.title}}</nuxt-link>
+                <a
+                  :key="child"
+                  :href="child.link"
+                  v-if="child.type === 'link'"
+                  class="navbar-item"
+                >{{child.title}}</a>
+              </template>
+            </div>
           </div>
-        </div>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">ბავშვთა კვება</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item">2-6 წლამდე</a>
-            <a class="navbar-item">6-13 წლამდე</a>
-            <a class="navbar-item">13-18 წლამდე</a>
-          </div>
-        </div>
-        <a class="navbar-item">ჩემი სახლი</a>
-        <a class="navbar-item has-text-danger has-text-weight-bold">YouTube</a>
-        <a class="navbar-item">Shop</a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">ჩვენს შესახებ</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item">ვინ ვართ ჩვენ</a>
-            <a class="navbar-item">ჩვენი მიზანი</a>
-          </div>
-        </div>
+          <nuxt-link
+            :key="item"
+            v-if="item.type === 'tag'"
+            :to="'/tag/' + item.tag.slug"
+            class="navbar-item"
+          >{{item.title}}</nuxt-link>
+          <a
+            :key="item"
+            :href="item.link"
+            v-if="item.type === 'link'"
+            class="navbar-item"
+          >{{item.title}}</a>
+        </template>
       </div>
 
       <div class="navbar-end" v-show="!showingSearch">

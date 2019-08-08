@@ -87,3 +87,4 @@ sw.*
 /config.local.js
 /static/uploads/*
 !/static/uploads/.keep
+/static/settings.json
