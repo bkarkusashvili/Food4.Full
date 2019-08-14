@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
     let query = {};
-    if(req.query.q) {
+    if (req.query.q) {
         query['$text'] = {
             '$search': req.query.q
         }
     }
-    mongoose.model('Post').find(query).populate('tags').select('-content').then(function (posts) {
-        res.json(posts);
-    }).catch((error) => res.status(500).json(error));
+
+    mongoose.model('Post')
+        .find(query)
+        .lean()
+        .populate('tags')
+        .populate('author')
+        .select('-content')
+        .then(function (posts) {
+            res.json(posts);
+        })
+        .catch((error) => res.status(500).json(error));
 };

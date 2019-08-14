@@ -23,7 +23,6 @@
       <div class="navbar-start">
         <template v-for="item in $settings.navigation">
           <div
-            :key="item"
             class="navbar-item has-dropdown is-hoverable"
             v-if="item.type === 'parent'"
           >
@@ -31,13 +30,11 @@
             <div class="navbar-dropdown" v-if="item.type === 'parent'">
               <template v-for="child in item.children">
                 <nuxt-link
-                  :key="child"
                   v-if="child.type === 'tag'"
-                  :to="'/tag/' + child.tag.slug"
+                  :to="'/tags/' + child.tag.slug"
                   class="navbar-item"
                 >{{child.title}}</nuxt-link>
                 <a
-                  :key="child"
                   :href="child.link"
                   v-if="child.type === 'link'"
                   class="navbar-item"
@@ -46,13 +43,11 @@
             </div>
           </div>
           <nuxt-link
-            :key="item"
             v-if="item.type === 'tag'"
-            :to="'/tag/' + item.tag.slug"
+            :to="'/tags/' + item.tag.slug"
             class="navbar-item"
           >{{item.title}}</nuxt-link>
           <a
-            :key="item"
             :href="item.link"
             v-if="item.type === 'link'"
             class="navbar-item"
@@ -167,6 +162,7 @@
 .site-navbar .dropdown-content {
   // background: #f5b1a3;
   // color: white;
+  border-top: none;
 
   .navbar-item,
   .dropdown-item {

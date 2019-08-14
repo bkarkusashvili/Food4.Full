@@ -4,9 +4,13 @@
       <div class="promo-box hero" :style="{'background-image': 'url(' + recipe.picture + ')'}">
         <div class="promo-box-content hero-body">
           <h1 class="title">{{recipe.title}}</h1>
-          <!-- <h2 class="subtitle">პიცა პიცა პიცა</h2> -->
+          <h2 class="subtitle">{{recipe.subtitle}}</h2>
         </div>
       </div>
+
+      <section class="recipe-description">
+        <div v-html="recipe.description"></div>
+      </section>
 
       <section class="recipe-ingredients">
         <h2 class="section-header">ინგრედიენტები</h2>

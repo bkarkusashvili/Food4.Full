@@ -38,6 +38,9 @@ router.get('/auth/me', api.public.auth.me);
 router.get('/posts', api.public.posts.index);
 router.get('/posts/:id', api.public.posts.one);
 
+router.get('/tags', api.public.tags.index);
+router.get('/tags/:id', api.public.tags.one);
+
 router.get('/admin/posts', api.admin.posts.index);
 router.get('/admin/posts/:id', api.admin.posts.one);
 router.post('/admin/posts', api.admin.posts.create);
