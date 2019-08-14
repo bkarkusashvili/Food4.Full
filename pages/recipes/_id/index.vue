@@ -1,12 +1,17 @@
 <template>
   <article class="recipe-page">
     <div class="container">
-      <div class="promo-box hero" :style="{'background-image': 'url(' + recipe.picture + ')'}">
-        <div class="promo-box-content hero-body">
-          <h1 class="title">{{recipe.title}}</h1>
-          <h2 class="subtitle">{{recipe.subtitle}}</h2>
+      <section class="recipe-header has-text-centered">
+        <h1 class="title">{{recipe.title}}</h1>
+        <h2 class="subtitle">{{recipe.subtitle}}</h2>
+
+        <div class="recipe-info">
+          <span class="recipe-author" v-if="recipe.author">ავტორი: {{recipe.author.name}}</span>
+          <span class="recipe-date">{{recipe.createdAt | date}}</span>
         </div>
-      </div>
+      </section>
+      
+      <img :src="recipe.picture" alt="" v-if="recipe.picture">
 
       <section class="recipe-description">
         <div v-html="recipe.description"></div>
@@ -26,6 +31,12 @@
       <section class="recipe-preparation">
         <h2 class="section-header">მომზადება</h2>
         <div v-html="recipe.content"></div>
+      </section>
+
+      <section class="recipe-footer">
+        <div class="recipe-tags has-text-centered">
+          <nuxt-link :to="'/tags/' + tag.slug" v-for="tag in recipe.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</nuxt-link>
+        </div>
       </section>
     </div>
   </article>
@@ -59,6 +70,21 @@ export default {
 .recipe-page {
   .container {
     background: white;
+  }
+
+  .recipe-header {
+    padding-top: 4em;
+
+    .title {
+      color: black;
+      font-size: 38px;
+    }
+
+    .recipe-info {
+      color: #888;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
   }
 
   .hero {
