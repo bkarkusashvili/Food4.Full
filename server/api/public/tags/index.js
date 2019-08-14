@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
+    let query = {};
+
     mongoose.model('Tag')
-        .find({})
+        .find(query)
         .lean()
         .then(function (tags) {
             res.json(tags);

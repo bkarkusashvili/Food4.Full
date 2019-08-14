@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 module.exports = function (req, res) {
     mongoose.model('Post')
         .findOne({ slug: req.params.id })
+        .lean()
         .populate('tags')
         .populate('author')
         .then(function (post) {

@@ -55,6 +55,7 @@
                 <option value="parent">მშობელი</option>
                 <option value="tag">ტეგი</option>
                 <option value="link">ლინკი</option>
+                <option value="page">გვერდი</option>
               </select>
             </div>
 
@@ -71,7 +72,18 @@
                 <span v-else>ტეგის არჩევა</span>
               </a>
             </div>
+
+            <div class="control" v-show="item.type === 'page'">
+              <a class="tag is-medium" @click="selectPage(item)">
+                <span class="icon">
+                  <i class="mdi mdi-pencil"></i>
+                </span>
+                <span v-if="item.page">{{item.page.title}}</span>
+                <span v-else>გვერდის არჩევა</span>
+              </a>
+            </div>
           </div>
+
           <ul class="navigation-children">
             <li v-for="(child, childIndex) in item.children" :key="child">
               <div class="field is-grouped">
@@ -110,6 +122,7 @@
                   <select v-model="child.type" required>
                     <option value="tag">ტეგი</option>
                     <option value="link">ლინკი</option>
+                    <option value="page">გვერდი</option>
                   </select>
                 </div>
 
@@ -124,6 +137,16 @@
                     </span>
                     <span v-if="child.tag">{{child.tag.title}}</span>
                     <span v-else>ტეგის არჩევა</span>
+                  </a>
+                </div>
+
+                <div class="control" v-show="child.type === 'page'">
+                  <a class="tag is-medium" @click="selectPage(child)">
+                    <span class="icon">
+                      <i class="mdi mdi-pencil"></i>
+                    </span>
+                    <span v-if="child.page">{{child.page.title}}</span>
+                    <span v-else>გვერდის არჩევა</span>
                   </a>
                 </div>
               </div>

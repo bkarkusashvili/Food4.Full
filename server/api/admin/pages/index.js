@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    mongoose.model('File')
-        .findById(req.params.id)
+    let query = {};
+
+    mongoose.model('Page')
+        .find(query)
         .lean()
-        .then(function (file) {
-            res.json(file);
+        .then(function (pages) {
+            res.json(pages);
         })
         .catch((error) => res.status(500).json(error));
-}
+};
