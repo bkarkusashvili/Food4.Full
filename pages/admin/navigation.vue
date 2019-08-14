@@ -174,8 +174,9 @@ export default {
         });
     },
     tagSelected(tag) {
-      console.log(tag);
-      if (this.itemForTag) this.itemForTag.tag = tag;
+      if (!this.itemForTag) return;
+      this.itemForTag.tag = tag;
+      if (!this.itemForTag.title) this.itemForTag.title = tag.title;
     },
     removeItem(index, array) {
       if (!array) array = this.items;
