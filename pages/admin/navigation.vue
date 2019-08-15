@@ -18,7 +18,7 @@
       </button>
 
       <ul class="navigation-items">
-        <li v-for="(item, index) in items" :key="item">
+        <li v-for="(item, index) in items">
           <div class="field is-grouped">
             <label class="label"></label>
             <div class="control">
@@ -85,7 +85,7 @@
           </div>
 
           <ul class="navigation-children">
-            <li v-for="(child, childIndex) in item.children" :key="child">
+            <li v-for="(child, childIndex) in item.children">
               <div class="field is-grouped">
                 <label class="label"></label>
                 <div class="control">
@@ -156,19 +156,22 @@
       </ul>
     </form>
 
-    <tag-chooser single :show="showTagDialog" @hide="showTagDialog = false" @select="tagSelected" />
+    <tag-chooser single :show="showTagChooser" @hide="showTagChooser = false" @select="tagSelected" />
+    <page-chooser :show="showPageChooser" @hide="showPageChooser = false" @select="pageSelected" />
   </div>
 </template>
 
 <script>
 import TagChooser from "../../components/TagChooser";
+import PageChooser from "../../components/PageChooser";
 
 export default {
-  components: { TagChooser },
+  components: { TagChooser, PageChooser },
   data() {
     return {
       items: [],
-      showTagDialog: false,
+      showTagChooser: false,
+      showPageChooser: false,
       itemForTag: null
     };
   },
@@ -200,6 +203,11 @@ export default {
       if (!this.itemForTag) return;
       this.itemForTag.tag = tag;
       if (!this.itemForTag.title) this.itemForTag.title = tag.title;
+    },
+    pageSelected(page) {
+      if (!this.itemForTag) return;
+      this.itemForTag.page = page;
+      if (!this.itemForTag.title) this.itemForTag.title = page.title;
     },
     removeItem(index, array) {
       if (!array) array = this.items;
@@ -243,7 +251,11 @@ export default {
     },
     selectTag(item) {
       this.itemForTag = item;
-      this.showTagDialog = true;
+      this.showTagChooser = true;
+    },
+    selectPage(item) {
+      this.itemForTag = item;
+      this.showPageChooser = true;
     }
   }
 };

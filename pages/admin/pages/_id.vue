@@ -1,24 +1,24 @@
 <template>
-  <div class="recipe-edit-page">
+  <div class="page-edit-page">
     <form @submit.prevent="save()">
       <div class="field">
         <label class="label">სათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.title" />
+          <input type="text" class="input is-large" v-model="page.title" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">სათაური ლათინურად (slug)</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.slug" />
+          <input type="text" class="input is-large" v-model="page.slug" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">ქვესათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.subtitle" />
+          <input type="text" class="input is-large" v-model="page.subtitle" />
         </div>
       </div>
 
@@ -38,98 +38,16 @@
           </div>
         </div>
         <div class="control" style="padding-top: 10px">
-          <img :src="post.picture" v-if="post.picture != null" alt />
+          <img :src="page.picture" v-if="page.picture != null" alt />
         </div>
       </div>
 
       <div class="field">
-        <label class="label">ტეგები</label>
-        <div class="control">
-          <span class="tag is-medium" v-for="(tag, index) in post.tags" :key="tag._id">
-            {{tag.title}}
-            <button type="button" class="delete" @click="removeTag(index)"></button>
-          </span>
-
-          <a class="tag is-primary is-medium" @click.prevent="showTagDialog = true">
-            <span class="icon">
-              <i class="mdi mdi-plus"></i>
-            </span>
-            <span>დამატება</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">ინგრედიენტები</label>
-        <div class="control">
-          <table class="table is-fullwidth">
-            <tbody>
-              <tr v-for="(ingredient, index) in post.ingredients" :key="ingredient">
-                <td style="width: 9.9em;">
-                  <button class="button" type="button" @click="removeIngredient(index)">
-                    <i class="mdi mdi-delete"></i>
-                  </button>
-                  <button
-                    class="button"
-                    type="button"
-                    @click="moveUp(index)"
-                    :disabled="!canMoveUp(index)"
-                  >
-                    <i class="mdi mdi-arrow-up"></i>
-                  </button>
-                  <button
-                    class="button"
-                    type="button"
-                    @click="moveDown(index)"
-                    :disabled="!canMoveDown(index)"
-                  >
-                    <i class="mdi mdi-arrow-down"></i>
-                  </button>
-                </td>
-                <td>
-                  <input class="input" type="text" v-model="post.ingredients[index]" />
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  <button
-                    type="button"
-                    class="button is-primary"
-                    @click="addIngredient()"
-                    :disabled="!canAddIngredient"
-                  >
-                    <span class="icon">
-                      <i class="mdi mdi-plus"></i>
-                    </span>
-                    <span>დამატება</span>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">აღწერა</label>
+        <label class="label">შიგთავსი</label>
         <div class="control">
           <no-ssr>
             <vue-editor
-              v-model="post.excerpt"
-              id="editor-excerpt"
-              useCustomImageHandler
-              @imageAdded="handleImageAdded"
-            />
-          </no-ssr>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">მომზადება</label>
-        <div class="control">
-          <no-ssr>
-            <vue-editor
-              v-model="post.content"
+              v-model="page.content"
               id="editor-content"
               useCustomImageHandler
               @imageAdded="handleImageAdded"
@@ -149,25 +67,17 @@
         </div>
       </div>
     </form>
-
-    <tag-chooser
-      :exclude="post.tags"
-      :show="showTagDialog"
-      @hide="showTagDialog = false"
-      @select="addTags"
-    />
   </div>
 </template>
 
 <script>
 import VueEditor from "../../../components/VueEditor";
-import TagChooser from "../../../components/TagChooser";
 
 export default {
-  components: { VueEditor, TagChooser },
+  components: { VueEditor },
   data() {
     return {
-      post: {},
+      page: {},
       new: false,
       saved: false,
       showTagDialog: false
@@ -180,73 +90,20 @@ export default {
     fetchData: function() {
       if (this.$route.params.id === "new") {
         this.new = true;
-        this.post = {
+        this.page = {
           content: "",
           title: "",
           subtitle: "",
-          excerpt: "",
-          tags: [],
-          ingredients: []
         };
         return;
       }
       this.new = false;
       this.$axios
-        .get("/api/admin/posts/" + this.$route.params.id)
+        .get("/api/admin/pages/" + this.$route.params.id)
         .then(response => {
-          this.post = response.data;
+          this.page = response.data;
         })
         .catch(error => console.error(error));
-    },
-    addTag: function(tag) {
-      if(this.hasTag(tag)) return;
-      this.post.tags.push(tag);
-    },
-    addTags: function(tags) {
-      if (!tags instanceof Array) return;
-      tags.forEach(tag => {
-        this.addTag(tag);
-      });
-    },
-    removeTag: function(index) {
-      this.post.tags.splice(index, 1);
-    },
-    hasTag: function(tag) {
-      let found = false;
-      this.post.tags.forEach((t) => {
-        if(t._id === tag._id)
-          found = true;
-      });
-      return found;
-    },
-    addIngredient: function() {
-      if (this.canAddIngredient) this.post.ingredients.push("");
-    },
-    removeIngredient: function(index) {
-      this.post.ingredients.splice(index, 1);
-    },
-    moveUp: function(index) {
-      if (!this.canMoveUp(index)) return;
-      this.post.ingredients.splice(
-        index - 1,
-        0,
-        this.post.ingredients.splice(index, 1)[0]
-      );
-    },
-    moveDown: function(index) {
-      if (!this.canMoveDown(index)) return;
-      this.post.ingredients.splice(
-        index + 1,
-        0,
-        this.post.ingredients.splice(index, 1)[0]
-      );
-    },
-
-    canMoveUp: function(index) {
-      return index > 0;
-    },
-    canMoveDown: function(index) {
-      return index < this.post.ingredients.length - 1;
     },
     uploadPicture: function() {
       let file = this.$refs.file.files[0],
@@ -260,7 +117,7 @@ export default {
           }
         })
         .then(response => {
-          this.post.picture = response.data.url;
+          this.page.picture = response.data.url;
           this.$forceUpdate();
         })
         .catch(error => {
@@ -288,16 +145,13 @@ export default {
     },
     save: function() {
       if (this.new) {
-        this.$axios.post("/api/admin/posts", this.post);
+        this.$axios.post("/api/admin/pages", this.page);
       } else {
-        this.$axios.put("/api/admin/posts/" + this.post._id, this.post);
+        this.$axios.put("/api/admin/pages/" + this.page._id, this.page);
       }
     }
   },
   computed: {
-    canAddIngredient: function() {
-      return this.post.ingredients && this.post.ingredients.indexOf("") === -1;
-    }
   },
   watch: {
     $route: "fetchData"
@@ -306,6 +160,6 @@ export default {
 </script>
 
 <style lang="scss">
-.recipe-edit-page {
+.page-edit-page {
 }
 </style>

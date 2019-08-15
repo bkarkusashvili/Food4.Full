@@ -80,6 +80,9 @@ router.delete('/admin/posts/:id', api.admin.posts.remove);
 // Pages
 router.get('/admin/pages', api.admin.pages.index);
 router.get('/admin/pages/:id', api.admin.pages.one);
+router.post('/admin/pages', api.admin.pages.create);
+router.put('/admin/pages/:id', api.admin.pages.update);
+router.delete('/admin/pages/:id', api.admin.pages.remove);
 
 // Settings
 router.put('/admin/settings', api.admin.settings.update);

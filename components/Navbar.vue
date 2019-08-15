@@ -22,16 +22,18 @@
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-start">
         <template v-for="item in $settings.navigation">
-          <div
-            class="navbar-item has-dropdown is-hoverable"
-            v-if="item.type === 'parent'"
-          >
+          <div class="navbar-item has-dropdown is-hoverable" v-if="item.type === 'parent'">
             <a class="navbar-link">{{item.title}}</a>
             <div class="navbar-dropdown" v-if="item.type === 'parent'">
               <template v-for="child in item.children">
                 <nuxt-link
                   v-if="child.type === 'tag'"
                   :to="'/tags/' + child.tag.slug"
+                  class="navbar-item"
+                >{{child.title}}</nuxt-link>
+                <nuxt-link
+                  v-if="child.type === 'page'"
+                  :to="'/pages/' + child.page.slug"
                   class="navbar-item"
                 >{{child.title}}</nuxt-link>
                 <a
@@ -47,11 +49,13 @@
             :to="'/tags/' + item.tag.slug"
             class="navbar-item"
           >{{item.title}}</nuxt-link>
-          <a
-            :href="item.link"
-            v-if="item.type === 'link'"
+
+          <nuxt-link
+            v-if="item.type === 'page'"
+            :to="'/pages/' + item.page.slug"
             class="navbar-item"
-          >{{item.title}}</a>
+          >{{item.title}}</nuxt-link>
+          <a :href="item.link" v-if="item.type === 'link'" class="navbar-item">{{item.title}}</a>
         </template>
       </div>
 

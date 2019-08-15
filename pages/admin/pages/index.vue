@@ -5,22 +5,12 @@
     <form class="form">
       <div class="field is-grouped">
         <div class="control">
-          <nuxt-link to="/admin/recipes/new" class="button is-success">
+          <nuxt-link to="/admin/pages/new" class="button is-success">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>
             <span>ახლის დამატება</span>
           </nuxt-link>
-        </div>
-        <div class="control">
-          <div class="select">
-            <select v-model="filter.status">
-              <option value>ყველა</option>
-              <option value="published">გამოქვეყნებული</option>
-              <option value="draft">გამოუქვეყნებელი</option>
-              <option value="archived">დაარქივებული</option>
-            </select>
-          </div>
         </div>
       </div>
     </form>
@@ -29,25 +19,16 @@
       <thead>
         <tr>
           <th>სათაური</th>
-          <th>სტატუსი</th>
-          <th>თარიღი</th>
-          <th>ტეგები</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="post in posts" :key="post._id">
+        <tr v-for="page in pages" :key="page._id">
           <td>
-            <a :href="'/recipes/' + post.slug" target="_blank">{{post.title}}</a>
+            <a :href="'/pages/' + page.slug" target="_blank">{{page.title}}</a>
           </td>
           <td>
-            <span class="tag is-success" v-if="post.status === 'published'">გამოქვეყნებული</span>
-            <span class="tag" v-if="post.status === 'draft'">გამოუქვეყნებელი</span>
-            <span class="tag is-warning" v-if="post.status === 'archived'">დაარქივებული</span>
-          </td>
-          <td>{{post.publishedAt | dateTime}}</td>
-          <td>
-            <span v-for="tag in post.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</span>
+            <span v-for="tag in page.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</span>
           </td>
           <td style="width: 1em">
             <div class="dropdown is-hoverable is-right">
@@ -65,31 +46,13 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  <nuxt-link :to="'/admin/recipes/' + post._id" class="dropdown-item">
+                  <nuxt-link :to="'/admin/pages/' + page._id" class="dropdown-item">
                     <span class="icon">
                       <i class="mdi mdi-file-document-edit"></i>
                     </span>
                     <span>რედაქტირება</span>
                   </nuxt-link>
-                  <a class="dropdown-item has-text-success" @click="publishPost(post)" v-if="post.status !== 'published'">
-                    <span class="icon">
-                      <i class="mdi mdi-publish"></i>
-                    </span>
-                    <span>გამოქვეყნება</span>
-                  </a>
-                  <a class="dropdown-item has-text-warning" @click="unpublishPost(post)" v-if="post.status === 'published'">
-                    <span class="icon">
-                      <i class="mdi mdi-minus-circle"></i>
-                    </span>
-                    <span>გამოქვეყნების გაუქმება</span>
-                  </a>
-                  <a class="dropdown-item has-text-danger" @click="archivePost(post)" v-if="post.status !== 'archived'">
-                    <span class="icon">
-                      <i class="mdi mdi-package-down"></i>
-                    </span>
-                    <span>დაარქივება</span>
-                  </a>
-                  <a class="dropdown-item has-text-danger" @click="removePost(post)" v-if="post.status === 'archived'">
+                  <a class="dropdown-item has-text-danger" @click="removepage(page)" v-if="page.status === 'archived'">
                     <span class="icon">
                       <i class="mdi mdi-delete"></i>
                     </span>
@@ -110,9 +73,8 @@ export default {
   components: {},
   data() {
     return {
-      posts: [],
+      pages: [],
       filter: {
-        status: ""
       }
     };
   },
@@ -120,44 +82,10 @@ export default {
     this.fetchData();
   },
   methods: {
-    archivePost: function(post) {
-      if (!confirm("ნამდვილად გსურთ რეცეპტის დაარქივება?")) return;
-      this.$axios
-        .put("/api/admin/posts/" + post._id, {
-          status: "archived"
-        })
-        .then(response => {
-          this.fetchData();
-        })
-        .catch(error => console.error(error));
-    },
-    publishPost: function(post) {
-      if (!confirm("ნამდვილად გსურთ რეცეპტის გამოქვეყნება?")) return;
-      this.$axios
-        .put("/api/admin/posts/" + post._id, {
-          status: "published",
-          publishedAt: post.publishedAt || new Date()
-        })
-        .then(response => {
-          this.fetchData();
-        })
-        .catch(error => console.error(error));
-    },
-    unpublishPost: function(post) {
-      if (!confirm("ნამდვილად გსურთ რეცეპტის გამოქვეყნების გაუქმება?")) return;
-      this.$axios
-        .put("/api/admin/posts/" + post._id, {
-          status: "draft"
-        })
-        .then(response => {
-          this.fetchData();
-        })
-        .catch(error => console.error(error));
-    },
-    removePost: function(post) {
+    removepage: function(page) {
       if (!confirm("ნამდვილად გსურთ რეცეპტის წაშლა?")) return;
       this.$axios
-        .delete("/api/admin/posts/" + post._id)
+        .delete("/api/admin/pages/" + page._id)
         .then(response => {
           this.fetchData();
         })
@@ -165,16 +93,15 @@ export default {
     },
     fetchData: function() {
       this.$axios
-        .get("/api/admin/posts", { params: this.filter })
+        .get("/api/admin/pages", { params: this.filter })
         .then(response => {
-          this.posts = response.data;
+          this.pages = response.data;
         })
         .catch(error => console.error(error));
     }
   },
   watch: {
-    $route: "fetchData",
-    'filter.status': "fetchData"
+    $route: "fetchData"
   }
 };
 </script>
