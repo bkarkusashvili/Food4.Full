@@ -52,7 +52,11 @@
                     </span>
                     <span>რედაქტირება</span>
                   </nuxt-link>
-                  <a class="dropdown-item has-text-danger" @click="removepage(page)" v-if="page.status === 'archived'">
+                  <a
+                    class="dropdown-item has-text-danger"
+                    @click="removepage(page)"
+                    v-if="page.status === 'archived'"
+                  >
                     <span class="icon">
                       <i class="mdi mdi-delete"></i>
                     </span>
@@ -74,8 +78,7 @@ export default {
   data() {
     return {
       pages: [],
-      filter: {
-      }
+      filter: {}
     };
   },
   created() {
@@ -87,9 +90,19 @@ export default {
       this.$axios
         .delete("/api/admin/pages/" + page._id)
         .then(response => {
+          this.$notifySuccess({
+            title: "გვერდი წაშლილია",
+            text: "გვერდი წარმატებით წაიშალა!"
+          });
           this.fetchData();
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     fetchData: function() {
       this.$axios
@@ -97,7 +110,13 @@ export default {
         .then(response => {
           this.pages = response.data;
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     }
   },
   watch: {

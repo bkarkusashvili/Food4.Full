@@ -196,10 +196,16 @@ export default {
         .then(response => {
           this.post = response.data;
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
     },
     addTag: function(tag) {
-      if(this.hasTag(tag)) return;
+      if (this.hasTag(tag)) return;
       this.post.tags.push(tag);
     },
     addTags: function(tags) {
@@ -213,9 +219,8 @@ export default {
     },
     hasTag: function(tag) {
       let found = false;
-      this.post.tags.forEach((t) => {
-        if(t._id === tag._id)
-          found = true;
+      this.post.tags.forEach(t => {
+        if (t._id === tag._id) found = true;
       });
       return found;
     },
@@ -263,8 +268,12 @@ export default {
           this.post.picture = response.data.url;
           this.$forceUpdate();
         })
-        .catch(error => {
-          console.error(error);
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
         });
     },
     handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
@@ -283,14 +292,46 @@ export default {
           resetUploader();
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
         });
     },
     save: function() {
       if (this.new) {
-        this.$axios.post("/api/admin/posts", this.post);
+        this.$axios
+          .post("/api/admin/posts", this.post)
+          .then(response => {
+            this.$notifySuccess({
+              title: "შენახულია",
+              text: "შენახვა წარმატებით დასრულდა!"
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
       } else {
-        this.$axios.put("/api/admin/posts/" + this.post._id, this.post);
+        this.$axios
+          .put("/api/admin/posts/" + this.post._id, this.post)
+          .then(response => {
+            this.$notifySuccess({
+              title: "შენახულია",
+              text: "შენახვა წარმატებით დასრულდა!"
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
       }
     }
   },

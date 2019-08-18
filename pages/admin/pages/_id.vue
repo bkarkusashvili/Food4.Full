@@ -93,7 +93,7 @@ export default {
         this.page = {
           content: "",
           title: "",
-          subtitle: "",
+          subtitle: ""
         };
         return;
       }
@@ -103,7 +103,13 @@ export default {
         .then(response => {
           this.page = response.data;
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     uploadPicture: function() {
       let file = this.$refs.file.files[0],
@@ -120,8 +126,12 @@ export default {
           this.page.picture = response.data.url;
           this.$forceUpdate();
         })
-        .catch(error => {
-          console.error(error);
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
         });
     },
     handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
@@ -140,19 +150,50 @@ export default {
           resetUploader();
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
         });
     },
     save: function() {
       if (this.new) {
-        this.$axios.post("/api/admin/pages", this.page);
+        this.$axios
+          .post("/api/admin/posts", this.page)
+          .then(response => {
+            this.$notifySuccess({
+              title: "შენახულია",
+              text: "შენახვა წარმატებით დასრულდა!"
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
       } else {
-        this.$axios.put("/api/admin/pages/" + this.page._id, this.page);
+        this.$axios
+          .put("/api/admin/pages/" + this.page._id, this.page)
+          .then(response => {
+            this.$notifySuccess({
+              title: "შენახულია",
+              text: "შენახვა წარმატებით დასრულდა!"
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
       }
     }
   },
-  computed: {
-  },
+  computed: {},
   watch: {
     $route: "fetchData"
   }

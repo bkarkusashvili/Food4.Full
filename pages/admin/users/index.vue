@@ -85,8 +85,12 @@ export default {
         this.users = response.data;
       })
       .catch(err => {
-        console.error(err);
-      })
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          })
     }
   },
   asyncData({ $axios, error }) {

@@ -36,7 +36,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    './plugins/filters', './plugins/settings'
+    './plugins/filters', './plugins/settings', './plugins/notifications'
   ],
 
   /*

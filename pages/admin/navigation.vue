@@ -184,10 +184,19 @@ export default {
         .put("/api/admin/settings", {
           navigation: this.items
         })
-        .then(response => {})
-        .catch(error => {
-          console.error(error);
-        });
+        .then(response => {
+          this.$notifySuccess({
+              title: "შენახულია",
+              text: "შენახვა წარმატებით დასრულდა!"
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
     },
     fetchData() {
       this.$axios
@@ -195,9 +204,13 @@ export default {
         .then(response => {
           this.items = response.data.navigation || [];
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
     },
     tagSelected(tag) {
       if (!this.itemForTag) return;

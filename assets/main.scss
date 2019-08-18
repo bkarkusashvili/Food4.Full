@@ -1,10 +1,10 @@
-@import url('../static/noto/stylesheet.css');
+@import url("../static/noto/stylesheet.css");
 
-$mdi-font-path: '~@mdi/font/fonts';
-@import '~@mdi/font/scss/materialdesignicons';
+$mdi-font-path: "~@mdi/font/fonts";
+@import "~@mdi/font/scss/materialdesignicons";
 
-@import '~bulma/sass/utilities/initial-variables';
-@import '~bulma/sass/utilities/functions';
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
 
 //$family-primary: 'Noto Serif Georgian', 'Noto Sans Georgian', 'Noto Sans', 'Roboto', sans-serif;
 //$primary: #ffb2a4;
@@ -14,100 +14,124 @@ $navbar-item-hover-color: black;
 $navbar-dropdown-arrow: black;
 $navbar-dropdown-item-active-color: black;
 
-@import '~bulma/bulma';
+@import "~bulma/bulma";
 
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 
 html {
-    // background: url(/img/peach.jpg) no-repeat center center fixed;
-    //background: #ffb2a4;
-    background-size: cover;
+  // background: url(/img/peach.jpg) no-repeat center center fixed;
+  //background: #ffb2a4;
+  background-size: cover;
 }
 
-.page-enter-active, .page-leave-active {
-    transition: opacity .1s;
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.1s;
 }
-.page-enter, .page-leave-to {
-    opacity: 0;
+.page-enter,
+.page-leave-to {
+  opacity: 0;
 }
 
 .page-container {
-    background: white;
+  background: white;
 }
 
 .promo-box {
-    background-size: 100% auto;
-    background-size: cover;
-    cursor: pointer;
-    height: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-end;
+  background-size: 100% auto;
+  background-size: cover;
+  cursor: pointer;
+  height: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
 
-    .promo-box-content {
-        flex-grow: 0;
-        color: white;
-        padding-bottom: 2em;
-        background-image: linear-gradient(rgba(34,34,34,0), rgba(34,34,34,0.9));
+  .promo-box-content {
+    flex-grow: 0;
+    color: white;
+    padding-bottom: 2em;
+    background-image: linear-gradient(rgba(34, 34, 34, 0), rgba(34, 34, 34, 0.9));
 
-        .title {
-            color: white;
-        }
-
-        .subtitle {
-            color: white;
-        }
+    .title {
+      color: white;
     }
 
-    &:hover .promo-box-content {
-        background-image: linear-gradient(rgba(34,34,34,0), rgba(99,99,99,0.9));
+    .subtitle {
+      color: white;
     }
+  }
+
+  &:hover .promo-box-content {
+    background-image: linear-gradient(rgba(34, 34, 34, 0), rgba(99, 99, 99, 0.9));
+  }
 }
 
 // Stupid Bulma
 .tile.is-vertical > .tile.is-child:not(:last-child) {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .tile.is-parent {
-    padding: 0;
+  padding: 0;
 }
 
 .tile.is-child {
-    padding: 5px;
+  padding: 5px;
 }
 
 .tile iframe {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .youtube-embed {
-    position: relative;
-    height:0;
-    padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+  padding-bottom: 56.25%;
 
-    iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .has-text-white {
-    strong {
-        color: white;
-    }
+  strong {
+    color: white;
+  }
 }
 
 .tag {
-    margin-right: .5em;
+  margin-right: 0.5em;
 
-    &.is-disabled {
-      cursor: not-allowed;
-    }
+  &.is-disabled {
+    cursor: not-allowed;
   }
+}
+
+.notifications {
+  position: fixed;
+  z-index: 99;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.vue-notification {
+  margin: 0 5px 5px;
+  cursor: pointer;
+  animation: pop 0.3s linear 1;
+
+  .notification-title {
+    font-weight: bold;
+  }
+}

@@ -71,25 +71,41 @@
                     </span>
                     <span>რედაქტირება</span>
                   </nuxt-link>
-                  <a class="dropdown-item has-text-success" @click="publishPost(post)" v-if="post.status !== 'published'">
+                  <a
+                    class="dropdown-item has-text-success"
+                    @click="publishPost(post)"
+                    v-if="post.status !== 'published'"
+                  >
                     <span class="icon">
                       <i class="mdi mdi-publish"></i>
                     </span>
                     <span>გამოქვეყნება</span>
                   </a>
-                  <a class="dropdown-item has-text-warning" @click="unpublishPost(post)" v-if="post.status === 'published'">
+                  <a
+                    class="dropdown-item has-text-warning"
+                    @click="unpublishPost(post)"
+                    v-if="post.status === 'published'"
+                  >
                     <span class="icon">
                       <i class="mdi mdi-minus-circle"></i>
                     </span>
                     <span>გამოქვეყნების გაუქმება</span>
                   </a>
-                  <a class="dropdown-item has-text-danger" @click="archivePost(post)" v-if="post.status !== 'archived'">
+                  <a
+                    class="dropdown-item has-text-danger"
+                    @click="archivePost(post)"
+                    v-if="post.status !== 'archived'"
+                  >
                     <span class="icon">
                       <i class="mdi mdi-package-down"></i>
                     </span>
                     <span>დაარქივება</span>
                   </a>
-                  <a class="dropdown-item has-text-danger" @click="removePost(post)" v-if="post.status === 'archived'">
+                  <a
+                    class="dropdown-item has-text-danger"
+                    @click="removePost(post)"
+                    v-if="post.status === 'archived'"
+                  >
                     <span class="icon">
                       <i class="mdi mdi-delete"></i>
                     </span>
@@ -127,9 +143,19 @@ export default {
           status: "archived"
         })
         .then(response => {
+          this.$notifySuccess({
+            title: "რეცეპტი დაარქივებულია",
+            text: "რეცეპტი წარმატებით დაარქივდა!"
+          });
           this.fetchData();
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     publishPost: function(post) {
       if (!confirm("ნამდვილად გსურთ რეცეპტის გამოქვეყნება?")) return;
@@ -139,9 +165,19 @@ export default {
           publishedAt: post.publishedAt || new Date()
         })
         .then(response => {
+          this.$notifySuccess({
+            title: "რეცეპტი გამოქვეყნებულია",
+            text: "რეცეპტი წარმატებით გამოქვეყნდა!"
+          });
           this.fetchData();
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     unpublishPost: function(post) {
       if (!confirm("ნამდვილად გსურთ რეცეპტის გამოქვეყნების გაუქმება?")) return;
@@ -150,18 +186,38 @@ export default {
           status: "draft"
         })
         .then(response => {
+          this.$notifySuccess({
+            title: "რეცეპტი გამოქვეყნებიდან მოხსნილია",
+            text: "რეცეპტი წარმატებით მოიხსნა გამოქვეყნებულებიდან!"
+          });
           this.fetchData();
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     removePost: function(post) {
       if (!confirm("ნამდვილად გსურთ რეცეპტის წაშლა?")) return;
       this.$axios
         .delete("/api/admin/posts/" + post._id)
         .then(response => {
+          this.$notifySuccess({
+            title: "რეცეპტი წაშლილია",
+            text: "რეცეპტი წარმატებით წაიშალა!"
+          });
           this.fetchData();
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     fetchData: function() {
       this.$axios
@@ -169,12 +225,18 @@ export default {
         .then(response => {
           this.posts = response.data;
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     }
   },
   watch: {
     $route: "fetchData",
-    'filter.status': "fetchData"
+    "filter.status": "fetchData"
   }
 };
 </script>

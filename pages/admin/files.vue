@@ -22,8 +22,10 @@
           <td>{{file.createdAt | dateTime}}</td>
           <td>
             <button type="button" class="button is-danger" @click="removeFile(file)">
-                <span class="icon"><i class="mdi mdi-delete"></i></span>
-                <span>წაშლა</span>
+              <span class="icon">
+                <i class="mdi mdi-delete"></i>
+              </span>
+              <span>წაშლა</span>
             </button>
           </td>
         </tr>
@@ -50,16 +52,32 @@ export default {
         .then(response => {
           this.files = response.data;
         })
-        .catch(error => {
-          console.error(error);
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
         });
     },
     removeFile: function(file) {
-        if(!confirm("დარწმუნებული ხართ რომ გსურთ ფაილის წაშლა?"))
-            return;
-        this.$axios.delete('/api/admin/files/' + file._id).then(()=> {
-            this.fetchData();
-        }).catch((error) => console.error(error));
+      if (!confirm("დარწმუნებული ხართ რომ გსურთ ფაილის წაშლა?")) return;
+      this.$axios
+        .delete("/api/admin/files/" + file._id)
+        .then(() => {
+          this.$notifySuccess({
+            title: "ფაილი წაშლილია",
+            text: "ფაილი წარმატებით წაიშალა!"
+          });
+          this.fetchData();
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     }
   }
 };

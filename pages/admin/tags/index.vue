@@ -108,7 +108,13 @@ export default {
         .then(response => {
           this.tags = response.data;
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
     },
     saveTag: function() {
       if (this.editingTag.new) {
@@ -118,7 +124,13 @@ export default {
             this.fetchData();
             this.closeEditModal();
           })
-          .catch(error => console.error(error));
+          .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
       } else {
         this.$axios
           .put("/api/admin/tags/" + this.editingTag._id, this.editingTag)
@@ -126,7 +138,13 @@ export default {
             this.fetchData();
             this.closeEditModal();
           })
-          .catch(error => console.error(error));
+          .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
       }
     },
     removeTag: function(tag) {
@@ -136,7 +154,13 @@ export default {
         .then(response => {
           this.fetchData();
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+            console.error(err);
+            this.$notifyError({
+              title: "მოხდა შეცდომა!",
+              text: err.message
+            });
+          });
     },
     editTag: function(tag) {
       this.editingTag = tag;
