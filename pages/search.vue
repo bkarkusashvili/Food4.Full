@@ -67,6 +67,11 @@ export default {
         console.error(err);
         error({ statusCode: 500 });
       });
+  },
+  head () {
+    return {
+      title: "ძებნა - " + this.$settings.title
+    }
   }
 };
 </script>

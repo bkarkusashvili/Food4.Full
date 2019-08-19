@@ -16,6 +16,14 @@ export default {
   components: {
     siteNavbar: Navbar,
     siteFooter: Footer
+  },
+  head () {
+    return {
+      title: this.$settings.title,
+      meta: [
+        { hid: 'description', name: 'description', content: this.$settings.description }
+      ]
+    }
   }
 };
 </script>

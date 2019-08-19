@@ -35,6 +35,12 @@ export default {
       .catch(err => {
         error({ statusCode: 404, message: "გვერდი ვერ მოიძებნა" });
       });
+  },
+  head() {
+    if (this.page)
+      return {
+        title: this.page.title + " - " + this.$settings.title
+      };
   }
 };
 </script>

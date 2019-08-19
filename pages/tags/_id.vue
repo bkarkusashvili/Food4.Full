@@ -23,7 +23,12 @@
           <div class>
             <strong>ტეგები:</strong>
 
-            <a v-for="tag in post.tags" class="tag is-medium" :key="tag._id" v-if="!tag.invisible">{{tag.title}}</a>
+            <a
+              v-for="tag in post.tags"
+              class="tag is-medium"
+              :key="tag._id"
+              v-if="!tag.invisible"
+            >{{tag.title}}</a>
           </div>
         </div>
       </div>
@@ -53,6 +58,12 @@ export default {
         console.error(err);
         error({ statusCode: 500 });
       });
+  },
+  head() {
+    if (this.tag)
+      return {
+        title: this.tag.title + " - " + this.$settings.title
+      };
   }
 };
 </script>

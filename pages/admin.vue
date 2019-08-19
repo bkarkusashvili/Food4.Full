@@ -101,7 +101,12 @@ export default {
   },
   created() {},
   methods: {},
-  middleware: ["auth", "isAdmin"]
+  middleware: ["auth", "isAdmin"],
+  head () {
+    return {
+      title: "სამართავი პანელი - " + this.$settings.title
+    }
+  }
 };
 </script>
 

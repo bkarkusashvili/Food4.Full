@@ -62,6 +62,12 @@ export default {
       .catch(err => {
         error({ statusCode: 404, message: "რეცეპტი ვერ მოიძებნა" });
       });
+  },
+  head() {
+    if (this.recipe)
+      return {
+        title: this.recipe.title + " - " + this.$settings.title
+      };
   }
 };
 </script>
