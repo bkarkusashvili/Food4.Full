@@ -18,12 +18,18 @@ export default {
     siteFooter: Footer
   },
   head () {
-    return {
+    let head = {
       title: this.$settings.title,
       meta: [
         { hid: 'description', name: 'description', content: this.$settings.description }
       ]
+    };
+    
+    if (this.$settings.noIndex) {
+      head.meta.push({ name: 'robots', content: 'noindex,nofollow' });
     }
+
+    return head;
   }
 };
 </script>

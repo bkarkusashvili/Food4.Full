@@ -17,7 +17,11 @@
 
             <div class="tile is-4 is-parent is-vertical">
               <div class="tile is-child">
-                <nuxt-link to="recipes/1" class="promo-box hero" style="background-image: url('/img/pizza.jpg')">
+                <nuxt-link
+                  to="recipes/1"
+                  class="promo-box hero"
+                  style="background-image: url('/img/pizza.jpg')"
+                >
                   <div class="promo-box-content hero-body">
                     <h1 class="title">პიცა პეპერონით და ზეთისხილით</h1>
                     <h2 class="subtitle">პიცა პიცა პიცა</h2>
@@ -80,13 +84,33 @@
         </div>
       </div>
     </section>
-    <section class="section"></section>
+    <div class="container">
+      <page-section class="section" v-for="section in sections" :section="section"></page-section>
+    </div>
   </div>
 </template>
 
 <script>
+import PageSection from "../components/PageSection";
+
 export default {
-  components: {}
+  components: {},
+  data() {
+    return {
+      sections: [
+        {
+          type: "row",
+          columns: [
+            {
+              size: 1,
+              narrow: false,
+              section: { type: "html", content: "AAAA" }
+            }
+          ]
+        }
+      ]
+    };
+  }
 };
 </script>
 

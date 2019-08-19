@@ -9,12 +9,21 @@
           <input type="text" class="input" v-model="settings.title" />
         </div>
       </div>
+
       <div class="field">
         <label class="label">საიტის მოკლე აღწერა</label>
         <div class="control">
           <textarea rows="5" class="textarea" v-model="settings.description"></textarea>
         </div>
       </div>
+
+      <div class="field">
+        <label class="checkbox">
+          <input type="checkbox" v-model="settings.noIndex" />
+          საძიებო სისტემებისგან დამალვა
+        </label>
+      </div>
+
       <div class="field">
         <label class="label">ლოგო</label>
         <div class="control">

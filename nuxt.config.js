@@ -8,12 +8,9 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
     meta: [
       { charset: 'utf-8' },
-      { name: 'robots', content: 'noindex,nofollow' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -36,7 +33,10 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    './plugins/filters', './plugins/settings', './plugins/notifications'
+    './plugins/filters',
+    './plugins/settings',
+    './plugins/notifications',
+    { src: './plugins/draggable.js', ssr: false }
   ],
 
   /*

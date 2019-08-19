@@ -33,7 +33,8 @@
     "passport-local": "^1.0.0",
     "quill": "^1.3.6",
     "sass-loader": "^7.1.0",
-    "vue-notification": "^1.3.16"
+    "vue-notification": "^1.3.16",
+    "vuedraggable": "^2.23.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
