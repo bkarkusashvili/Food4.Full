@@ -1,8 +1,27 @@
 <template>
   <div>
-    <h1 class="title">პარამეტრები</h1>
+    <h1 class="title">
+      <span style="vertical-align: middle">პარამეტრები</span>
+      <button
+        type="submit"
+        style="vertical-align: middle"
+        class="button is-success is-large"
+        @click="save()"
+      >
+        <span class="icon">
+          <i class="mdi mdi-floppy"></i>
+        </span>
+        <span>შენახვა</span>
+      </button>
+    </h1>
+
+    <div class="field field-grouped field-grouped-centered">
+      <div class="control"></div>
+    </div>
 
     <form class="form" @submit.prevent="save">
+      <h2 class="subtitle">საიტის ინფორმაცია</h2>
+
       <div class="field">
         <label class="label">საიტის დასახელება</label>
         <div class="control">
@@ -39,19 +58,8 @@
             </label>
           </div>
         </div>
-        <div class="control" style="padding-top: 10px">
+        <div class="control box" style="margin-top: 10px; background-color: #eeeeee">
           <img :src="settings.logo" v-if="settings.logo != null" alt />
-        </div>
-      </div>
-
-      <div class="field field-grouped field-grouped-centered">
-        <div class="control">
-          <button type="submit" class="button is-success is-large">
-            <span class="icon">
-              <i class="mdi mdi-floppy"></i>
-            </span>
-            <span>შენახვა</span>
-          </button>
         </div>
       </div>
     </form>

@@ -84,9 +84,9 @@
         </div>
       </div>
     </section>
-    <div class="container">
+    <!-- <div class="container">
       <page-section class="section" v-for="section in sections" :section="section"></page-section>
-    </div>
+    </div> -->
   </div>
 </template>
 

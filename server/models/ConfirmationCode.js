@@ -1,11 +1,12 @@
 const Schema = require('mongoose').Schema;
 
 const schema = new Schema({
+    type: {
+        type: String,
+        enum: ["phone", "email"]
+    },
     code: {
         type: String
-    },
-    sent: {
-        type: Boolean
     },
     expires: {
         type: Date,

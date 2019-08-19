@@ -11,6 +11,9 @@ module.exports = {
     mongoose: {
         url: "mongodb://localhost/food4"
     },
+    nodemailer: {
+
+    },
     session: {
         secret: 'ajapsandali',
         collection: 'session'
