@@ -45,6 +45,7 @@ router.post('/auth/login', api.public.auth.login);
 router.post('/auth/logout', api.public.auth.logout);
 router.get('/auth/me', api.public.auth.me);
 router.post('/auth/reset', api.public.auth.reset);
+router.get('/auth/check-email', api.public.auth.checkEmail);
 
 // Posts
 router.get('/posts', api.public.posts.index);

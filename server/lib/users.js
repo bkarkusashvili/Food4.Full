@@ -1,6 +1,39 @@
 const mongoose = require('mongoose');
 
 function register(userParams) {
+    return mongoose.model('User').find({ email: req.query.email }).count().then(function (count) {
+        if (count > 0) {
+            throw { taken: true };
+        } else {
+            let user = new mongoose.model('User')({
+                name: userParams.name,
+                unconfirmedEmail: userParams.email
+            });
+            
+            if(userParams.password)  {
+                return user.setPassword(userParams.password).then(() => user.save());
+            } else {
+                return user.save();
+            }
+        }
+    }).then(function(user) {
+        generateAndSendConfirmationCode(user);
+        return user;
+    });
+}
+
+function generateAndSendConfirmationCode(user) {
+    mongoose.model('ConfirmationCode').generate({
+        user: user._id,
+        type: "email",
+        email: user.unconfirmedEmail
+    })
+    .then((confirmationCode) => confirmationCode.save())
+    .then((confirmationCode) => sendConfirmationCode(confirmationCode))
+    .catch(err => console.error('Cannot send confirmation code', err));
+}
+
+function sendConfirmationCode(code) {
 
 }
 

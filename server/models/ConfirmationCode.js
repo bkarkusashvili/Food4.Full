@@ -1,4 +1,5 @@
-const Schema = require('mongoose').Schema;
+const Schema = require('mongoose').Schema,
+    crypto = require('crypto');
 
 const schema = new Schema({
     type: {
@@ -23,5 +24,23 @@ const schema = new Schema({
         ref: 'User'
     }
 }, { timestamps: true });
+
+schema.static('generateCode', function () {
+    return new Promise((resolve, reject) => crypto.randomBytes(48, function (err, buffer) {
+        if (err)
+            return reject(err);
+        resolve(buffer.toString('hex'));
+    }));
+});
+
+schema.static('generate', function (params) {
+    return new Promise((resolve, reject) => crypto.randomBytes(48, function (err, buffer) {
+        if (err)
+            return reject(err);
+        let confirmationCode = new this(params);
+        confirmationCode.code = buffer.toString('hex');
+        resolve(confirmationCode);
+    }));
+});
 
 module.exports = schema;

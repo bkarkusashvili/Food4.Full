@@ -1,9 +1,7 @@
 const users = require('../../../lib/users');
 
 module.exports = function (req, res) {
-    const user = {
-
-    };
+    const user = req.user;
 
     users.register(user).then(function (user) {
         res.status(201).json(user);
