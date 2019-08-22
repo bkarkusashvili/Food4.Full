@@ -56,7 +56,22 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  
+                  <nuxt-link :to="'/admin/users/' + user._id" class="dropdown-item">
+                    <span class="icon">
+                      <i class="mdi mdi-file-document-edit"></i>
+                    </span>
+                    <span>რედაქტირება</span>
+                  </nuxt-link>
+                  <a
+                    class="dropdown-item has-text-danger"
+                    @click="deleteUser(user)"
+                    v-if="user._id !== $auth.user._id"
+                  >
+                    <span class="icon">
+                      <i class="mdi mdi-delete"></i>
+                    </span>
+                    <span>წაშლა</span>
+                  </a>
                 </div>
               </div>
             </div>

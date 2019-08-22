@@ -10,21 +10,40 @@ function confirmEmail(code) {
             code: code,
             type: "email"
         })
-        .populate('user')
         .lean()
+        .populate('user')
         .then(function (confirmationCode) {
             if (confirmationCode) {
                 let user = confirmationCode.user;
-                user.email = user.unconfirmedEmail;
+                user.email = confirmationCode.email;
+                delete user.unconfirmedEmail;
                 confirmationCode.remove().catch(function (error) {
                     console.error("Error removing confirmation code", error);
                 });
-                return confirmationCode.user.save();
+                return user.save();
             }
         });
 }
 
-
+function resetPassword(code, password) {
+    return mongoose.model('ConfirmationCode')
+        .findOne({
+            code: code,
+            type: "email"
+        })
+        .populate('user')
+        .then(function (confirmationCode) {
+            if (confirmationCode) {
+                let user = confirmationCode.user;
+                confirmationCode.remove().catch(function (error) {
+                    console.error("Error removing confirmation code", error);
+                });
+                return user.setPassword(password).then(function(){
+                    return user.save();
+                });
+            }
+        });
+}
 
 function confirmPhone(user, code) {
 
@@ -32,5 +51,6 @@ function confirmPhone(user, code) {
 
 module.exports = {
     register: register,
-    confirmEmail: confirmEmail
+    confirmEmail: confirmEmail,
+    resetPassword: resetPassword
 };

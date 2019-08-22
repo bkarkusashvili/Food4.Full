@@ -44,6 +44,7 @@ router.use('/user', (req, res, next) => {
 router.post('/auth/login', api.public.auth.login);
 router.post('/auth/logout', api.public.auth.logout);
 router.get('/auth/me', api.public.auth.me);
+router.post('/auth/reset', api.public.auth.reset);
 
 // Posts
 router.get('/posts', api.public.posts.index);
@@ -105,7 +106,9 @@ router.delete('/admin/tags/:id', api.admin.tags.remove);
 
 // Users
 router.get('/admin/users', api.admin.users.index);
+router.get('/admin/users/:id', api.admin.users.one);
 router.post('/admin/users', api.admin.users.create);
+router.put('/admin/users/:id', api.admin.users.update);
 router.delete('/admin/users/:id', api.admin.users.remove);
 
 module.exports = router;

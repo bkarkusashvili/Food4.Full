@@ -12,6 +12,12 @@ const schema = new Schema({
         type: Date,
         expires: 0
     },
+    email: {
+        type: String
+    },
+    phone: {
+        type: String
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
