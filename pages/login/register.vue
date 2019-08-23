@@ -1,6 +1,6 @@
 <template>
   <div class="registration-form">
-    <form @submit.prevent="register" autocomplete="off">
+    <form @submit.prevent="register" autocomplete="off" v-show="!showEmailConfirmation">
       <div class="field">
         <label class="label is-large">სახელი</label>
         <div class="control">
@@ -37,6 +37,12 @@
         </div>
       </div>
     </form>
+    <div v-show="showEmailConfirmation" class="email-confirmation has-text-centered">
+      <h1 class="title">გილოცავთ! <br> თქვენ დარეგისტრირდით!</h1>
+      <i class="mdi mdi-email has-text-primary" style="font-size: 70px;"></i>
+      <h2 class="subtitle">გთხოვთ ელ-ფოსტის დასადასტურებლად მიჰყევით თქვენს მითითებულ ელ-ფოსტაზე გამოგზავნილ ბმულს.</h2>
+      <nuxt-link to="/">მთავარ გვერდზე დაბრუნება</nuxt-link>
+    </div>
   </div>
 </template>
 

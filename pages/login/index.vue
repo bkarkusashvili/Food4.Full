@@ -14,18 +14,26 @@
         </div>
       </div>
 
-      <div class="field">
+      <div class="field is-grouped">
         <div class="control">
           <label class="checkbox is-large">
             <input type="checkbox" v-model="remember" />
             დამიმახსოვრე
           </label>
         </div>
+        <div class="control" style="flex-grow: 1"></div>
+        <div class="control">
+          <nuxt-link to="/login/forgot">პაროლის აღდგენა</nuxt-link>
+        </div>
       </div>
 
-      <div class="notification is-danger" v-show="error">
+      <div class="notification is-danger" v-show="error && error !== 'not_confirmed'">
         <button class="delete" type="button" @click="error = false"></button>
         {{error}}
+      </div>
+      <div class="notification" v-show="error">
+        <button class="delete" type="button" @click="error = false"></button>
+        შესაძლოა თქვენი ელ-ფოსტა დადასტურებული არ არის, შეგიძლიათ <nuxt-link to="/login/newcode">დადასტურების ახლიდან მოთხოვნა</nuxt-link>
       </div>
 
       <div class="field">
