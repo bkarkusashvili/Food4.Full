@@ -34,7 +34,7 @@ schema.static('generateCode', function () {
 });
 
 schema.static('generate', function (params) {
-    return new Promise((resolve, reject) => crypto.randomBytes(48, function (err, buffer) {
+    return new Promise((resolve, reject) => crypto.randomBytes(12, (err, buffer) => {
         if (err)
             return reject(err);
         let confirmationCode = new this(params);

@@ -38,7 +38,12 @@
 
       <div class="field">
         <div class="control">
-          <button class="button is-success is-large is-fullwidth">შესვლა</button>
+          <button class="button is-success is-large is-fullwidth" :disabled="loading">
+            <span>შესვლა</span>
+            <span class="icon" v-show="loading">
+              <i class="mdi-refresh mdi-spin"></i>
+            </span>
+          </button>
         </div>
       </div>
     </form>
@@ -50,6 +55,7 @@ export default {
   components: {},
   data() {
     return {
+      loading: false,
       error: null,
       remember: false,
       email: "",
@@ -59,6 +65,7 @@ export default {
   created() {},
   methods: {
     login: function() {
+      this.loading = true;
       this.$auth
         .loginWith("local", {
           data: {
@@ -68,9 +75,11 @@ export default {
           }
         })
         .then(result => {
+          this.loading = false;
           this.$router.replace("/");
         })
         .catch(error => {
+          this.loading = false;
           this.error = "არასწორი ელ-ფოსტა ან პაროლი!";
           console.error(error);
         });

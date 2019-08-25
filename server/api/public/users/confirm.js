@@ -2,7 +2,7 @@ const users = require('../../../lib/users');
 
 module.exports = function (req, res) {
     const type = req.query.type || "email",
-        code = req.query.code;
+        code = req.query.code || req.body.code;
 
     if (!code)
         return res.status(400).send("No code");

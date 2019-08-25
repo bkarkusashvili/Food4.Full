@@ -51,6 +51,14 @@
           </p>
           <ul class="menu-list">
             <li>
+              <nuxt-link to="/admin/frontpage" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-star"></i>
+                </span>
+                <span>მთავარი გვერდი</span>
+              </nuxt-link>
+            </li>
+            <li>
               <nuxt-link to="/admin/navigation" active-class="is-active">
                 <span class="icon">
                   <i class="mdi mdi-book"></i>

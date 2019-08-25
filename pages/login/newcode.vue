@@ -17,7 +17,12 @@
 
       <div class="field">
         <div class="control">
-          <button class="button is-success is-large is-fullwidth">მოთხოვნა</button>
+          <button class="button is-success is-large is-fullwidth" :disabled="loading">
+            <span>მოთხოვნა</span>
+            <span class="icon" v-show="loading">
+              <i class="mdi-refresh mdi-spin"></i>
+            </span>
+          </button>
         </div>
       </div>
     </form>
@@ -39,13 +44,32 @@ export default {
     return {
       error: null,
       email: "",
+      loading: false,
       showEmailConfirmation: false
     };
   },
   created() {},
   methods: {
     requestCode: function() {
-      this.showEmailConfirmation = true;
+      this.loading = true;
+      this.error = false;
+      this.$axios
+        .post("/api/users/requestCode", { email: this.email })
+        .then(() => {
+          //this.showEmailConfirmation = true;
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          if (err.code === 404) {
+            this.error = "ელ-ფოსტა არასწორია!";
+          } else {
+            this.error = err.message;
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
 };

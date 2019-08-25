@@ -16,7 +16,12 @@
 
       <div class="field">
         <div class="control">
-          <button class="button is-success is-large is-fullwidth">აღდგენა</button>
+          <button class="button is-success is-large is-fullwidth" :disabled="loading">
+            <span>აღდგენა</span>
+            <span class="icon" v-show="loading">
+              <i class="mdi-refresh mdi-spin"></i>
+            </span>
+          </button>
         </div>
       </div>
     </form>

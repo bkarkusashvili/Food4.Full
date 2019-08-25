@@ -4,25 +4,37 @@
       <div class="field">
         <label class="label is-large">სახელი</label>
         <div class="control">
-          <input class="input is-large" type="name" v-model="name" required />
+          <input class="input is-large" type="name" autocomplete="name" v-model="name" required />
         </div>
       </div>
       <div class="field">
         <label class="label is-large">ელ-ფოსტა</label>
         <div class="control">
-          <input class="input is-large" type="email" v-model="email" required />
+          <input class="input is-large" autocomplete="email" type="email" v-model="email" required />
         </div>
       </div>
       <div class="field">
         <label class="label is-large">პაროლი</label>
         <div class="control">
-          <input class="input is-large" type="password" v-model="password" required />
+          <input
+            class="input is-large"
+            type="password"
+            autocomplete="new-password"
+            v-model="password"
+            required
+          />
         </div>
       </div>
       <div class="field">
         <label class="label is-large">პაროლი (განმეორებით)</label>
         <div class="control">
-          <input class="input is-large" type="password" v-model="repeatPassword" required />
+          <input
+            class="input is-large"
+            type="password"
+            autocomplete="new-password"
+            v-model="repeatPassword"
+            required
+          />
         </div>
       </div>
 
@@ -33,14 +45,24 @@
 
       <div class="field">
         <div class="control">
-          <button class="button is-success is-large is-fullwidth">რეგისტრაცია</button>
+          <button class="button is-success is-large is-fullwidth" :disabled="loading">
+            <span>რეგისტრაცია</span>
+            <span class="icon" v-show="loading">
+              <i class="mdi-refresh mdi-spin"></i>
+            </span>
+          </button>
         </div>
       </div>
     </form>
     <div v-show="showEmailConfirmation" class="email-confirmation has-text-centered">
-      <h1 class="title">გილოცავთ! <br> თქვენ დარეგისტრირდით!</h1>
+      <h1 class="title">
+        გილოცავთ!
+        <br />თქვენ დარეგისტრირდით!
+      </h1>
       <i class="mdi mdi-email has-text-primary" style="font-size: 70px;"></i>
-      <h2 class="subtitle">გთხოვთ ელ-ფოსტის დასადასტურებლად მიჰყევით თქვენს მითითებულ ელ-ფოსტაზე გამოგზავნილ ბმულს.</h2>
+      <h2
+        class="subtitle"
+      >გთხოვთ ელ-ფოსტის დასადასტურებლად მიჰყევით თქვენს მითითებულ ელ-ფოსტაზე გამოგზავნილ ბმულს.</h2>
       <nuxt-link to="/">მთავარ გვერდზე დაბრუნება</nuxt-link>
     </div>
   </div>
@@ -51,6 +73,7 @@ export default {
   components: {},
   data() {
     return {
+      loading: false,
       error: null,
       email: "",
       password: "",
@@ -68,13 +91,21 @@ export default {
     },
     register() {
       if (!this.validate()) return;
-      this.$axios.post("/api/users/register", {
-        email: this.email,
-        password: this.password,
-        name: this.name
-      }).then((response) => {
-        this.showEmailConfirmation = true;
-      });
+      this.loading = true;
+      this.$axios
+        .post("/api/users/register", {
+          email: this.email,
+          password: this.password,
+          name: this.name
+        })
+        .then(response => {
+          this.loading = false;
+          this.showEmailConfirmation = true;
+        })
+        .catch(err => {
+          this.loading = false;
+          error = err.message;
+        });
     }
   }
 };

@@ -8,6 +8,7 @@ const express = require('express'),
   { Nuxt, Builder } = require('nuxt'),
   app = express(),
   db = require('./db'),
+  mailer = require('./mailer'),
   api = require('./api');
 
 // Import and Set Nuxt.js options
@@ -31,6 +32,7 @@ if(!fs.pathExistsSync('./static/settings.json')) {
 
 async function start() {
   await db.connect(config.mongoose.url);
+  await mailer.setup(config.mailer);
 
   // Ensure at least one admin user exists
   db.models.User.findOne({ role: 'admin' }).then(function (foundUser) {
