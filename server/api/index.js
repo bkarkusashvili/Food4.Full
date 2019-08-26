@@ -56,6 +56,7 @@ router.get('/pages/:id', api.public.pages.one);
 
 // Tags
 router.get('/tags', api.public.tags.index);
+router.get('/tagsAndPosts', api.public.tags.tagsAndPosts);
 router.get('/tags/:id', api.public.tags.one);
 
 // Users

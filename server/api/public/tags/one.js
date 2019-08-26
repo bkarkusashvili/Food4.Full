@@ -19,5 +19,5 @@ module.exports = function (req, res) {
                     res.json(tag);
                 });
         })
-        .catch((error) => res.status(500).json(error))
+        .catch((error) => res.status(500).json(error));
 }

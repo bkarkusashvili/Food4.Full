@@ -84,9 +84,9 @@
         </div>
       </div>
     </section>
-    <!-- <div class="container">
-      <page-section class="section" v-for="section in sections" :section="section"></page-section>
-    </div> -->
+    <div class="container">
+      <page-section class="section" v-for="(section, index) in sections" :section="section" :key="index"></page-section>
+    </div>
   </div>
 </template>
 
@@ -99,14 +99,8 @@ export default {
     return {
       sections: [
         {
-          type: "row",
-          columns: [
-            {
-              size: 1,
-              narrow: false,
-              section: { type: "html", content: "AAAA" }
-            }
-          ]
+          type: "tags",
+          tags: ["5d36e717452aac0656d518ad", "5d373520478a544f3e7e5fb2"]
         }
       ]
     };

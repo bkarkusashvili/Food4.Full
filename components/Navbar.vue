@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a href="/" class="navbar-item has-text-weight-bold">
+      <nuxt-link to="/" class="navbar-item has-text-weight-bold">
         <img :src="$settings.logo" alt />
-      </a>
+      </nuxt-link>
 
       <a
         role="button"
