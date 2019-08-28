@@ -156,11 +156,21 @@
 
       <div class="field is-grouped is-grouped-centered">
         <div class="control">
-          <button type="submit" class="button is-primary is-large">
+          <button type="submit" class="button is-primary is-large" :disabled="loading">
             <span class="icon">
-              <i class="mdi mdi-content-save"></i>
+              <i class="mdi mdi-content-save" v-show="!loading"></i>
+              <i class="mdi mdi-refresh mdi-spin" v-show="loading"></i>
             </span>
             <span>შენახვა</span>
+          </button>
+        </div>
+        <div class="control">
+          <button type="submit" @click="post.status = 'published'" class="button is-success is-large" :disabled="loading">
+            <span class="icon">
+              <i class="mdi mdi-content-save" v-show="!loading"></i>
+              <i class="mdi mdi-refresh mdi-spin" v-show="loading"></i>
+            </span>
+            <span>შენახვა და გამოქვეყნება</span>
           </button>
         </div>
       </div>
@@ -186,7 +196,8 @@ export default {
       post: {},
       new: false,
       saved: false,
-      showTagDialog: false
+      showTagDialog: false,
+      loading: true
     };
   },
   created() {
@@ -196,14 +207,15 @@ export default {
     fetchData: function() {
       if (this.$route.params.id === "new") {
         this.new = true;
+        this.loading = false;
         this.post = {
           content: "",
           title: "",
           subtitle: "",
           excerpt: "",
+          status: "unpublished",
           tags: [],
           ingredients: [],
-          publishedAt: new Date(),
           featured: false
         };
         return;
@@ -212,9 +224,11 @@ export default {
       this.$axios
         .get("/api/admin/posts/" + this.$route.params.id)
         .then(response => {
+          this.loading = false;
           this.post = response.data;
         })
         .catch(err => {
+          this.loading = false;
           console.error(err);
           this.$notifyError({
             title: "მოხდა შეცდომა!",
@@ -318,16 +332,19 @@ export default {
         });
     },
     save: function() {
+      this.loading = true;
       if (this.new) {
         this.$axios
           .post("/api/admin/posts", this.post)
           .then(response => {
+            this.loading = false;
             this.$notifySuccess({
               title: "შენახულია",
               text: "შენახვა წარმატებით დასრულდა!"
             });
           })
           .catch(err => {
+            this.loading = false;
             console.error(err);
             this.$notifyError({
               title: "მოხდა შეცდომა!",
@@ -338,12 +355,14 @@ export default {
         this.$axios
           .put("/api/admin/posts/" + this.post._id, this.post)
           .then(response => {
+            this.loading = false;
             this.$notifySuccess({
               title: "შენახულია",
               text: "შენახვა წარმატებით დასრულდა!"
             });
           })
           .catch(err => {
+            this.loading = false;
             console.error(err);
             this.$notifyError({
               title: "მოხდა შეცდომა!",

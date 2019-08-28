@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    let query = {};
+    let query = {
+        status: "published"
+    };
     if (req.query.featured) {
         query.featured = true;
     }

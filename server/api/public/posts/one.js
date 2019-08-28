@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
     mongoose.model('Post')
-        .findOne({ slug: req.params.id })
+        .findOne({ slug: req.params.id, status: "published" })
         .lean()
         .populate('tags')
         .populate('author')
