@@ -4,13 +4,13 @@
       <div class="field">
         <label class="label is-large">ელ-ფოსტა</label>
         <div class="control">
-          <input class="input is-large" type="email" v-model="email" />
+          <input class="input is-large" type="email" v-model="email" autocomplete="username" />
         </div>
       </div>
       <div class="field">
         <label class="label is-large">პაროლი</label>
         <div class="control">
-          <input class="input is-large" type="password" v-model="password" />
+          <input class="input is-large" type="password" v-model="password" autocomplete="current-password" />
         </div>
       </div>
 
@@ -65,7 +65,7 @@ export default {
   created() {},
   methods: {
     login: function() {
-      this.loading = true;
+      this.loading   = true;
       this.$auth
         .loginWith("local", {
           data: {
