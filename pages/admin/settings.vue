@@ -1,19 +1,14 @@
 <template>
   <div>
     <h1 class="title">
-      <span style="vertical-align: middle">პარამეტრები</span>
-      <button
-        type="submit"
-        style="vertical-align: middle"
-        class="button is-success is-large"
-        @click="save()"
-      >
-        <span class="icon">
-          <i class="mdi mdi-floppy"></i>
-        </span>
-        <span>შენახვა</span>
-      </button>
+      <span>პარამეტრები</span>
     </h1>
+    <button type="submit" class="button is-success is-medium" @click="save()">
+      <span class="icon">
+        <i class="mdi mdi-floppy"></i>
+      </span>
+      <span>შენახვა</span>
+    </button>
 
     <div class="field field-grouped field-grouped-centered">
       <div class="control"></div>

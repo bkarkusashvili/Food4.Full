@@ -3,14 +3,14 @@
     <h1 class="title">ნავიგაცია</h1>
 
     <form class="form" @submit.prevent="save">
-      <button type="button" class="button" @click="addItem()">
+      <button type="button" class="button is-medium" @click="addItem()">
         <span class="icon">
           <i class="mdi mdi-plus"></i>
         </span>
         <span>დამატება</span>
       </button>
 
-      <button class="button is-success">
+      <button class="button is-medium is-success">
         <span class="icon">
           <i class="mdi mdi-floppy"></i>
         </span>

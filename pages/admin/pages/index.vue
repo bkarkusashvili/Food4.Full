@@ -5,7 +5,7 @@
     <form class="form">
       <div class="field is-grouped">
         <div class="control">
-          <nuxt-link to="/admin/pages/new" class="button is-success">
+          <nuxt-link to="/admin/pages/new" class="button is-success is-medium">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>

@@ -3,7 +3,7 @@
     <h1 class="title">ტეგები</h1>
 
     <form class="form">
-      <button type="button" class="button is-success" @click="addTag()">
+      <button type="button" class="button is-success is-medium" @click="addTag()">
         <span class="icon">
           <i class="mdi mdi-plus"></i>
         </span>

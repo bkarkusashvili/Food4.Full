@@ -5,7 +5,7 @@
     <form class="form">
       <div class="field is-grouped">
         <div class="control">
-          <nuxt-link to="/admin/recipes/new" class="button is-success">
+          <nuxt-link to="/admin/recipes/new" class="button is-success is-medium">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>
@@ -13,7 +13,7 @@
           </nuxt-link>
         </div>
         <div class="control">
-          <div class="select">
+          <div class="select is-medium">
             <select v-model="filter.status">
               <option value>ყველა</option>
               <option value="published">გამოქვეყნებული</option>

@@ -103,9 +103,8 @@ export default {
           title: "ბოლოს დამატებული"
         },
         {
-          type: "latest",
-          featured: true,
-          title: "რჩეული"
+          type: "featured",
+          title: "რჩეული რეცეპტი"
         },
         {
           type: "tags",

@@ -1,20 +1,12 @@
 <template>
   <div>
-    <h1 class="title">
-      <span style="vertical-align: middle">მთავარი გვერდი</span>
-      <button
-        type="submit"
-        style="vertical-align: middle"
-        class="button is-success is-large"
-        @click="save()"
-      >
-        <span class="icon">
-          <i class="mdi mdi-floppy"></i>
-        </span>
-        <span>შენახვა</span>
-      </button>
-    </h1>
-
+    <h1 class="title">მთავარი გვერდი</h1>
+    <button type="submit" class="button is-success is-medium" @click="save()">
+      <span class="icon">
+        <i class="mdi mdi-floppy"></i>
+      </span>
+      <span>შენახვა</span>
+    </button>
   </div>
 </template>
 
