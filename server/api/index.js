@@ -57,6 +57,7 @@ router.get('/auth/check-email', api.public.auth.checkEmail);
 
 // Posts
 router.get('/posts', api.public.posts.index);
+router.get('/posts/latest', api.public.posts.latest);
 router.get('/posts/:id', api.public.posts.one);
 
 // Pages

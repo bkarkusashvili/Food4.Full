@@ -99,6 +99,15 @@ export default {
     return {
       sections: [
         {
+          type: "latest",
+          title: "ბოლოს დამატებული"
+        },
+        {
+          type: "latest",
+          featured: true,
+          title: "რჩეული"
+        },
+        {
           type: "tags",
           tags: ["5d36e717452aac0656d518ad", "5d373520478a544f3e7e5fb2"]
         }

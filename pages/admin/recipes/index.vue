@@ -41,6 +41,7 @@
             <a :href="'/recipes/' + post.slug" target="_blank">{{post.title}}</a>
           </td>
           <td>
+            <span class="tag is-warning" v-if="post.featured">რჩეული</span>
             <span class="tag is-success" v-if="post.status === 'published'">გამოქვეყნებული</span>
             <span class="tag" v-if="post.status === 'draft'">გამოუქვეყნებელი</span>
             <span class="tag is-warning" v-if="post.status === 'archived'">დაარქივებული</span>

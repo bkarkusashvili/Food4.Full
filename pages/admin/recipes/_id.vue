@@ -23,6 +23,22 @@
       </div>
 
       <div class="field">
+        <label class="label">გამოქვეყნების თარიღი</label>
+        <div class="control">
+          <datepicker input-class="input is-large" v-model="post.publishedAt" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" v-model="post.featured" />
+            რჩეული რეცეპტი
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
         <label class="label">სურათი</label>
         <div class="control">
           <div class="file is-medium is-primary">
@@ -186,7 +202,9 @@ export default {
           subtitle: "",
           excerpt: "",
           tags: [],
-          ingredients: []
+          ingredients: [],
+          publishedAt: new Date(),
+          featured: false
         };
         return;
       }
@@ -197,12 +215,12 @@ export default {
           this.post = response.data;
         })
         .catch(err => {
-            console.error(err);
-            this.$notifyError({
-              title: "მოხდა შეცდომა!",
-              text: err.message
-            });
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
           });
+        });
     },
     addTag: function(tag) {
       if (this.hasTag(tag)) return;

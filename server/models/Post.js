@@ -27,7 +27,12 @@ const schema = new Schema({
         type: String
     },
     publishedAt: {
-        type: Date
+        type: Date,
+        index: true
+    },
+    featured: {
+        type: Boolean,
+        default: false
     },
     ingredients: [String],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
