@@ -22,6 +22,14 @@ function scanDir(dirPath, dirsOnly) {
     }, {});
 }
 
+// Disable cache
+router.use(function (req, res, next) {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    next();
+});
+
 // Authorize access to Admin API
 router.use('/admin', (req, res, next) => {
     if (!req.user || req.user.role !== 'admin')
