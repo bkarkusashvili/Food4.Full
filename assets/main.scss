@@ -21,6 +21,10 @@ body {
   height: 100%;
 }
 
+.nuxt-progress {
+  display: none !important;
+}
+
 html {
   // background: url(/img/peach.jpg) no-repeat center center fixed;
   //background: #ffb2a4;

@@ -5,13 +5,17 @@
         ძიების შედეგები:
         <i>"{{$route.query.q}}"</i>
       </h1>
-      <single-recipe class="search-result" v-for="post in posts" :key="post._id" :post="post" />
+      <div class="columns">
+        <div class="column is-4">
+          <single-recipe class="search-result" v-for="post in posts" :key="post._id" :post="post" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import SingleRecipe from '../components/SingleRecipe'
+import SingleRecipe from "../components/SingleRecipe";
 
 export default {
   components: { SingleRecipe },
@@ -60,5 +64,6 @@ export default {
 <style lang="scss">
 .search-page {
   padding-top: 2em;
+  padding-bottom: 2em;
 }
 </style>
