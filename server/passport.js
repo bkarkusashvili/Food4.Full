@@ -13,7 +13,8 @@ passport.deserializeUser(function (id, done) {
 });
 
 passport.use(new LocalStrategy({
-    usernameField: 'email'
+    usernameField: 'email',
+    session: true
 }, function (email, password, done) {
     mongoose.model('User').findOne({ email: email }).then(function (user) {
         if (!user) {

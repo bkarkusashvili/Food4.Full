@@ -25,7 +25,7 @@ try {
   config = require('../config.default')
 }
 
-if(!fs.pathExistsSync('./static/settings.json')) {
+if (!fs.pathExistsSync('./static/settings.json')) {
   consola.info("Writing default settings to /static/settings.json");
   fs.writeJSONSync('./static/settings.json', config.defaultSettings);
 }
@@ -68,7 +68,11 @@ async function start() {
     secret: config.session.secret,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: !nuxtConf.dev },
+    rolling: true,
+    cookie: {
+      secure: !nuxtConf.dev,
+      domain: nuxtConf.dev? '' : 'food4.ge'
+    },
     store: new MongoStore({
       mongooseConnection: db.mongoose.connection,
       collection: config.session.collection
