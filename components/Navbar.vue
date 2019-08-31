@@ -32,13 +32,13 @@
               <template v-for="child in item.children">
                 <nuxt-link
                   :key="child.id"
-                  v-if="child.type === 'tag'"
+                  v-if="child.type === 'tag' && child.tag"
                   :to="'/tags/' + child.tag.slug"
                   class="navbar-item"
                 >{{child.title}}</nuxt-link>
                 <nuxt-link
                   :key="child.id"
-                  v-if="child.type === 'page'"
+                  v-if="child.type === 'page' && child.page"
                   :to="'/pages/' + child.page.slug"
                   class="navbar-item"
                 >{{child.title}}</nuxt-link>
@@ -52,14 +52,14 @@
             </div>
           </div>
           <nuxt-link
-            v-if="item.type === 'tag'"
+            v-if="item.type === 'tag' && item.tag"
             :to="'/tags/' + item.tag.slug"
             class="navbar-item"
             :key="item.id"
           >{{item.title}}</nuxt-link>
 
           <nuxt-link
-            v-if="item.type === 'page'"
+            v-if="item.type === 'page' && item.page"
             :to="'/pages/' + item.page.slug"
             class="navbar-item"
             :key="item.id"
