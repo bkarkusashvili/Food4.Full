@@ -28,7 +28,7 @@
           </li>
         </ul>
       </section>
-      <section class="recipe-preparation" v-if="recipe.preparation">
+      <section class="recipe-preparation" v-if="recipe.content">
         <h2 class="section-header">მომზადება</h2>
         <div v-html="recipe.content"></div>
       </section>
