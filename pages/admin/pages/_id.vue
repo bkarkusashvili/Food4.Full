@@ -160,8 +160,9 @@ export default {
     save: function() {
       if (this.new) {
         this.$axios
-          .post("/api/admin/posts", this.page)
+          .post("/api/admin/pages", this.page)
           .then(response => {
+            this.new = false;
             this.$notifySuccess({
               title: "შენახულია",
               text: "შენახვა წარმატებით დასრულდა!"
