@@ -112,7 +112,7 @@ export default {
   },
   asyncData({ $axios, error }) {
     return $axios
-      .get("/settings.json")
+      .get("/api/admin/settings")
       .then(response => {
         return { settings: response.data };
       })

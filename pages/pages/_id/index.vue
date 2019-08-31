@@ -39,7 +39,7 @@ export default {
   head() {
     if (this.page)
       return {
-        title: this.page.title + " - " + this.$settings.title
+        title: this.page.title + " - " + this.$store.state.settings.title
       };
   }
 };

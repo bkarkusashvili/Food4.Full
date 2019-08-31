@@ -112,7 +112,7 @@ export default {
   middleware: ["auth", "isAdmin"],
   head () {
     return {
-      title: "სამართავი პანელი - " + this.$settings.title
+      title: "სამართავი პანელი - " + this.$store.state.settings.title
     }
   }
 };

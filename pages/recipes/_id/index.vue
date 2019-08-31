@@ -66,7 +66,7 @@ export default {
   head() {
     if (this.recipe)
       return {
-        title: this.recipe.title + " - " + this.$settings.title
+        title: this.recipe.title + " - " + this.$store.state.settings.title
       };
   }
 };

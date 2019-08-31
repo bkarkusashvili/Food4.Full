@@ -48,6 +48,9 @@ router.use('/user', (req, res, next) => {
 * Public API
 */
 
+// Settings
+router.get('/settings', api.public.settings.default);
+
 // Auth
 router.post('/auth/login', api.public.auth.login);
 router.post('/auth/logout', api.public.auth.logout);
@@ -103,6 +106,7 @@ router.put('/admin/pages/:id', api.admin.pages.update);
 router.delete('/admin/pages/:id', api.admin.pages.remove);
 
 // Settings
+router.get('/admin/settings', api.admin.settings.default);
 router.put('/admin/settings', api.admin.settings.update);
 
 // Files

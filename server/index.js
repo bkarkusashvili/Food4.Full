@@ -49,6 +49,20 @@ async function start() {
     }
   }).catch(consola.error.bind(consola));
 
+  db.models.Settings.findOne({ name: 'default' }).then(function (foundSettings) {
+    if (!foundSettings) {
+      consola.info("No settings found, creating");
+      let defaultSettings = new db.models.Settings(config.admin.defaultSettings);
+      defaultSettings.name = 'default';
+
+      return defaultSettings.save().then(function () {
+        consola.success("Created default settings:", defaultSettings);
+      });
+    } else {
+      consola.success("Settings found:", foundSettings);
+    }
+  });
+
   // Init Nuxt.js
   const nuxt = new Nuxt(nuxtConf);
 
@@ -71,7 +85,7 @@ async function start() {
     rolling: true,
     cookie: {
       secure: !nuxtConf.dev,
-      domain: nuxtConf.dev? '' : 'food4.ge'
+      domain: nuxtConf.dev ? '' : 'food4.ge'
     },
     store: new MongoStore({
       mongooseConnection: db.mongoose.connection,
@@ -83,6 +97,13 @@ async function start() {
 
   app.use('/api', api);
 
+  // Listen the server
+  app.listen(port, host);
+  consola.ready({
+    message: `Server listening on http://${host}:${port}`,
+    badge: true
+  });
+
   // Build only in dev mode
   if (nuxtConf.dev) {
     const builder = new Builder(nuxt);
@@ -93,13 +114,6 @@ async function start() {
 
   // Give nuxt middleware to express
   app.use(nuxt.render);
-
-  // Listen the server
-  app.listen(port, host);
-  consola.ready({
-    message: `Server listening on http://${host}:${port}`,
-    badge: true
-  });
 }
 
 start();

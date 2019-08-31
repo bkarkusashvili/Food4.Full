@@ -225,7 +225,7 @@ export default {
     },
     fetchData() {
       this.$axios
-        .get("/settings.json")
+        .get("/api/admin/settings")
         .then(response => {
           this.items = response.data.navigation || [];
         })

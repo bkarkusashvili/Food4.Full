@@ -55,7 +55,7 @@ export default {
   },
   head() {
     return {
-      title: "ძებნა - " + this.$settings.title
+      title: "ძებნა - " + this.$store.state.settings.title
     };
   }
 };

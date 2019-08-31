@@ -20,6 +20,8 @@ module.exports = {
         collection: 'session'
     },
     defaultSettings: {
-        navigation: []
+        navigation: [],
+        title: "Food4.ge",
+        name: 'default'
     }
 };

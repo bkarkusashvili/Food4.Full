@@ -1,10 +1,9 @@
-const fs = require('fs-extra'),
-    path = require('path'),
-    settingsPath = path.join(__dirname, "../../../../static/settings.json");
+const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    fs.readJSON(settingsPath).then((currentSettings) => {
-        let newSettings = Object.assign({}, currentSettings, req.body);
-        return fs.writeJSON(settingsPath, newSettings);
-    }).then((settings) => res.json(settings)).catch(err => res.status(500).json(err));
+    mongoose.model('Settings')
+        .findOneAndUpdate({ name: 'default' }, req.body, { new: true })
+        .then(function (post) {
+            res.json(post);
+        }).catch((error) => res.status(500).json(error));
 }

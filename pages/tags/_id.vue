@@ -62,7 +62,7 @@ export default {
   head() {
     if (this.tag)
       return {
-        title: this.tag.title + " - " + this.$settings.title
+        title: this.tag.title + " - " + this.$store.state.settings.title
       };
   }
 };

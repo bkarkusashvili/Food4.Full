@@ -2,7 +2,7 @@
   <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <nuxt-link to="/" class="navbar-item has-text-weight-bold">
-        <img :src="$settings.logo" alt />
+        <img :src="$store.state.settings.logo" alt />
       </nuxt-link>
 
       <a
@@ -21,7 +21,7 @@
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-start">
-        <template v-for="item in $settings.navigation">
+        <template v-for="item in $store.state.settings.navigation">
           <div
             class="navbar-item has-dropdown is-hoverable"
             v-if="item.type === 'parent'"

@@ -4,7 +4,13 @@
     <site-navbar />
     <nuxt class="is-fullheight" ref="page" />
     <site-footer />
-    <notifications group="main" position="bottom right" classes="notification vue-notification" :duration="10000" :max="5" />
+    <notifications
+      group="main"
+      position="bottom right"
+      classes="notification vue-notification"
+      :duration="10000"
+      :max="5"
+    />
   </div>
 </template>
 
@@ -13,20 +19,27 @@ import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
 
 export default {
+  data() {
+    return {};
+  },
   components: {
     siteNavbar: Navbar,
     siteFooter: Footer
   },
-  head () {
+  head() {
     let head = {
-      title: this.$settings.title,
+      title: this.$store.state.settings.title,
       meta: [
-        { hid: 'description', name: 'description', content: this.$settings.description }
+        {
+          hid: "description",
+          name: "description",
+          content: this.$store.state.settings.description
+        }
       ]
     };
-    
-    if (this.$settings.noIndex) {
-      head.meta.push({ name: 'robots', content: 'noindex,nofollow' });
+
+    if (this.$store.state.settings.noIndex) {
+      head.meta.push({ name: "robots", content: "noindex,nofollow" });
     }
 
     return head;
