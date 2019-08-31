@@ -69,6 +69,7 @@ router.get('/tagsAndPosts', api.public.tags.tagsAndPosts);
 router.get('/tags/:id', api.public.tags.one);
 
 // Users
+router.get('/users/:id', api.public.users.one);
 router.post('/users/register', api.public.users.register);
 router.post('/users/confirm', api.public.users.confirm);
 router.post('/users/requestCode', api.public.users.requestCode);

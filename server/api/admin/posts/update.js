@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
+    if (!req.body.author) {
+        req.body.author = req.user;
+    }
+
     mongoose.model('Post')
         .findByIdAndUpdate(req.params.id, req.body, { new: true })
         .then(function (post) {

@@ -24,7 +24,7 @@ const userSchema = new Schema({
         type: String,
         default: "user"
     },
-    addresses: [ new Schema({
+    addresses: [new Schema({
         line1: String,
         line2: String,
         zip: String,
@@ -32,10 +32,18 @@ const userSchema = new Schema({
         province: String,
         country: String,
         phone: String,
-        location: [ Schema.Types.Number ],
+        location: [Schema.Types.Number],
         default: Boolean
-    }) ]
-}, { timestamps: true });
+    })]
+}, { timestamps: true, toJSON: { virtuals: true } });
+
+userSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'author',
+    justOne: false,
+    options: { sort: { publishedAt: -1 }, limit: 10, projection: { content: 0 } }
+});
 
 userSchema.methods.setPassword = function (newPassword) {
     return bcrypt.hash(newPassword, 10).then((hashedPassword) => {

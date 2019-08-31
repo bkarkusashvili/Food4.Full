@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
+    if (!req.body.author) {
+        req.body.author = req.user;
+    }
+
     mongoose.model('Post')
         .create(req.body)
         .then(function (post) {
