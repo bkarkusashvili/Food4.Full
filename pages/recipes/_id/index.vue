@@ -13,11 +13,11 @@
       
       <img :src="recipe.picture" alt="" v-if="recipe.picture">
 
-      <section class="recipe-description">
+      <section class="recipe-description" v-if="recipe.description">
         <div v-html="recipe.description"></div>
       </section>
 
-      <section class="recipe-ingredients">
+      <section class="recipe-ingredients" v-if="recipe.ingredients && recipe.ingredients.length">
         <h2 class="section-header">ინგრედიენტები</h2>
         <ul>
           <li v-for="ingredient in recipe.ingredients" :key="ingredient">
@@ -28,12 +28,12 @@
           </li>
         </ul>
       </section>
-      <section class="recipe-preparation">
+      <section class="recipe-preparation" v-if="recipe.preparation">
         <h2 class="section-header">მომზადება</h2>
         <div v-html="recipe.content"></div>
       </section>
 
-      <section class="recipe-footer">
+      <section class="recipe-footer" v-if="recipe.tags && recipe.tags.length">
         <div class="recipe-tags has-text-centered">
           <nuxt-link :to="'/tags/' + tag.slug" v-for="tag in recipe.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</nuxt-link>
         </div>

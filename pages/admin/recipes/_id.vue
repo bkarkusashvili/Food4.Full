@@ -11,7 +11,13 @@
       <div class="field">
         <label class="label">სათაური ლათინურად (slug)</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.slug" @keyup="slugModified" required />
+          <input
+            type="text"
+            class="input is-large"
+            v-model="post.slug"
+            @keyup="slugModified"
+            required
+          />
         </div>
       </div>
 
@@ -58,14 +64,17 @@
         </div>
       </div>
 
-      <div class="field">
-        <label class="label">ტეგები</label>
+      <label class="label">ტეგები</label>
+      <div class="field is-grouped">
         <div class="control">
-          <span class="tag is-medium" v-for="(tag, index) in post.tags" :key="tag._id">
-            {{tag.title}}
-            <button type="button" class="delete" @click="removeTag(index)"></button>
-          </span>
-
+          <draggable v-model="post.tags">
+            <span class="tag is-medium cursor-draggable" v-for="(tag, index) in post.tags" :key="tag._id">
+              {{tag.title}}
+              <button type="button" class="delete" @click="removeTag(index)"></button>
+            </span>
+          </draggable>
+        </div>
+        <div class="control">
           <a class="tag is-primary is-medium" @click.prevent="showTagDialog = true">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
@@ -131,7 +140,7 @@
         <div class="control">
           <no-ssr>
             <vue-editor
-              v-model="post.excerpt"
+              v-model="post.description"
               id="editor-excerpt"
               useCustomImageHandler
               @imageAdded="handleImageAdded"
@@ -165,7 +174,13 @@
           </button>
         </div>
         <div class="control">
-          <button type="submit" @click="post.status = 'published'" class="button is-success is-large" :disabled="loading">
+          <button
+            type="submit"
+            @click="post.status = 'published'"
+            class="button is-success is-large"
+            :disabled="loading"
+            v-show="post.status !== 'published'"
+          >
             <span class="icon">
               <i class="mdi mdi-content-save" v-show="!loading"></i>
               <i class="mdi mdi-refresh mdi-spin" v-show="loading"></i>
@@ -188,7 +203,7 @@
 <script>
 import VueEditor from "../../../components/VueEditor";
 import TagChooser from "../../../components/TagChooser";
-import slugify from 'slugify';
+import slugify from "slugify";
 
 export default {
   components: { VueEditor, TagChooser },
@@ -227,8 +242,8 @@ export default {
         .then(response => {
           this.loading = false;
           this.post = response.data;
-          
-          if(this.post.slug != slugify(this.post.title || "")) {
+
+          if (this.post.slug != slugify(this.post.title || "")) {
             this.post.slugModified = true;
           }
         })
@@ -242,8 +257,7 @@ export default {
         });
     },
     titleModified: function() {
-      if (!this.post.title || this.post.slugModified)
-        return;
+      if (!this.post.title || this.post.slugModified) return;
       this.post.slug = slugify(this.post.title);
       this.$forceUpdate();
     },
@@ -352,6 +366,7 @@ export default {
           .post("/api/admin/posts", this.post)
           .then(response => {
             this.loading = false;
+            this.new = false;
             this.$notifySuccess({
               title: "შენახულია",
               text: "შენახვა წარმატებით დასრულდა!"

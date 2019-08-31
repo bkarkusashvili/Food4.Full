@@ -31,6 +31,10 @@ html {
   background-size: cover;
 }
 
+.cursor-draggable {
+  cursor: grab;
+}
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.1s;
