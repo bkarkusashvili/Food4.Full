@@ -5,8 +5,13 @@
       <div class="box">
         <div class="field">
           <label class="label">ტეგები</label>
+
+          <div class="control" style="margin-bottom: 1em">
+            <input type="text" class="input" placeholder="ძებნა" v-model="filterText">
+          </div>
+
           <div class="control">
-            <a class="tag is-medium" v-for="tag in tags" :key="tag._id" @click="toggleTag(tag)">
+            <a class="tag is-medium" v-for="tag in filtered" :key="tag._id" @click="toggleTag(tag)">
               <span class="icon">
                 <i class="mdi mdi-check" v-show="isSelected(tag)"></i>
               </span>
@@ -44,11 +49,22 @@ export default {
   data() {
     return {
       tags: [],
-      selectedTags: []
+      selectedTags: [],
+      filterText: null
     };
   },
   mounted() {
     this.fetchData();
+  },
+  computed: {
+    filtered() {
+      if(!this.filterText)
+        return this.tags;
+
+      return this.tags.filter(tag => {
+        return (tag.title && tag.title.indexOf(this.filterText) !== -1) || (tag.slug && tag.slug.indexOf(this.filterText) !== -1);
+      });
+    }
   },
   methods: {
     canSave() {

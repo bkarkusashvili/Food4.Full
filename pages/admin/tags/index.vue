@@ -57,13 +57,13 @@
             <div class="field">
               <label class="label">სახელი</label>
               <div class="control">
-                <input type="text" class="input" v-model="editingTag.title" />
+                <input type="text" class="input" v-model="editingTag.title" @keyup="titleModified" />
               </div>
             </div>
             <div class="field">
               <label class="label">სახელი ლათინურად (slug)</label>
               <div class="control">
-                <input type="text" class="input" v-model="editingTag.slug" />
+                <input type="text" class="input" v-model="editingTag.slug" @keyup="slugModified" />
               </div>
             </div>
             <div class="field">
@@ -89,6 +89,8 @@
 </template>
 
 <script>
+import slugify from "slugify";
+
 export default {
   components: {},
   data() {
@@ -109,12 +111,26 @@ export default {
           this.tags = response.data;
         })
         .catch(err => {
-            console.error(err);
-            this.$notifyError({
-              title: "მოხდა შეცდომა!",
-              text: err.message
-            });
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
           });
+        });
+    },
+    titleModified: function() {
+      if (
+        !this.editingTag ||
+        !this.editingTag.title ||
+        this.editingTag.slugModified
+      )
+        return;
+      this.editingTag.slug = slugify(this.editingTag.title);
+      this.$forceUpdate();
+    },
+    slugModified: function() {
+      if (!this.editingTag) return;
+      this.editingTag.slugModified = this.editingTag.slug != "";
     },
     saveTag: function() {
       if (this.editingTag.new) {
@@ -155,15 +171,18 @@ export default {
           this.fetchData();
         })
         .catch(err => {
-            console.error(err);
-            this.$notifyError({
-              title: "მოხდა შეცდომა!",
-              text: err.message
-            });
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
           });
+        });
     },
     editTag: function(tag) {
-      this.editingTag = tag;
+      this.editingTag = Object.assign({}, tag);
+      if (this.editingTag.slug != slugify(this.editingTag.title || "")) {
+        this.editingTag.slugModified = true;
+      }
       this.openEditModal();
     },
     addTag: function() {

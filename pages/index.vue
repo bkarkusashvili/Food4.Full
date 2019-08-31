@@ -1,6 +1,6 @@
 <template>
   <div class="index-page">
-    <section class="section">
+    <!--<section class="section">
       <div class="container">
         <div class="tile is-ancestor is-vertical">
           <div class="tile is-parent">
@@ -83,7 +83,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section>-->
     <div class="container">
       <page-section class="section" v-for="(section, index) in sections" :section="section" :key="index"></page-section>
     </div>

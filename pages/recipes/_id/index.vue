@@ -6,7 +6,7 @@
         <h2 class="subtitle">{{recipe.subtitle}}</h2>
 
         <div class="recipe-info">
-          <span class="recipe-author" v-if="recipe.author">ავტორი: {{recipe.author.name}}</span>
+          <!--<span class="recipe-author" v-if="recipe.author">ავტორი: {{recipe.author.name}}</span>-->
           <span class="recipe-date">{{recipe.createdAt | date}}</span>
         </div>
       </section>

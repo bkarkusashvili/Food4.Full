@@ -4,14 +4,14 @@
       <div class="field">
         <label class="label">სათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.title" />
+          <input type="text" class="input is-large" v-model="post.title" @keyup="titleModified" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">სათაური ლათინურად (slug)</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.slug" />
+          <input type="text" class="input is-large" v-model="post.slug" @keyup="slugModified" required />
         </div>
       </div>
 
@@ -80,7 +80,7 @@
         <div class="control">
           <table class="table is-fullwidth">
             <tbody>
-              <tr v-for="(ingredient, index) in post.ingredients" :key="ingredient">
+              <tr v-for="(ingredient, index) in post.ingredients">
                 <td style="width: 9.9em;">
                   <button class="button" type="button" @click="removeIngredient(index)">
                     <i class="mdi mdi-delete"></i>
@@ -188,6 +188,7 @@
 <script>
 import VueEditor from "../../../components/VueEditor";
 import TagChooser from "../../../components/TagChooser";
+import slugify from 'slugify';
 
 export default {
   components: { VueEditor, TagChooser },
@@ -226,6 +227,10 @@ export default {
         .then(response => {
           this.loading = false;
           this.post = response.data;
+          
+          if(this.post.slug != slugify(this.post.title || "")) {
+            this.post.slugModified = true;
+          }
         })
         .catch(err => {
           this.loading = false;
@@ -235,6 +240,15 @@ export default {
             text: err.message
           });
         });
+    },
+    titleModified: function() {
+      if (!this.post.title || this.post.slugModified)
+        return;
+      this.post.slug = slugify(this.post.title);
+      this.$forceUpdate();
+    },
+    slugModified: function() {
+      this.post.slugModified = this.post.slug != "";
     },
     addTag: function(tag) {
       if (this.hasTag(tag)) return;
