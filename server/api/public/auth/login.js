@@ -13,6 +13,8 @@ module.exports = function (req, res, next) {
                 req.session.cookie.expires = false; // Cookie expires at end of session
             }
 
+            res.cookie('connect.sid', req.sessionID, req.session.cookie);
+
             return res.json(user);
         });
     })(req, res, next);
