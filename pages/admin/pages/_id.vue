@@ -4,14 +4,14 @@
       <div class="field">
         <label class="label">სათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="page.title" />
+          <input type="text" class="input is-large" v-model="page.title" @keyup="titleModified" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">სათაური ლათინურად (slug)</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="page.slug" />
+          <input type="text" class="input is-large" v-model="page.slug" @keyup="slugModified" />
         </div>
       </div>
 
@@ -72,6 +72,7 @@
 
 <script>
 import VueEditor from "../../../components/VueEditor";
+import slugify from "slugify";
 
 export default {
   components: { VueEditor },
@@ -97,11 +98,15 @@ export default {
         };
         return;
       }
+
       this.new = false;
       this.$axios
         .get("/api/admin/pages/" + this.$route.params.id)
         .then(response => {
           this.page = response.data;
+          if (this.page.slug != slugify(this.page.title || "")) {
+            this.page.slugModified = true;
+          }
         })
         .catch(err => {
           console.error(err);
@@ -192,6 +197,14 @@ export default {
             });
           });
       }
+    },
+    titleModified: function() {
+      if (!this.page.title || this.page.slugModified) return;
+      this.page.slug = slugify(this.page.title);
+      this.$forceUpdate();
+    },
+    slugModified: function() {
+      this.page.slugModified = this.page.slug != "";
     }
   },
   computed: {},

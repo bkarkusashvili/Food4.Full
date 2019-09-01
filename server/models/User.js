@@ -1,7 +1,7 @@
 const Schema = require('mongoose').Schema,
     bcrypt = require('bcrypt');
 
-const userSchema = new Schema({
+const schema = new Schema({
     email: {
         type: String
     },
@@ -37,7 +37,10 @@ const userSchema = new Schema({
     })]
 }, { timestamps: true, toJSON: { virtuals: true } });
 
-userSchema.virtual('posts', {
+schema.index({ '$**': 'text' });
+
+
+schema.virtual('posts', {
     ref: 'Post',
     localField: '_id',
     foreignField: 'author',
@@ -45,14 +48,14 @@ userSchema.virtual('posts', {
     options: { sort: { publishedAt: -1 }, limit: 10, projection: { content: 0 } }
 });
 
-userSchema.methods.setPassword = function (newPassword) {
+schema.methods.setPassword = function (newPassword) {
     return bcrypt.hash(newPassword, 10).then((hashedPassword) => {
         this.password = hashedPassword;
     });
 };
 
-userSchema.methods.comparePassword = function (newPassword) {
+schema.methods.comparePassword = function (newPassword) {
     return bcrypt.compare(newPassword, this.password);
 };
 
-module.exports = userSchema;
+module.exports = schema;

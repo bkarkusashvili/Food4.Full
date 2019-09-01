@@ -14,5 +14,6 @@ const schema = new Schema({
     }
 }, { timestamps: true });
 
+schema.index({ '$**': 'text' });
 
 module.exports = schema;

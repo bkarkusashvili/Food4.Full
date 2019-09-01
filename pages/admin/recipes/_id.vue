@@ -31,7 +31,7 @@
       <div class="field">
         <label class="label">გამოქვეყნების თარიღი</label>
         <div class="control">
-          <datepicker input-class="input is-large" v-model="post.publishedAt" />
+          <datetime type="datetime" input-class="input is-large" v-model="post.publishedAt" />
         </div>
       </div>
 

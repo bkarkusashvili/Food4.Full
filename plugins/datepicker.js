@@ -1,4 +1,6 @@
 import Vue from 'vue'
-import Datepicker from 'vuejs-datepicker'
+import Datetime from 'vue-datetime'
 
-Vue.component('datepicker', Datepicker);
+import 'vue-datetime/dist/vue-datetime.css'
+
+Vue.use(Datetime);

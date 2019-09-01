@@ -11,4 +11,6 @@ const schema = new Schema({
     type: { type: String }
 }, { timestamps: true });
 
+schema.index({ '$**': 'text' });
+
 module.exports = schema;
