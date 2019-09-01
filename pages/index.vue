@@ -85,7 +85,12 @@
       </div>
     </section>-->
     <div class="container">
-      <page-section class="section" v-for="(section, index) in sections" :section="section" :key="index"></page-section>
+      <page-section
+        class="section"
+        v-for="(section, index) in sections"
+        :section="section"
+        :key="index"
+      ></page-section>
     </div>
   </div>
 </template>
@@ -99,16 +104,27 @@ export default {
     return {
       sections: [
         {
-          type: "latest",
-          title: "ბოლოს დამატებული"
-        },
-        {
-          type: "featured",
-          title: "რჩეული რეცეპტი"
+          type: "row",
+          columns: [
+            {
+              section: {
+                type: "featured",
+                title: "რჩეული რეცეპტი"
+              }
+            },
+            {
+              section: {
+                type: "latest",
+                title: "ბოლოს დამატებული",
+                noPictures: true,
+                vertical: true
+              }
+            }
+          ]
         },
         {
           type: "tags",
-          tags: ["5d36e717452aac0656d518ad", "5d373520478a544f3e7e5fb2"]
+          //tags: ["5d36e717452aac0656d518ad", "5d373520478a544f3e7e5fb2"]
         }
       ]
     };

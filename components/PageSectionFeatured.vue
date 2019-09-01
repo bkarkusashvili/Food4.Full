@@ -1,6 +1,6 @@
 <template>
   <div class="page-section-featured">
-    <h1 v-if="section.title" class="title has-text-centered">{{section.title}}</h1>
+    <h1 v-if="section.title" class="title">{{section.title}}</h1>
     <div class="columns">
       <div class="column">
         <single-recipe :post="posts[0]" v-if="posts.length" />

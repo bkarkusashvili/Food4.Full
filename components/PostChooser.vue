@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="box">
         <div class="field">
-          <label class="label">გვერდები</label>
+          <label class="label">რეცეპტები</label>
 
           <div class="control" style="margin-bottom: 1em">
             <input type="text" class="input" placeholder="ძებნა" v-model="filterText">
@@ -13,11 +13,11 @@
           <div class="control">
             <a
               class="tag is-medium"
-              v-for="page in filtered"
-              :key="page._id"
-              @click="selectPage(page)"
+              v-for="post in filtered"
+              :key="post._id"
+              @click="selectPost(post)"
             >
-              <span>{{page.title}}</span>
+              <span>{{post.title}}</span>
             </a>
           </div>
         </div>
@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-      pages: [],
+      posts: [],
       filterText: null
     };
   },
@@ -48,27 +48,27 @@ export default {
   computed: {
     filtered() {
       if(!this.filterText)
-        return this.pages;
+        return this.posts;
 
-      return this.pages.filter(page => {
-        return (page.title && page.title.indexOf(this.filterText) !== -1) || (page.slug && page.slug.indexOf(this.filterText) !== -1);
+      return this.posts.filter(post => {
+        return (post.title && post.title.indexOf(this.filterText) !== -1) || (post.slug && post.slug.indexOf(this.filterText) !== -1);
       });
     }
   },
   methods: {
     fetchData() {
       this.$axios
-        .get("/api/admin/pages")
+        .get("/api/admin/posts")
         .then(response => {
-          this.pages = response.data;
+          this.posts = response.data;
         })
         .catch(error => console.error(error));
     },
     close() {
       this.$emit("hide");
     },
-    selectPage(page) {
-      this.$emit("select", page);
+    selectPost(post) {
+      this.$emit("select", post);
       this.close();
     },
   },

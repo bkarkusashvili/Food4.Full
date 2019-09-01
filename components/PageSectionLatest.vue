@@ -1,9 +1,9 @@
 <template>
   <div class="page-section-latest">
-    <h1 v-if="section.title" class="title has-text-centered">{{section.title}}</h1>
-    <div class="columns">
-      <div class="column is-4" v-for="post in posts" :key="post._id">
-        <single-recipe :post="post" />
+    <h1 v-if="section.title" class="title">{{section.title}}</h1>
+    <div class="flex" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical}">
+      <div class="" v-for="post in posts" :key="post._id">
+        <single-recipe :post="post" :no-picture="section.noPictures" :border="section.vertical" />
       </div>
     </div>
   </div>

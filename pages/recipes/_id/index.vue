@@ -10,8 +10,17 @@
           <span class="recipe-date">{{recipe.createdAt | date}}</span>
         </div>
       </section>
-      
-      <img :src="recipe.picture" alt="" v-if="recipe.picture">
+
+      <img :src="recipe.picture" alt v-if="recipe.picture" />
+
+      <div class="youtube-embed" v-if="recipe.video">
+        <iframe
+          :src="recipe.video"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
 
       <section class="recipe-description" v-if="recipe.description">
         <div v-html="recipe.description"></div>
@@ -35,7 +44,12 @@
 
       <section class="recipe-footer" v-if="recipe.tags && recipe.tags.length">
         <div class="recipe-tags has-text-centered">
-          <nuxt-link :to="'/tags/' + tag.slug" v-for="tag in recipe.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</nuxt-link>
+          <nuxt-link
+            :to="'/tags/' + tag.slug"
+            v-for="tag in recipe.tags"
+            class="tag is-medium"
+            :key="tag._id"
+          >{{tag.title}}</nuxt-link>
         </div>
       </section>
     </div>

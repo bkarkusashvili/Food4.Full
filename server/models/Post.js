@@ -23,6 +23,13 @@ const schema = new Schema({
     picture: {
         type: String
     },
+    originalPicture: {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+    },
+    video: {
+        type: String
+    },
     status: {
         type: String
     },

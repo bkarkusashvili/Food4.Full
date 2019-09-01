@@ -47,7 +47,7 @@
       <div class="field">
         <label class="label">სურათი</label>
         <div class="control">
-          <div class="file is-medium is-primary">
+          <div class="file is-medium is-primary" style="display: inline-block">
             <label class="file-label">
               <input class="file-input" type="file" ref="file" @change="uploadPicture()" />
               <span class="file-cta">
@@ -58,9 +58,21 @@
               </span>
             </label>
           </div>
+          <button
+            type="button"
+            class="button is-medium is-danger"
+            v-show="post.picture"
+            @click="removePicture()"
+          >
+            <span class="icon">
+              <i class="mdi mdi-delete"></i>
+            </span>
+            <span>წაშლა</span>
+          </button>
         </div>
-        <div class="control" style="padding-top: 10px">
-          <img :src="post.picture" v-if="post.picture != null" alt />
+
+        <div class="control box" style="margin-top: 10px" v-if="post.picture">
+          <img :src="post.picture" alt />
         </div>
       </div>
 
@@ -68,7 +80,11 @@
       <div class="field is-grouped">
         <div class="control">
           <draggable v-model="post.tags">
-            <span class="tag is-medium cursor-draggable" v-for="(tag, index) in post.tags" :key="tag._id">
+            <span
+              class="tag is-medium cursor-draggable"
+              v-for="(tag, index) in post.tags"
+              :key="tag._id"
+            >
               {{tag.title}}
               <button type="button" class="delete" @click="removeTag(index)"></button>
             </span>
@@ -312,6 +328,9 @@ export default {
     },
     canMoveDown: function(index) {
       return index < this.post.ingredients.length - 1;
+    },
+    removePicture: function() {
+      this.post.picture = null;
     },
     uploadPicture: function() {
       let file = this.$refs.file.files[0],
