@@ -46,13 +46,37 @@
                   >
                     <i class="mdi mdi-arrow-down"></i>
                   </button>
-                  <button class="button" type="button" title="დამატება" @click="addChild(item)">
+                  <button
+                    class="button"
+                    type="button"
+                    title="დამატება"
+                    :disabled="item.type !== 'parent'"
+                    @click="addChild(item)"
+                  >
                     <i class="mdi mdi-plus"></i>
                   </button>
                 </div>
 
                 <div class="control is-required">
                   <input type="text" class="input" v-model="item.title" required />
+                </div>
+
+                <div class="field has-addons" style="margin-right: 10px">
+                  <div class="control">
+                    <label class="button" :style="'background-color:' + item.color">
+                      <input
+                        type="color"
+                        v-model="item.color"
+                        style="width: 0; height: 0; position: absolute; opacity: 0"
+                      />
+                      ფერი
+                    </label>
+                  </div>
+                  <div class="control" v-if="item.color">
+                    <button type="button" class="button" @click="item.color = null">
+                      <i class="mdi mdi-delete"></i>
+                    </button>
+                  </div>
                 </div>
 
                 <div class="control select">
@@ -66,6 +90,13 @@
 
                 <div class="control" v-show="item.type === 'link'">
                   <input type="text" class="input" placeholder="http://" v-model="item.link" />
+                </div>
+
+                <div class="control" v-show="item.type === 'link'">
+                  <label class="checkbox">
+                    <input type="checkbox" v-model="item.external" />
+                    გარე
+                  </label>
                 </div>
 
                 <div class="control" v-show="item.type === 'tag'">
@@ -144,6 +175,13 @@
                             placeholder="http://"
                             v-model="child.link"
                           />
+                        </div>
+
+                        <div class="control" v-show="child.type === 'link'">
+                          <label class="checkbox">
+                            <input type="checkbox" v-model="child.external" />
+                            გარე
+                          </label>
                         </div>
 
                         <div class="control" v-show="child.type === 'tag'">
@@ -263,7 +301,6 @@ export default {
     addChild(item) {
       if (!item.children || !(item.children instanceof Array))
         item.children = [];
-      item.type = "parent";
       item.children.push({
         type: "tag",
         id: item.children.length

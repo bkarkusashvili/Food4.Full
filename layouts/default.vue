@@ -1,6 +1,6 @@
 <template>
   <div class="main-layout">
-    <div class="secondary-navbar" style="background: #ddece5; height: 30px; flex-shrink: 0"></div>
+    <secondary-navbar />
     <site-navbar />
     <nuxt class="is-fullheight" ref="page" />
     <site-footer />
@@ -16,6 +16,7 @@
 
 <script>
 import Navbar from "~/components/Navbar.vue";
+import SecondaryNavbar from "~/components/SecondaryNavbar.vue";
 import Footer from "~/components/Footer.vue";
 
 export default {
@@ -24,7 +25,8 @@ export default {
   },
   components: {
     siteNavbar: Navbar,
-    siteFooter: Footer
+    siteFooter: Footer,
+    SecondaryNavbar: SecondaryNavbar
   },
   head() {
     let head = {

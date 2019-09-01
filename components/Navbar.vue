@@ -27,35 +27,44 @@
             v-if="item.type === 'parent'"
             :key="item.id"
           >
-            <a class="navbar-link">{{item.title}}</a>
-            <div class="navbar-dropdown" v-if="item.type === 'parent'">
+            <a class="navbar-link" :style="'color:' + item.color">{{item.title}}</a>
+            <div class="navbar-dropdown" v-if="item.children">
               <template v-for="child in item.children">
                 <nuxt-link
                   :key="child.id"
                   v-if="child.type === 'tag' && child.tag"
                   :to="'/tags/' + child.tag.slug"
                   class="navbar-item"
+                  :style="'color:' + child.color"
                 >{{child.title}}</nuxt-link>
+
                 <nuxt-link
                   :key="child.id"
                   v-if="child.type === 'page' && child.page"
                   :to="'/pages/' + child.page.slug"
                   class="navbar-item"
+                  :style="'color:' + child.color"
                 >{{child.title}}</nuxt-link>
+
                 <a
                   :key="child.id"
                   :href="child.link"
                   v-if="child.type === 'link'"
                   class="navbar-item"
+                  :style="'color:' + child.color"
+                  rel="noopener"
+                  :target="child.external ? '_blank' : ''"
                 >{{child.title}}</a>
               </template>
             </div>
           </div>
+
           <nuxt-link
             v-if="item.type === 'tag' && item.tag"
             :to="'/tags/' + item.tag.slug"
             class="navbar-item"
             :key="item.id"
+            :style="'color:' + item.color"
           >{{item.title}}</nuxt-link>
 
           <nuxt-link
@@ -63,8 +72,17 @@
             :to="'/pages/' + item.page.slug"
             class="navbar-item"
             :key="item.id"
+            :style="'color:' + item.color"
           >{{item.title}}</nuxt-link>
-          <a :href="item.link" v-if="item.type === 'link'" class="navbar-item">{{item.title}}</a>
+
+          <a
+            :href="item.link"
+            v-if="item.type === 'link'"
+            :style="'color:' + item.color"
+            class="navbar-item"
+            rel="noopener"
+            :target="item.external ? '_blank' : ''"
+          >{{item.title}}</a>
         </template>
       </div>
 
@@ -111,12 +129,7 @@
             <div class="dropdown-trigger">
               <div class="field has-addons">
                 <div class="control">
-                  <button
-                    class="button is-dark"
-                    type="reset"
-                    title="დაბრუნება"
-                    @click="hideSearch()"
-                  >
+                  <button class="button" type="reset" title="დაბრუნება" @click="hideSearch()">
                     <span class="icon">
                       <i class="mdi mdi-close"></i>
                     </span>
@@ -124,7 +137,7 @@
                 </div>
                 <div class="control">
                   <input
-                    class="input is-dark"
+                    class="input"
                     type="text"
                     placeholder="ძებნა"
                     v-model="query"
@@ -132,7 +145,7 @@
                   />
                 </div>
                 <div class="control">
-                  <button class="button is-dark" type="submit" title="ძებნა">
+                  <button class="button" type="submit" title="ძებნა">
                     <span class="icon">
                       <i class="mdi mdi-magnify"></i>
                     </span>
@@ -188,6 +201,10 @@
       // color: white;
     }
   }
+}
+
+.site-navbar input {
+  box-shadow: none !important;
 }
 
 .navbar-item {
