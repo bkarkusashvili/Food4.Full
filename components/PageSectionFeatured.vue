@@ -5,7 +5,7 @@
       <div class="column">
         <single-recipe :post="posts[0]" v-if="posts.length" />
       </div>
-      <div class="column" v-if="posts.length > 1">
+      <div class="column" v-if="!section.onlyOne && posts.length > 1">
         <a class v-for="(post, index) in posts" v-if="index > 1" :key="post._id">
           <span class="title">{{post.title}}</span>
           <span class="subtitle">{{post.subtitle}}</span>
@@ -55,4 +55,7 @@ export default {
 </script>
 
 <style>
+.page-section-featured .title {
+  padding-left: 5px;
+}
 </style>

@@ -2,7 +2,7 @@
   <div class="page-section-latest">
     <h1 v-if="section.title" class="title">{{section.title}}</h1>
     <div class="flex" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical}">
-      <div class="" v-for="post in posts" :key="post._id">
+      <div class="recipe-container" v-for="post in posts" :key="post._id">
         <single-recipe :post="post" :no-picture="section.noPictures" :border="section.vertical" />
       </div>
     </div>
@@ -44,4 +44,11 @@ export default {
 </script>
 
 <style>
+.page-section-latest .title {
+  padding-left: 5px;
+}
+.page-section-latest .flex-row .recipe-container {
+  flex-basis: 20em;
+  padding-right: 1em;
+}
 </style>

@@ -43,8 +43,13 @@ export default {
       this.selectedTag = tag;
     },
     fetchTags() {
+      let params = {};
+      if(this.section.tags) {
+        params._id = this.section.tags
+      }
+
       this.$axios
-        .get("/api/tagsAndPosts", { params: { _id: this.section.tags } })
+        .get("/api/tagsAndPosts", { params: params })
         .then(response => {
           this.tags = response.data.tags;
           this.posts = response.data.posts;

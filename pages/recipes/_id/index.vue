@@ -11,7 +11,7 @@
         </div>
       </section>
 
-      <img :src="recipe.picture" alt v-if="recipe.picture" />
+      <img class="recipe-picture" :src="recipe.picture" alt v-if="recipe.picture" />
 
       <div class="youtube-embed" v-if="recipe.video">
         <iframe
@@ -105,6 +105,11 @@ export default {
       margin-bottom: 10px;
       font-size: 18px;
     }
+  }
+
+  .recipe-picture {
+    display: block;
+    margin: 0 auto;
   }
 
   .hero {

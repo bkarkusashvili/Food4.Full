@@ -1,10 +1,11 @@
 <template>
   <div class="single-recipe" :class="{ 'bordered': border }">
-    <div class="recipe-image" v-if="post.picture && !noPicture">
-      <nuxt-link :to="'/recipes/' + post.slug">
-        <img :src="post.picture" />
-      </nuxt-link>
-    </div>
+    <nuxt-link
+      :to="'/recipes/' + post.slug"
+      class="recipe-image"
+      :style="'background-image: url(' + post.picture + ')'"
+      v-if="post.picture && !noPicture"
+    ></nuxt-link>
     <div class="recipe-description">
       <nuxt-link class="recipe-title" :to="'/recipes/' + post.slug">{{post.title}}</nuxt-link>
 
@@ -20,7 +21,7 @@ export default {
     post: Object,
     excerpt: Boolean,
     noPicture: Boolean,
-    border: Boolean,
+    border: Boolean
   }
 };
 </script>
@@ -28,12 +29,17 @@ export default {
 <style lang="scss">
 .single-recipe {
   &.bordered {
-    border-bottom: 1px solid #666
+    border-bottom: 1px solid #666;
   }
 
   .recipe-image {
-    padding: 5px;
-    font-size: 0;
+    position: relative;
+    margin: 5px;
+    width: 100%;
+    display: block;
+    padding-bottom: 56.25%;
+    background-size: cover;
+    background-position-y: center;
   }
 
   .recipe-description {

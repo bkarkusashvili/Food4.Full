@@ -58,8 +58,6 @@ async function start() {
       return defaultSettings.save().then(function () {
         consola.success("Created default settings:", defaultSettings);
       });
-    } else {
-      consola.success("Settings found:", foundSettings);
     }
   });
 
