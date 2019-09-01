@@ -6,7 +6,7 @@
         <single-recipe :post="posts[0]" v-if="posts.length" />
       </div>
       <div class="column" v-if="posts.length > 1">
-        <a class="" v-for="(post, index) in posts" v-if="index > 1" :key="post._id">
+        <a class v-for="(post, index) in posts" v-if="index > 1" :key="post._id">
           <span class="title">{{post.title}}</span>
           <span class="subtitle">{{post.subtitle}}</span>
         </a>
@@ -30,15 +30,20 @@ export default {
     };
   },
   mounted() {
-    this.fetchTags();
+    this.fetchPosts();
   },
   methods: {
-    selectTag(tag) {
-      this.selectedTag = tag;
-    },
-    fetchTags() {
+    fetchPosts() {
+      let params = {
+        featured: true
+      };
+      if(this.section.onlyOne) {
+        params.limit = 1;
+      }
       this.$axios
-        .get("/api/posts/latest?featured=true")
+        .get("/api/posts/latest", {
+          params: params
+        })
         .then(response => {
           this.posts = response.data;
         })

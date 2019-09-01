@@ -109,7 +109,8 @@ export default {
             {
               section: {
                 type: "featured",
-                title: "რჩეული რეცეპტი"
+                title: "რჩეული რეცეპტი",
+                onlyOne: true
               }
             },
             {
