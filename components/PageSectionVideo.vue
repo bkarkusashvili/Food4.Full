@@ -34,5 +34,6 @@ export default {
   margin-top: 10px;
   font-size: 24px;
   margin-bottom: 12px;
+  font-weight: normal;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section-tags">
+  <div class="page-section-tags" :class="{'compact': section.compact}">
     <div class="tags are-medium is-centered" v-show="!all">
       <a
         class="tag"
@@ -10,9 +10,14 @@
       >{{tag.title}}</a>
     </div>
 
-    <div class="columns">
-      <div class="column is-4" v-for="post in filteredPosts" :key="post._id">
-        <single-recipe :post="post" />
+    <div class="flex flex-wrap" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical}">
+      <div class="recipe-container" v-for="post in filteredPosts" :key="post._id">
+        <single-recipe
+          :post="post"
+          :no-picture="section.noPictures"
+          :border="section.borders"
+          :compact="section.compact"
+        />
       </div>
     </div>
   </div>
@@ -72,4 +77,8 @@ export default {
 </script>
 
 <style>
+.page-section-tags.compact .title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
 </style>

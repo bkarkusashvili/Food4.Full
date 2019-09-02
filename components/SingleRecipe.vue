@@ -35,9 +35,10 @@ export default {
 
   &.compact {
     .recipe-title {
-      font-size: 24px;
+      font-size: 22px;
       line-height: 1;
       margin-bottom: 13px;
+      font-weight: normal;
     }
 
     .recipe-subtitle {
