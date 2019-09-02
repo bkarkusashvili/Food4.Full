@@ -106,7 +106,7 @@ export default {
   methods: {
     fetchData: function() {
       this.$axios
-        .get("/api/admin/tags")
+        .get("/api/admin/tags?limit=100")
         .then(response => {
           this.tags = response.data;
         })
