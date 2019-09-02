@@ -8,6 +8,22 @@
         <div class="recipe-info">
           <!--<span class="recipe-author" v-if="recipe.author">ავტორი: {{recipe.author.name}}</span>-->
           <span class="recipe-date">{{recipe.createdAt | date}}</span>
+          <span class="separator">|</span>
+          <button
+            type="button"
+            class="button is-outline is-rounded"
+            :class="{ 'is-primary': favorite }"
+            v-if="$auth.user"
+            @click="toggleFavorite()"
+          >
+            <i class="mdi mdi-heart"></i>
+          </button>
+          <button type="button" class="button is-outline is-rounded" @click="print()">
+            <span class="icon">
+              <i class="mdi mdi-printer"></i>
+            </span>
+            <span>ბეჭდვა</span>
+          </button>
         </div>
       </section>
 
@@ -61,11 +77,53 @@ export default {
   components: {},
   data() {
     return {
-      recipe: {}
+      recipe: {},
+      favorite: false
     };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.checkFavorite();
+  },
+  methods: {
+    print() {
+      window.print();
+    },
+    toggleFavorite() {
+      if (!this.favorite) {
+        this.$axios
+          .post("/api/user/favorites/" + this.recipe._id)
+          .then(response => {
+            this.favorite = true;
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      } else {
+        this.$axios
+          .delete("/api/user/favorites/" + this.recipe._id)
+          .then(response => {
+            this.favorite = false;
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
+    },
+    checkFavorite() {
+      this.$axios
+        .get("/api/user/favorites/" + this.recipe._id)
+        .then(response => {
+          this.favorite = true;
+        })
+        .catch((err, response) => {
+          if(err.response && err.response.status === 404) {
+            this.favorite = false;
+          } else {
+          console.error(err);
+          }
+        });
+    }
+  },
   watch: {},
   asyncData({ params, error, $axios }) {
     return $axios
@@ -107,6 +165,17 @@ export default {
     }
   }
 
+  .recipe-info > * {
+    vertical-align: middle;
+  }
+
+  .recipe-info {
+    .separator {
+      margin: 0 5px;
+      color: #aaa;
+    }
+  }
+
   .recipe-picture {
     display: block;
     margin: 0 auto;
@@ -142,6 +211,24 @@ export default {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 0.5em;
+  }
+}
+
+@media print {
+  .recipe-page {
+    padding: 0;
+
+    .recipe-header {
+      padding: 0;
+    }
+
+    .recipe-footer,
+    .recipe-picture,
+    .recipe-info,
+    .youtube-embed,
+    input[type="checkbox"] {
+      display: none;
+    }
   }
 }
 </style>

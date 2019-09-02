@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    mongoose.model('UserFavorite').find({
+    mongoose.model('UserFavorite').findOne({
         user: req.user.id,
         post: req.params.postId
     }).then(function (favorite) {

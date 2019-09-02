@@ -72,7 +72,7 @@ export default {
     },
     fetchData() {
       this.$axios
-        .get("/api/admin/tags")
+        .get("/api/admin/tags?limit=100")
         .then(response => {
           this.tags = response.data;
           this.filterExcluded();

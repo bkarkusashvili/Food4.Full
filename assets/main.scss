@@ -59,6 +59,12 @@ html {
   flex-basis: 33%;
 }
 
+@media print {
+  .navbar, .secondary-navbar {
+    display: none;
+  }
+}
+
 .promo-box {
   background-size: 100% auto;
   background-size: cover;
