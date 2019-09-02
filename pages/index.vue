@@ -107,18 +107,29 @@ export default {
           type: "row",
           columns: [
             {
+              size: 3,
               section: {
                 type: "featured",
-                title: "რჩეული რეცეპტი",
-                onlyOne: true
+                title: "რჩეული რეცეპტები",
+                vertical: true,
+                compact: true
               }
             },
             {
               section: {
+                type: "video",
+                title: "შოკოლადის ტარტი ჟოლოთი",
+                description: "წარმოგიდგენთ უკონკურენტო დესერტს, რომელსაც უმარტივესად და ძალიან ცოტა ინგრედიენტით მოამზადებთ სახლში.",
+                videoUrl: "https://www.youtube.com/watch?v=Bidv64QmWAw"
+              }
+            },
+            {
+              size: 3,
+              section: {
                 type: "latest",
                 title: "ბოლოს დამატებული",
-                noPictures: true,
-                vertical: true
+                vertical: true,
+                compact: true
               }
             }
           ]

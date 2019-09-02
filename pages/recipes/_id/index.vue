@@ -15,7 +15,7 @@
 
       <div class="youtube-embed" v-if="recipe.video">
         <iframe
-          :src="recipe.video"
+          :src="recipe.video | youtubeEmbed"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen

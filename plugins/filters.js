@@ -43,3 +43,11 @@ Vue.filter('dateTime', function (date, formatString) {
         return format(date, formatString || "dd MMM yyyy HH:mm", { locale: ka });
     return "";
 });
+
+Vue.filter('youtubeEmbed', function(url) {
+    if(!url)    return "";
+    
+    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return "https://www.youtube.com/embed/" + match[2];
+});

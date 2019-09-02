@@ -1,15 +1,14 @@
 <template>
-  <div class="page-section-featured">
+  <div class="page-section-featured" :class="{'compact': section.compact}">
     <h1 v-if="section.title" class="title">{{section.title}}</h1>
-    <div class="columns">
-      <div class="column">
-        <single-recipe :post="posts[0]" v-if="posts.length" />
-      </div>
-      <div class="column" v-if="!section.onlyOne && posts.length > 1">
-        <a class v-for="(post, index) in posts" v-if="index > 1" :key="post._id">
-          <span class="title">{{post.title}}</span>
-          <span class="subtitle">{{post.subtitle}}</span>
-        </a>
+    <div class="flex" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical}">
+      <div class="recipe-container" v-for="post in posts" :key="post._id">
+        <single-recipe
+          :post="post"
+          :no-picture="section.noPictures"
+          :border="section.borders"
+          :compact="section.compact"
+        />
       </div>
     </div>
   </div>
@@ -37,7 +36,7 @@ export default {
       let params = {
         featured: true
       };
-      if(this.section.onlyOne) {
+      if (this.section.onlyOne) {
         params.limit = 1;
       }
       this.$axios
@@ -57,5 +56,13 @@ export default {
 <style>
 .page-section-featured .title {
   padding-left: 5px;
+}
+.page-section-featured.compact .title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.page-section-featured .flex-row .recipe-container {
+  flex-basis: 20em;
+  padding-right: 1em;
 }
 </style>

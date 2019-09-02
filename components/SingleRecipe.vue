@@ -1,5 +1,5 @@
 <template>
-  <div class="single-recipe" :class="{ 'bordered': border }">
+  <div class="single-recipe" :class="{ 'bordered': border, 'compact': compact }">
     <nuxt-link
       :to="'/recipes/' + post.slug"
       class="recipe-image"
@@ -21,7 +21,8 @@ export default {
     post: Object,
     excerpt: Boolean,
     noPicture: Boolean,
-    border: Boolean
+    border: Boolean,
+    compact: Boolean
   }
 };
 </script>
@@ -32,8 +33,21 @@ export default {
     border-bottom: 1px solid #666;
   }
 
+  &.compact {
+    .recipe-title {
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 13px;
+    }
+
+    .recipe-subtitle {
+      font-size: 16px;
+      line-height: 1;
+      margin-bottom: 13px;
+    }
+  }
+
   .recipe-image {
-    position: relative;
     margin: 5px;
     width: 100%;
     display: block;
@@ -47,6 +61,7 @@ export default {
   }
 
   .recipe-title {
+    display: block;
     color: black;
     font-weight: bold;
     font-size: 27px;
@@ -60,6 +75,7 @@ export default {
   }
 
   .recipe-subtitle {
+    display: block;
     color: #555;
     font-size: 20px;
     line-height: 27px;

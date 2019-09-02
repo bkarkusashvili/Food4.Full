@@ -7,6 +7,7 @@
     <page-section-tags v-if="section.type === 'tags'" :section="section" />
     <page-section-latest v-if="section.type === 'latest'" :section="section" />
     <page-section-featured v-if="section.type === 'featured'" :section="section" />
+    <page-section-video v-if="section.type === 'video'" :section="section" />
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import PageSectionHero from "./PageSectionHero";
 import PageSectionTags from "./PageSectionTags";
 import PageSectionLatest from "./PageSectionLatest";
 import PageSectionFeatured from "./PageSectionFeatured";
+import PageSectionVideo from "./PageSectionVideo";
 
 export default Vue.component("page-section", {
   name: "page-section",
@@ -29,7 +31,8 @@ export default Vue.component("page-section", {
     "page-section-hero": PageSectionHero,
     "page-section-tags": PageSectionTags,
     "page-section-latest": PageSectionLatest,
-    "page-section-featured": PageSectionFeatured
+    "page-section-featured": PageSectionFeatured,
+    "page-section-video": PageSectionVideo
   },
   props: {
     section: Object
