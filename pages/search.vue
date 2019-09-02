@@ -5,9 +5,9 @@
         ძიების შედეგები:
         <i>"{{$route.query.q}}"</i>
       </h1>
-      <div class="columns">
-        <div class="column is-4">
-          <single-recipe class="search-result" v-for="post in posts" :key="post._id" :post="post" />
+      <div class="flex flex-row flex-wrap">
+        <div class="recipe-container" v-for="post in posts" :key="post._id">
+          <single-recipe class="search-result" :post="post" />
         </div>
       </div>
     </div>

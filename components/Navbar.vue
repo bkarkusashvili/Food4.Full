@@ -108,12 +108,12 @@
               </span>
               <span>სამართავი პანელი</span>
             </nuxt-link>
-            <nuxt-link to="/users/me" class="navbar-item">
+            <!--<nuxt-link to="/users/me" class="navbar-item">
               <span class="icon">
                 <i class="mdi mdi-account" aria-hidden="true"></i>
               </span>
               <span>პროფილი</span>
-            </nuxt-link>
+            </nuxt-link>-->
             <a class="navbar-item" v-if="$auth.user" @click="logout">
               <span class="icon">
                 <i class="mdi mdi-exit-run" aria-hidden="true"></i>

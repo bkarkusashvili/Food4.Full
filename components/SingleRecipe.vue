@@ -36,18 +36,7 @@ export default {
   }
 
   &.compact {
-    .recipe-title {
-      font-size: 22px;
-      line-height: 1;
-      margin-bottom: 13px;
-      font-weight: normal;
-    }
-
-    .recipe-subtitle {
-      font-size: 16px;
-      line-height: 1;
-      margin-bottom: 13px;
-    }
+    
   }
 
   .recipe-image {
@@ -66,10 +55,10 @@ export default {
   .recipe-title {
     display: block;
     color: black;
-    font-weight: bold;
-    font-size: 27px;
-    line-height: 36px;
+    font-size: 22px;
+    line-height: 1;
     margin-bottom: 13px;
+    font-weight: normal;
     transition: color 0.3s;
 
     &:hover {
@@ -80,8 +69,8 @@ export default {
   .recipe-subtitle {
     display: block;
     color: #555;
-    font-size: 20px;
-    line-height: 27px;
+    font-size: 16px;
+    line-height: 1;
     margin-bottom: 13px;
   }
 
