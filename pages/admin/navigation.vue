@@ -50,7 +50,7 @@
                     class="button"
                     type="button"
                     title="დამატება"
-                    :disabled="item.type !== 'parent'"
+                    :disabled="item.type !== 'parent' && !isEmpty(item)"
                     @click="addChild(item)"
                   >
                     <i class="mdi mdi-plus"></i>
@@ -158,6 +158,24 @@
 
                         <div class="control is-required">
                           <input type="text" class="input" v-model="child.title" required />
+                        </div>
+
+                        <div class="field has-addons" style="margin-right: 10px">
+                          <div class="control">
+                            <label class="button" :style="'background-color:' + child.color">
+                              <input
+                                type="color"
+                                v-model="child.color"
+                                style="width: 0; height: 0; position: absolute; opacity: 0"
+                              />
+                              ფერი
+                            </label>
+                          </div>
+                          <div class="control" v-if="child.color">
+                            <button type="button" class="button" @click="child.color = null">
+                              <i class="mdi mdi-delete"></i>
+                            </button>
+                          </div>
                         </div>
 
                         <div class="control select">
@@ -301,6 +319,7 @@ export default {
     addChild(item) {
       if (!item.children || !(item.children instanceof Array))
         item.children = [];
+      item.type = "parent";
       item.children.push({
         type: "tag",
         id: item.children.length

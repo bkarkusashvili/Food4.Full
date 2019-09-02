@@ -50,14 +50,14 @@
             <span>ადმინისტრაცია</span>
           </p>
           <ul class="menu-list">
-            <li>
+            <!-- <li>
               <nuxt-link to="/admin/frontpage" active-class="is-active">
                 <span class="icon">
                   <i class="mdi mdi-star"></i>
                 </span>
                 <span>მთავარი გვერდი</span>
               </nuxt-link>
-            </li>
+            </li> -->
             <li>
               <nuxt-link to="/admin/navigation" active-class="is-active">
                 <span class="icon">
@@ -81,17 +81,6 @@
                 </span>
                 <span>მომხმარებლები</span>
               </nuxt-link>
-              <!--<ul>
-              <li>
-                <a>Members</a>
-              </li>
-              <li>
-                <a>Plugins</a>
-              </li>
-              <li>
-                <a>Add a member</a>
-              </li>
-              </ul>-->
             </li>
           </ul>
         </aside>
