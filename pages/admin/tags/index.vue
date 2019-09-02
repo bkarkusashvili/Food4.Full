@@ -49,6 +49,8 @@
       </tbody>
     </table>
 
+    <!--<pagination/>-->
+
     <div class="modal" :class="{ 'is-active': showEditModal }">
       <div class="modal-background" @click="closeEditModal()"></div>
       <div class="modal-content">

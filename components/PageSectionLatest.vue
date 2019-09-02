@@ -40,7 +40,11 @@ export default {
     },
     fetchTags() {
       this.$axios
-        .get("/api/posts/latest")
+        .get("/api/posts/latest", {
+          params: {
+            limit: section.limit
+          }
+        })
         .then(response => {
           this.posts = response.data;
         })

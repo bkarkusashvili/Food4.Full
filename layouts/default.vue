@@ -18,6 +18,7 @@
 import Navbar from "~/components/Navbar.vue";
 import SecondaryNavbar from "~/components/SecondaryNavbar.vue";
 import Footer from "~/components/Footer.vue";
+import Pagination from "~/components/Pagination.vue"
 
 export default {
   data() {
@@ -26,7 +27,8 @@ export default {
   components: {
     siteNavbar: Navbar,
     siteFooter: Footer,
-    SecondaryNavbar: SecondaryNavbar
+    SecondaryNavbar: SecondaryNavbar,
+    Pagination: Pagination
   },
   head() {
     let head = {

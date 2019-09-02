@@ -60,6 +60,7 @@ export default {
               section: {
                 type: "featured",
                 title: "რჩეული რეცეპტები",
+                limit: 3,
                 vertical: true,
                 compact: true
               }
@@ -76,6 +77,7 @@ export default {
               size: 3,
               section: {
                 type: "latest",
+                limit: 3,
                 title: "ბოლოს დამატებული",
                 vertical: true,
                 compact: true

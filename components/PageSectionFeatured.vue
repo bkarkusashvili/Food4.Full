@@ -1,7 +1,10 @@
 <template>
   <div class="page-section-featured" :class="{'compact': section.compact}">
     <h1 v-if="section.title" class="title">{{section.title}}</h1>
-    <div class="flex" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical, 'flex-wrap': !section.vertical}">
+    <div
+      class="flex"
+      :class="{'flex-column': section.vertical, 'flex-row': !section.vertical, 'flex-wrap': !section.vertical}"
+    >
       <div class="recipe-container" v-for="post in posts" :key="post._id">
         <single-recipe
           :post="post"
@@ -38,6 +41,9 @@ export default {
       };
       if (this.section.onlyOne) {
         params.limit = 1;
+      }
+      if (this.section.limit) {
+        params.limit = this.section.limit;
       }
       this.$axios
         .get("/api/posts/latest", {
