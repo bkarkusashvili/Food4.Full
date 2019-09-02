@@ -29,6 +29,8 @@ export default {
 
 <style lang="scss">
 .single-recipe {
+  padding: 5px;
+
   &.bordered {
     border-bottom: 1px solid #666;
   }
@@ -49,7 +51,7 @@ export default {
   }
 
   .recipe-image {
-    margin: 5px;
+    margin: 5px 0;
     width: 100%;
     display: block;
     padding-bottom: 56.25%;
@@ -58,7 +60,7 @@ export default {
   }
 
   .recipe-description {
-    padding: 5px;
+    padding: 5px 0;
   }
 
   .recipe-title {
@@ -90,7 +92,7 @@ export default {
 
   .recipe-link {
     display: block;
-    padding: 5px;
+    padding: 5px 0;
     text-align: center;
   }
 }

@@ -10,7 +10,7 @@
       >{{tag.title}}</a>
     </div>
 
-    <div class="flex flex-wrap" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical}">
+    <div class="flex" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical, 'flex-wrap': !section.vertical}">
       <div class="recipe-container" v-for="post in filteredPosts" :key="post._id">
         <single-recipe
           :post="post"

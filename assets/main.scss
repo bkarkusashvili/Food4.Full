@@ -54,6 +54,10 @@ html {
   background: white;
 }
 
+.recipe-container {
+  flex-shrink: 0;
+}
+
 .promo-box {
   background-size: 100% auto;
   background-size: cover;
