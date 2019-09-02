@@ -2,6 +2,7 @@
   <div class="page-section">
     <page-section-html v-if="section.type === 'html'" :section="section" />
     <page-section-row v-if="section.type === 'row'" :section="section" />
+    <page-section-tiles v-if="section.type === 'tiles'" :section="section" />
     <page-section-tabs v-if="section.type === 'tabs'" :section="section" />
     <page-section-hero v-if="section.type === 'hero'" :section="section" />
     <page-section-tags v-if="section.type === 'tags'" :section="section" />
@@ -21,6 +22,7 @@ import PageSectionTags from "./PageSectionTags";
 import PageSectionLatest from "./PageSectionLatest";
 import PageSectionFeatured from "./PageSectionFeatured";
 import PageSectionVideo from "./PageSectionVideo";
+import PageSectionTiles from "./PageSectionTiles";
 
 export default Vue.component("page-section", {
   name: "page-section",
@@ -32,7 +34,8 @@ export default Vue.component("page-section", {
     "page-section-tags": PageSectionTags,
     "page-section-latest": PageSectionLatest,
     "page-section-featured": PageSectionFeatured,
-    "page-section-video": PageSectionVideo
+    "page-section-video": PageSectionVideo,
+    "page-section-tiles": PageSectionTiles
   },
   props: {
     section: Object
