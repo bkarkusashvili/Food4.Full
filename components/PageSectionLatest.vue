@@ -24,7 +24,7 @@ export default {
   name: "page-section-latest",
   components: { SingleRecipe },
   props: {
-    section: Object
+    section: { type: Object, required: true }
   },
   data() {
     return {
@@ -32,17 +32,14 @@ export default {
     };
   },
   mounted() {
-    this.fetchTags();
+    this.fetchPosts();
   },
   methods: {
-    selectTag(tag) {
-      this.selectedTag = tag;
-    },
-    fetchTags() {
+    fetchPosts() {
       this.$axios
         .get("/api/posts/latest", {
           params: {
-            limit: section.limit
+            limit: this.section.limit
           }
         })
         .then(response => {

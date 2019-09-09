@@ -3,7 +3,7 @@
     <div class="container">
       <section class="recipe-header has-text-centered">
         <h1 class="title">{{recipe.title}}</h1>
-        <h2 class="subtitle">{{recipe.subtitle}}</h2>
+        <h2 class="subtitle" v-if="recipe.subtitle">{{recipe.subtitle}}</h2>
 
         <div class="recipe-info">
           <!--<span class="recipe-author" v-if="recipe.author">ავტორი: {{recipe.author.name}}</span>-->
@@ -151,11 +151,11 @@ export default {
   }
 
   .recipe-header {
-    padding-top: 4em;
+    padding-top: 2em;
 
     .title {
       color: black;
-      font-size: 38px;
+      font-size: 30px;
     }
 
     .recipe-info {
@@ -208,9 +208,9 @@ export default {
   }
 
   .section-header {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.1em;
   }
 }
 

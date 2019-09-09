@@ -18,7 +18,7 @@ export default {
   name: "page-section-video",
   components: {},
   props: {
-    section: Object
+    section: { type: Object, required: true }
   },
   data() {
     return {};

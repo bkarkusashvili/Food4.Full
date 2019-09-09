@@ -6,7 +6,7 @@
 export default {
   name: "page-section-tabs",
   props: {
-    section: Object
+    section: { type: Object, required: true }
   }
 };
 </script>

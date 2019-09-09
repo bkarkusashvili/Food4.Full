@@ -28,16 +28,16 @@ export default {
           color: "#3b5998"
         },
         {
+          icon: "instagram",
+          title: "Instagram",
+          href: "https://instagram.com",
+          color: "#1da1f2"
+        },
+        {
           icon: "twitter-box",
           title: "Twitter",
           href: "https://twitter.com",
           color: "#1da1f2"
-        },
-        {
-          icon: "youtube",
-          title: "YouTube",
-          href: "https://youtube.com",
-          color: "#ff0000"
         }
       ]
     };

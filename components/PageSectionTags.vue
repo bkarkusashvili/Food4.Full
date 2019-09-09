@@ -10,7 +10,10 @@
       >{{tag.title}}</a>
     </div>
 
-    <div class="flex" :class="{'flex-column': section.vertical, 'flex-row': !section.vertical, 'flex-wrap': !section.vertical}">
+    <div
+      class="flex"
+      :class="{'flex-column': section.vertical, 'flex-row': !section.vertical, 'flex-wrap': !section.vertical}"
+    >
       <div class="recipe-container" v-for="post in filteredPosts" :key="post._id">
         <single-recipe
           :post="post"
@@ -30,7 +33,7 @@ export default {
   name: "page-section-tags",
   components: { SingleRecipe },
   props: {
-    section: Object,
+    section: { type: Object, required: true },
     all: Boolean
   },
   data() {
@@ -49,8 +52,8 @@ export default {
     },
     fetchTags() {
       let params = {};
-      if(this.section.tags) {
-        params._id = this.section.tags
+      if (this.section.tags) {
+        params._id = this.section.tags;
       }
 
       this.$axios

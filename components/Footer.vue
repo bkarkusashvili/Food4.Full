@@ -2,7 +2,7 @@
   <footer class="footer site-footer">
     <div class="content has-text-centered">
       <p>
-        <strong>&copy; {{$store.state.settings.title}}</strong> all rights reserved.
+        <strong>&copy; {{$store.state.settings.title}}</strong> ყველა უფლება დაცულია.
       </p>
     </div>
   </footer>

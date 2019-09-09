@@ -1,7 +1,9 @@
 <template>
   <div class="main-layout">
-    <secondary-navbar />
-    <site-navbar />
+    <div class="navs">
+      <secondary-navbar />
+      <site-navbar />
+    </div>
     <nuxt class="is-fullheight" ref="page" />
     <site-footer />
     <notifications
@@ -18,7 +20,7 @@
 import Navbar from "~/components/Navbar.vue";
 import SecondaryNavbar from "~/components/SecondaryNavbar.vue";
 import Footer from "~/components/Footer.vue";
-import Pagination from "~/components/Pagination.vue"
+import Pagination from "~/components/Pagination.vue";
 
 export default {
   data() {

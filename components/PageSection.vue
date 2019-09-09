@@ -38,7 +38,7 @@ export default Vue.component("page-section", {
     "page-section-tiles": PageSectionTiles
   },
   props: {
-    section: Object
+    section: { type: Object, required: true }
   }
 });
 </script>

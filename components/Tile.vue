@@ -10,8 +10,8 @@
       :style="'background-image: url('+ post.picture +')'"
     >
       <div class="promo-box-content hero-body">
-        <h1 class="title">{{post.title}}</h1>
-        <h2 class="subtitle">{{post.subtitle}}</h2>
+        <h1 class="title" v-if="post.title">{{post.title}}</h1>
+        <h2 class="subtitle" v-if="post.subtitle">{{post.subtitle}}</h2>
       </div>
     </nuxt-link>
 

@@ -14,7 +14,7 @@
 export default {
   name: "page-section-row",
   props: {
-    section: Object
+    section: { type: Object, required: true }
   },
   methods: {
     computeClass(column) {

@@ -10,7 +10,7 @@ import Tile from "./Tile";
 export default {
   name: "page-section-tiles",
   props: {
-    section: Object
+    section: { type: Object, required: true }
   },
   methods: {}
 };

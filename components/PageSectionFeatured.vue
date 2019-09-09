@@ -24,7 +24,7 @@ export default {
   name: "page-section-featured",
   components: { SingleRecipe },
   props: {
-    section: Object
+    section: { type: Object, required: true }
   },
   data() {
     return {
