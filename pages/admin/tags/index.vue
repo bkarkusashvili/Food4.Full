@@ -49,7 +49,7 @@
       </tbody>
     </table>
 
-    <!--<pagination/>-->
+    <pagination :page="page" :per-page="10" :total="total" />
 
     <div class="modal" :class="{ 'is-active': showEditModal }">
       <div class="modal-background" @click="closeEditModal()"></div>
@@ -99,7 +99,9 @@ export default {
     return {
       tags: [],
       showEditModal: false,
-      editingTag: {}
+      editingTag: {},
+      page: 1,
+      total: 1
     };
   },
   created() {

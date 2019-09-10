@@ -1,28 +1,28 @@
 <template>
-  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination" v-if="pages > 1">
     <a class="pagination-previous" :disabled="!canGoBack">წინა გვერდი</a>
     <a class="pagination-next" :disabled="!canGoForward">შემდეგი გვერდი</a>
     <ul class="pagination-list">
-      <li>
-        <a class="pagination-link" aria-label="Goto page 1">1</a>
+      <li v-if="page > 3">
+        <a class="pagination-link" aria-label="გვერდი 1" :disabled="!canGoBack">1</a>
       </li>
-      <li>
+      <li v-if="page > 3">
         <span class="pagination-ellipsis">&hellip;</span>
       </li>
-      <li>
-        <a class="pagination-link" aria-label="Goto page 45">45</a>
+      <li v-if="page > 1">
+        <a class="pagination-link" aria-label="წინა გვერდი">{{page-1}}</a>
       </li>
       <li>
-        <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a>
+        <a class="pagination-link is-current" aria-label="ახლანდელი გვერდი" aria-current="page">{{page}}</a>
       </li>
-      <li>
-        <a class="pagination-link" aria-label="Goto page 47">47</a>
+      <li v-if="page < pages">
+        <a class="pagination-link" aria-label="შემდეგი გვერდი">{{page+1}}</a>
       </li>
-      <li>
+      <li v-if="page < pages - 3">
         <span class="pagination-ellipsis">&hellip;</span>
       </li>
-      <li>
-        <a class="pagination-link" aria-label="Goto page 86">{{pages}}</a>
+      <li v-if="page < pages - 3">
+        <a class="pagination-link" aria-label="ბოლო გვერდი" :disabled="!canGoForward">{{pages}}</a>
       </li>
     </ul>
   </nav>
@@ -35,7 +35,10 @@ export default Vue.component("pagination", {
   name: "pagination",
   props: {
     page: Number,
-    perPage: 10,
+    perPage: {
+      type: Number,
+      default: 10
+    },
     total: Number
   },
   computed: {
