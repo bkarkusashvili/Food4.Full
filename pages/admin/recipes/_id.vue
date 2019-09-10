@@ -76,6 +76,23 @@
         </div>
       </div>
 
+      <div class="field">
+        <label class="label">YouTube ვიდეო</label>
+        <div class="control">
+          <input type="url" class="input" v-model="post.video" />
+        </div>
+        <div class="control" v-if="post.video" style="padding: 2em; max-width: 800px; margin: 0 auto">
+          <div class="youtube-embed">
+            <iframe
+              :src="post.video | youtubeEmbed"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
       <label class="label">ტეგები</label>
       <div class="field is-grouped">
         <div class="control">

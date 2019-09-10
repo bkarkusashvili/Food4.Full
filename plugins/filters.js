@@ -44,10 +44,11 @@ Vue.filter('dateTime', function (date, formatString) {
     return "";
 });
 
-Vue.filter('youtubeEmbed', function(url) {
-    if(!url)    return "";
-    
+Vue.filter('youtubeEmbed', function (url) {
+    if (!url) return "";
+
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
+    if (!match[2]) return "";
     return "https://www.youtube.com/embed/" + match[2];
 });
