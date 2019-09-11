@@ -54,8 +54,7 @@
                   </nuxt-link>
                   <a
                     class="dropdown-item has-text-danger"
-                    @click="removepage(page)"
-                    v-if="page.status === 'archived'"
+                    @click="removePage(page)"
                   >
                     <span class="icon">
                       <i class="mdi mdi-delete"></i>
@@ -85,8 +84,8 @@ export default {
     this.fetchData();
   },
   methods: {
-    removepage: function(page) {
-      if (!confirm("ნამდვილად გსურთ რეცეპტის წაშლა?")) return;
+    removePage: function(page) {
+      if (!confirm("ნამდვილად გსურთ გვერდის წაშლა?")) return;
       this.$axios
         .delete("/api/admin/pages/" + page._id)
         .then(response => {

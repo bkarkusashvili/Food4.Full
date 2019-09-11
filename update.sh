@@ -4,4 +4,4 @@ git fetch --all
 git reset --hard origin/master
 npm install
 npm run build
-systemctl restart food4
+systemctl --user restart food4
