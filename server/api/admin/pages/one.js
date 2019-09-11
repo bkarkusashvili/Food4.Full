@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
     mongoose.model('Page')
-        .findOne({ slug: req.params.id })
+        .findById(req.params.id)
         .lean()
         .then(function (page) {
             if (!page) {

@@ -2,7 +2,12 @@
   <no-ssr>
     <div class="admin-page page-container">
       <div class="columns" style="margin:0">
-        <aside class="menu column is-one-fifth admin-navigation">
+        <aside class="menu column is-narrow admin-navigation">
+          <!-- <button class="button">
+            <span class="icon">
+              <i class="mdi mdi-bars"></i>
+            </span>
+          </button> -->
           <p class="menu-label">
             <span class="icon">
               <i class="mdi mdi-folder"></i>
