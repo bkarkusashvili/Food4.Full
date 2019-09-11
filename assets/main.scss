@@ -66,13 +66,13 @@ html {
   }
 }
 
-@media screen and (min-width: $desktop) {
+@media screen and (min-width: $desktop) and (min-height: 600px) {
   .navs {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 99;
+    z-index: 30;
   }
 
   .main-layout > .is-fullheight {

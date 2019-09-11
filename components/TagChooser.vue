@@ -1,5 +1,5 @@
 <template>
-  <div class="modal tag-chooser" :class="{ 'is-active': show }">
+  <div class="modal tag-chooser" :class="{ 'is-active': show }" v-if="!editMode">
     <div class="modal-background" @click="close()"></div>
     <div class="modal-content">
       <div class="box">
@@ -19,12 +19,13 @@
               <span>{{tag.title}}</span>
             </a>
 
-            <a class="tag is-medium" v-show="filterText">
+            <a class="tag is-medium" @click="createTag()">
               <span class="icon">
                 <i class="mdi mdi-plus"></i>
               </span>
 
-              <span>ახლის შექმნა: {{filterText}}</span>
+              <span v-show="filterText && !haveExactMatch">ახლის შექმნა: {{filterText}}</span>
+              <span v-show="!filterText || haveExactMatch">ახლის შექმნა</span>
             </a>
           </div>
         </div>
@@ -46,9 +47,14 @@
     </div>
     <button type="button" class="modal-close is-large" aria-label="close" @click="close()"></button>
   </div>
+  <tag-editor v-else :show="editMode" :tag="newTag" @hide="editMode = false" @saved="tagSaved" />
 </template>
 <script>
+import slugify from "slugify";
+import TagEditor from "./TagEditor";
+
 export default {
+  components: { TagEditor },
   props: {
     single: Boolean,
     show: Boolean,
@@ -58,14 +64,34 @@ export default {
     return {
       tags: [],
       selectedTags: [],
-      filterText: ""
+      filterText: "",
+      editMode: false,
+      newTag: {}
     };
   },
   mounted() {
     this.fetchTags();
   },
-  computed: {},
+  computed: {
+    haveExactMatch() {
+      if (!this.filterText) return false;
+      return Boolean(this.tags.find(tag => tag.title === this.filterText));
+    }
+  },
   methods: {
+    createTag() {
+      let newTag = { new: true };
+      if (this.filterText && !this.haveExactMatch) {
+        newTag.title = this.filterText;
+        newTag.tag = slugify(this.filterText);
+      }
+      this.newTag = newTag;
+      this.editMode = true;
+    },
+    tagSaved(tag) {
+      this.tags.push(tag);
+      this.selectTag(tag);
+    },
     canSave() {
       return this.selectedTags.length > 0;
     },
