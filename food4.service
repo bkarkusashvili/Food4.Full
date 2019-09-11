@@ -1,0 +1,11 @@
+[Unit]
+Description=Food4.ge server
+Wants=network.target
+
+[Service]
+WorkingDirectory=%h/food4.ge
+ExecStart=%h/food4.ge/start.sh
+Restart=always
+
+[Install]
+WantedBy=default.target
