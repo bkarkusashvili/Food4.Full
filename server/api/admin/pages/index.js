@@ -22,6 +22,7 @@ module.exports = function (req, res) {
             .find(query)
             .limit(limit)
             .skip(offset)
+            .select('-content')
             .lean(),
         mongoose.model('Page')
             .countDocuments(query)

@@ -27,9 +27,6 @@
           <td>
             <a :href="'/pages/' + page.slug" target="_blank">{{page.title}}</a>
           </td>
-          <td>
-            <span v-for="tag in page.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</span>
-          </td>
           <td style="width: 1em">
             <div class="dropdown is-hoverable is-right">
               <div class="dropdown-trigger">

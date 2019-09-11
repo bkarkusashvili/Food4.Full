@@ -7,13 +7,13 @@
           <label class="label">გვერდები</label>
 
           <div class="control" style="margin-bottom: 1em">
-            <input type="text" class="input" placeholder="ძებნა" v-model="filterText">
+            <input type="text" class="input" placeholder="ძებნა" v-model="filterText" />
           </div>
 
           <div class="control">
             <a
               class="tag is-medium"
-              v-for="page in filtered"
+              v-for="page in pages"
               :key="page._id"
               @click="selectPage(page)"
             >
@@ -39,26 +39,23 @@ export default {
   data() {
     return {
       pages: [],
-      filterText: null
+      filterText: ""
     };
   },
   mounted() {
-    this.fetchData();
+    this.fetchPages();
   },
   computed: {
-    filtered() {
-      if(!this.filterText)
-        return this.pages;
-
-      return this.pages.filter(page => {
-        return (page.title && page.title.indexOf(this.filterText) !== -1) || (page.slug && page.slug.indexOf(this.filterText) !== -1);
-      });
-    }
   },
   methods: {
-    fetchData() {
+    fetchPages() {
+      let params = {
+        limit: 20
+      };
+      if (this.filterText) params.q = this.filterText;
+
       this.$axios
-        .get("/api/admin/pages")
+        .get("/api/admin/pages", { params })
         .then(response => {
           this.pages = response.data;
         })
@@ -66,13 +63,15 @@ export default {
     },
     close() {
       this.$emit("hide");
+      this.filterText = "";
     },
     selectPage(page) {
       this.$emit("select", page);
       this.close();
-    },
+    }
   },
   watch: {
+    filterText: "fetchPages"
   }
 };
 </script>

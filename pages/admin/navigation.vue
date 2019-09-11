@@ -20,213 +20,15 @@
       <ul class="navigation-items">
         <draggable v-model="items" handle=".handle">
           <transition-group>
-            <li v-for="(item, index) in items" :key="item.id">
-              <div class="field is-grouped">
-                <label class="label"></label>
-                <div class="control">
-                  <button class="button is-danger" type="button" @click="removeItem(index)">
-                    <i class="mdi mdi-delete"></i>
-                  </button>
-                  <button class="button handle" type="button" style="cursor: grab">
-                    <i class="mdi mdi-arrow-all"></i>
-                  </button>
-                  <button
-                    class="button"
-                    type="button"
-                    :disabled="!canMoveUp(index)"
-                    @click="moveUp(index)"
-                  >
-                    <i class="mdi mdi-arrow-up"></i>
-                  </button>
-                  <button
-                    class="button"
-                    type="button"
-                    :disabled="!canMoveDown(index)"
-                    @click="moveDown(index)"
-                  >
-                    <i class="mdi mdi-arrow-down"></i>
-                  </button>
-                  <button
-                    class="button"
-                    type="button"
-                    title="დამატება"
-                    :disabled="item.type !== 'parent' && !isEmpty(item)"
-                    @click="addChild(item)"
-                  >
-                    <i class="mdi mdi-plus"></i>
-                  </button>
-                </div>
-
-                <div class="control is-required">
-                  <input type="text" class="input" v-model="item.title" required />
-                </div>
-
-                <div class="field has-addons" style="margin-right: 10px">
-                  <div class="control">
-                    <label class="button" :style="'background-color:' + item.color">
-                      <input
-                        type="color"
-                        v-model="item.color"
-                        style="width: 0; height: 0; position: absolute; opacity: 0"
-                      />
-                      ფერი
-                    </label>
-                  </div>
-                  <div class="control" v-if="item.color">
-                    <button type="button" class="button" @click="item.color = null">
-                      <i class="mdi mdi-delete"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="control select">
-                  <select v-model="item.type" required>
-                    <option value="parent">მშობელი</option>
-                    <option value="tag">ტეგი</option>
-                    <option value="link">ლინკი</option>
-                    <option value="page">გვერდი</option>
-                  </select>
-                </div>
-
-                <div class="control" v-show="item.type === 'link'">
-                  <input type="text" class="input" placeholder="http://" v-model="item.link" />
-                </div>
-
-                <div class="control" v-show="item.type === 'link'">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="item.external" />
-                    გარე
-                  </label>
-                </div>
-
-                <div class="control" v-show="item.type === 'tag'">
-                  <a class="tag is-medium" @click="selectTag(item)">
-                    <span class="icon">
-                      <i class="mdi mdi-pencil"></i>
-                    </span>
-                    <span v-if="item.tag">{{item.tag.title}}</span>
-                    <span v-else>ტეგის არჩევა</span>
-                  </a>
-                </div>
-
-                <div class="control" v-show="item.type === 'page'">
-                  <a class="tag is-medium" @click="selectPage(item)">
-                    <span class="icon">
-                      <i class="mdi mdi-pencil"></i>
-                    </span>
-                    <span v-if="item.page">{{item.page.title}}</span>
-                    <span v-else>გვერდის არჩევა</span>
-                  </a>
-                </div>
-              </div>
-
-              <ul class="navigation-children">
-                <draggable v-model="items" handle=".handle">
-                  <transition-group>
-                    <li v-for="(child, childIndex) in item.children" :key="child.id">
-                      <div class="field is-grouped">
-                        <label class="label"></label>
-                        <div class="control">
-                          <button
-                            class="button is-danger"
-                            type="button"
-                            @click="removeItem(childIndex, item.children)"
-                          >
-                            <i class="mdi mdi-delete"></i>
-                          </button>
-
-                          <button class="button handle" type="button" style="cursor: grab">
-                            <i class="mdi mdi-arrow-all"></i>
-                          </button>
-                          <button
-                            class="button"
-                            type="button"
-                            :disabled="!canMoveUp(childIndex, item.children)"
-                            @click="moveUp(childIndex, item.children)"
-                          >
-                            <i class="mdi mdi-arrow-up"></i>
-                          </button>
-                          <button
-                            class="button"
-                            type="button"
-                            :disabled="!canMoveDown(childIndex, item.children)"
-                            @click="moveDown(childIndex, item.children)"
-                          >
-                            <i class="mdi mdi-arrow-down"></i>
-                          </button>
-                        </div>
-
-                        <div class="control is-required">
-                          <input type="text" class="input" v-model="child.title" required />
-                        </div>
-
-                        <div class="field has-addons" style="margin-right: 10px">
-                          <div class="control">
-                            <label class="button" :style="'background-color:' + child.color">
-                              <input
-                                type="color"
-                                v-model="child.color"
-                                style="width: 0; height: 0; position: absolute; opacity: 0"
-                              />
-                              ფერი
-                            </label>
-                          </div>
-                          <div class="control" v-if="child.color">
-                            <button type="button" class="button" @click="child.color = null">
-                              <i class="mdi mdi-delete"></i>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="control select">
-                          <select v-model="child.type" required>
-                            <option value="tag">ტეგი</option>
-                            <option value="link">ლინკი</option>
-                            <option value="page">გვერდი</option>
-                          </select>
-                        </div>
-
-                        <div class="control" v-show="child.type === 'link'">
-                          <input
-                            type="text"
-                            class="input"
-                            placeholder="http://"
-                            v-model="child.link"
-                          />
-                        </div>
-
-                        <div class="control" v-show="child.type === 'link'">
-                          <label class="checkbox">
-                            <input type="checkbox" v-model="child.external" />
-                            გარე
-                          </label>
-                        </div>
-
-                        <div class="control" v-show="child.type === 'tag'">
-                          <a class="tag is-medium" @click="selectTag(child)">
-                            <span class="icon">
-                              <i class="mdi mdi-pencil"></i>
-                            </span>
-                            <span v-if="child.tag">{{child.tag.title}}</span>
-                            <span v-else>ტეგის არჩევა</span>
-                          </a>
-                        </div>
-
-                        <div class="control" v-show="child.type === 'page'">
-                          <a class="tag is-medium" @click="selectPage(child)">
-                            <span class="icon">
-                              <i class="mdi mdi-pencil"></i>
-                            </span>
-                            <span v-if="child.page">{{child.page.title}}</span>
-                            <span v-else>გვერდის არჩევა</span>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                  </transition-group>
-                </draggable>
-              </ul>
-            </li>
+            <admin-nav-item
+              v-for="(item, index) in items"
+              :key="item.id"
+              :item="item"
+              @remove="removeItem(index)"
+              @selectTag="selectTag"
+              @selectPage="selectPage"
+              @selectPost="selectPost"
+            />
           </transition-group>
         </draggable>
       </ul>
@@ -239,21 +41,25 @@
       @select="tagSelected"
     />
     <page-chooser :show="showPageChooser" @hide="showPageChooser = false" @select="pageSelected" />
+    <post-chooser :show="showPostChooser" @hide="showPostChooser = false" @select="postSelected" />
   </div>
 </template>
 
 <script>
 import TagChooser from "../../components/TagChooser";
 import PageChooser from "../../components/PageChooser";
+import PostChooser from "../../components/PostChooser";
+import AdminNavItem from "../../components/AdminNavItem";
 
 export default {
-  components: { TagChooser, PageChooser },
+  components: { TagChooser, PageChooser, PostChooser },
   data() {
     return {
       items: [],
       showTagChooser: false,
       showPageChooser: false,
-      itemForTag: null
+      showPostChooser: false,
+      selectionTarget: null
     };
   },
   created() {
@@ -294,20 +100,34 @@ export default {
         });
     },
     tagSelected(tag) {
-      if (!this.itemForTag) return;
-      this.itemForTag.tag = tag;
-      if (!this.itemForTag.title) this.itemForTag.title = tag.title;
+      console.log(this.selectionTarget)
+      if (!this.selectionTarget) return;
+      this.selectionTarget.item.tag = tag;
+      if (!this.selectionTarget.item.title) this.selectionTarget.item.title = tag.title;
+      if(this.selectionTarget.target)
+        this.selectionTarget.target.$forceUpdate();
     },
     pageSelected(page) {
-      if (!this.itemForTag) return;
-      this.itemForTag.page = page;
-      if (!this.itemForTag.title) this.itemForTag.title = page.title;
+      if (!this.selectionTarget) return;
+      this.selectionTarget.item.page = page;
+      if (!this.selectionTarget.item.title) this.selectionTarget.item.title = page.title;
+      if(this.selectionTarget.target)
+        this.selectionTarget.target.$forceUpdate();
     },
-    removeItem(index, array) {
-      if (!array) array = this.items;
-      if (!this.isEmpty(array[index]) && !confirm("ნამდვილად გსურთ წაშლა?"))
+    postSelected(post) {
+      if (!this.selectionTarget) return;
+      this.selectionTarget.item.post = post;
+      if (!this.selectionTarget.item.title) this.selectionTarget.item.title = post.title;
+      if(this.selectionTarget.target)
+        this.selectionTarget.target.$forceUpdate();
+    },
+    removeItem(index) {
+      if (
+        !this.isEmpty(this.items[index]) &&
+        !confirm("ნამდვილად გსურთ წაშლა?")
+      )
         return;
-      array.splice(index, 1);
+      this.items.splice(index, 1);
     },
     addItem() {
       this.items.push({
@@ -316,42 +136,22 @@ export default {
         id: this.items.length
       });
     },
-    addChild(item) {
-      if (!item.children || !(item.children instanceof Array))
-        item.children = [];
-      item.type = "parent";
-      item.children.push({
-        type: "tag",
-        id: item.children.length
-      });
-    },
-    moveUp(index, array) {
-      if (!array) array = this.items;
-      if (!this.canMoveUp(index, array)) return;
-      array.splice(index - 1, 0, array.splice(index, 1)[0]);
-    },
-    canMoveUp(index, array) {
-      return index > 0;
-    },
-    moveDown(index, array) {
-      if (!array) array = this.items;
-      if (!this.canMoveDown(index, array)) return;
-      array.splice(index + 1, 0, array.splice(index, 1)[0]);
-    },
-    canMoveDown(index, array) {
-      if (!array) array = this.items;
-      return index < array.length - 1;
-    },
-    isEmpty(item) {
-      return !item.title && (!item.children || !item.children.length);
-    },
     selectTag(item) {
-      this.itemForTag = item;
+      this.selectionTarget = item;
       this.showTagChooser = true;
     },
     selectPage(item) {
-      this.itemForTag = item;
+      this.selectionTarget = item;
       this.showPageChooser = true;
+    },
+    selectPost(item) {
+      this.selectionTarget = item;
+      this.showPostChooser = true;
+    },
+    isEmpty(item) {
+      return (
+        !item || (!item.title && (!item.children || !item.children.length))
+      );
     }
   }
 };

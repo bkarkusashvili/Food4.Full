@@ -52,3 +52,16 @@ Vue.filter('youtubeEmbed', function (url) {
     if (!match[2]) return "";
     return "https://www.youtube.com/embed/" + match[2];
 });
+
+Vue.filter('navLink', function (object) {
+    if (!object)
+        return "";
+    switch (object.type) {
+        case "tag":
+            return object.tag ? '/tags/' + object.tag.slug : "";
+        case "page":
+            return object.page ? '/pages/' + object.page.slug : "";
+        case "post":
+            return object.post ? '/recipes/' + object.post.slug : "";
+    }
+});

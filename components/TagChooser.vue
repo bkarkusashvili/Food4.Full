@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" :class="{ 'is-active': show }">
+  <div class="modal tag-chooser" :class="{ 'is-active': show }">
     <div class="modal-background" @click="close()"></div>
     <div class="modal-content">
       <div class="box">
@@ -7,16 +7,24 @@
           <label class="label">ტეგები</label>
 
           <div class="control" style="margin-bottom: 1em">
-            <input type="text" class="input" placeholder="ძებნა" v-model="filterText">
+            <input type="text" class="input" placeholder="ძებნა" v-model="filterText" />
           </div>
 
           <div class="control">
-            <a class="tag is-medium" v-for="tag in filtered" :key="tag._id" @click="toggleTag(tag)">
-              <span class="icon">
+            <a class="tag is-medium" v-for="tag in tags" :key="tag._id" @click="toggleTag(tag)">
+              <span class="icon" v-show="!single">
                 <i class="mdi mdi-check" v-show="isSelected(tag)"></i>
               </span>
 
               <span>{{tag.title}}</span>
+            </a>
+
+            <a class="tag is-medium" v-show="filterText">
+              <span class="icon">
+                <i class="mdi mdi-plus"></i>
+              </span>
+
+              <span>ახლის შექმნა: {{filterText}}</span>
             </a>
           </div>
         </div>
@@ -50,29 +58,25 @@ export default {
     return {
       tags: [],
       selectedTags: [],
-      filterText: null
+      filterText: ""
     };
   },
   mounted() {
-    this.fetchData();
+    this.fetchTags();
   },
-  computed: {
-    filtered() {
-      if(!this.filterText)
-        return this.tags;
-
-      return this.tags.filter(tag => {
-        return (tag.title && tag.title.indexOf(this.filterText) !== -1) || (tag.slug && tag.slug.indexOf(this.filterText) !== -1);
-      });
-    }
-  },
+  computed: {},
   methods: {
     canSave() {
       return this.selectedTags.length > 0;
     },
-    fetchData() {
+    fetchTags() {
+      let params = {
+        limit: 20
+      };
+      if (this.filterText) params.q = this.filterText;
+
       this.$axios
-        .get("/api/admin/tags?limit=100")
+        .get("/api/admin/tags", { params })
         .then(response => {
           this.tags = response.data;
           this.filterExcluded();
@@ -113,13 +117,20 @@ export default {
       this.close();
     },
     clear() {
+      this.filterText = "";
       this.selectedTags = [];
       this.filterExcluded();
     }
   },
   watch: {
     show: "clear",
-    excluded: "filterExcluded"
+    excluded: "filterExcluded",
+    filterText: "fetchTags"
   }
 };
 </script>
+<style>
+.tag-chooser .tag {
+  vertical-align: middle;
+}
+</style>

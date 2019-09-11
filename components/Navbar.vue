@@ -21,69 +21,7 @@
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-start">
-        <template v-for="item in $store.state.settings.navigation">
-          <div
-            class="navbar-item has-dropdown is-hoverable"
-            v-if="item.type === 'parent'"
-            :key="item.id"
-          >
-            <a class="navbar-link" :style="'color:' + item.color">{{item.title}}</a>
-            <div class="navbar-dropdown" v-if="item.children">
-              <template v-for="child in item.children">
-                <nuxt-link
-                  :key="child.id"
-                  v-if="child.type === 'tag' && child.tag"
-                  :to="'/tags/' + child.tag.slug"
-                  class="navbar-item"
-                  :style="'color:' + child.color"
-                >{{child.title}}</nuxt-link>
-
-                <nuxt-link
-                  :key="child.id"
-                  v-if="child.type === 'page' && child.page"
-                  :to="'/pages/' + child.page.slug"
-                  class="navbar-item"
-                  :style="'color:' + child.color"
-                >{{child.title}}</nuxt-link>
-
-                <a
-                  :key="child.id"
-                  :href="child.link"
-                  v-if="child.type === 'link'"
-                  class="navbar-item"
-                  :style="'color:' + child.color"
-                  rel="noopener"
-                  :target="child.external ? '_blank' : ''"
-                >{{child.title}}</a>
-              </template>
-            </div>
-          </div>
-
-          <nuxt-link
-            v-if="item.type === 'tag' && item.tag"
-            :to="'/tags/' + item.tag.slug"
-            class="navbar-item"
-            :key="item.id"
-            :style="'color:' + item.color"
-          >{{item.title}}</nuxt-link>
-
-          <nuxt-link
-            v-if="item.type === 'page' && item.page"
-            :to="'/pages/' + item.page.slug"
-            class="navbar-item"
-            :key="item.id"
-            :style="'color:' + item.color"
-          >{{item.title}}</nuxt-link>
-
-          <a
-            :href="item.link"
-            v-if="item.type === 'link'"
-            :style="'color:' + item.color"
-            class="navbar-item"
-            rel="noopener"
-            :target="item.external ? '_blank' : ''"
-          >{{item.title}}</a>
-        </template>
+        <nav-item v-for="item in $store.state.settings.navigation" :item="item" :key="item.id"/>
       </div>
 
       <div class="navbar-end" v-show="!showingSearch">
@@ -227,6 +165,8 @@
 </style>
 
 <script>
+import NavItem from './NavItem';
+
 export default {
   data() {
     return {

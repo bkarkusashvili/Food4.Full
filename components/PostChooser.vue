@@ -7,13 +7,13 @@
           <label class="label">რეცეპტები</label>
 
           <div class="control" style="margin-bottom: 1em">
-            <input type="text" class="input" placeholder="ძებნა" v-model="filterText">
+            <input type="text" class="input" placeholder="ძებნა" v-model="filterText" />
           </div>
 
           <div class="control">
             <a
               class="tag is-medium"
-              v-for="post in filtered"
+              v-for="post in posts"
               :key="post._id"
               @click="selectPost(post)"
             >
@@ -39,40 +39,38 @@ export default {
   data() {
     return {
       posts: [],
-      filterText: null
+      filterText: ""
     };
   },
   mounted() {
-    this.fetchData();
+    this.fetchPosts();
   },
-  computed: {
-    filtered() {
-      if(!this.filterText)
-        return this.posts;
-
-      return this.posts.filter(post => {
-        return (post.title && post.title.indexOf(this.filterText) !== -1) || (post.slug && post.slug.indexOf(this.filterText) !== -1);
-      });
-    }
-  },
+  computed: {},
   methods: {
-    fetchData() {
+    fetchPosts() {
+      let params = {
+        limit: 20
+      };
+      if (this.filterText) params.q = this.filterText;
+
       this.$axios
-        .get("/api/admin/posts")
+        .get("/api/admin/posts", { params })
         .then(response => {
           this.posts = response.data;
         })
         .catch(error => console.error(error));
     },
     close() {
+      this.filterText = "";
       this.$emit("hide");
     },
     selectPost(post) {
       this.$emit("select", post);
       this.close();
-    },
+    }
   },
   watch: {
+    filterText: "fetchPosts"
   }
 };
 </script>
