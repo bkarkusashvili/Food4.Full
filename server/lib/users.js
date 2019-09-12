@@ -53,12 +53,12 @@ function confirmEmail(code) {
             if (confirmationCode) {
                 let user = confirmationCode.user;
                 user.email = confirmationCode.email;
-                delete user.unconfirmedEmail;
+                user.unconfirmedEmail = null;
                 confirmationCode.remove().catch(function (error) {
                     console.error("Error removing confirmation code", error);
                 });
-                return user.save().then(function (user) {
-                    mongoose.model('User').remove({ unconfirmedEmail: user.email }).catch(function (err) {
+                return user.save().then(function () {
+                    mongoose.model('User').deleteMany({ unconfirmedEmail: user.email, _id: { $ne: user._id } }).catch(function (err) {
                         console.error("Error removing unconfirmed users", err);
                     });
                     return user;
