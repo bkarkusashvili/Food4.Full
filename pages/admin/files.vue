@@ -31,6 +31,8 @@
         </tr>
       </tbody>
     </table>
+
+    <pagination :page="page" :per-page="perPage" :total="total" @goto="gotoPage" />
   </div>
 </template>
 
@@ -39,7 +41,10 @@ export default {
   components: {},
   data() {
     return {
-      files: []
+      files: [],
+      page: 1,
+      perPage: 25,
+      total: 1
     };
   },
   created() {
@@ -48,9 +53,11 @@ export default {
   methods: {
     fetchData: function() {
       this.$axios
-        .get("/api/admin/files")
+        .get("/api/admin/files", { params: this.queryParams() })
         .then(response => {
           this.files = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
         })
         .catch(err => {
           console.error(err);
@@ -59,6 +66,10 @@ export default {
             text: err.message
           });
         });
+    },
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.fetchData();
     },
     removeFile: function(file) {
       if (!confirm("დარწმუნებული ხართ რომ გსურთ ფაილის წაშლა?")) return;
@@ -78,6 +89,12 @@ export default {
             text: err.message
           });
         });
+    },
+    queryParams() {
+      return {
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      };
     }
   }
 };

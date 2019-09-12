@@ -1,9 +1,9 @@
 <template>
   <div class="navbar-item has-dropdown is-hoverable" v-if="item.type === 'parent'" :key="item.id">
-    <a class="navbar-link" :style="'color:' + item.color">{{item.title}}</a>
     <div class="navbar-dropdown" v-if="item.children">
       <nav-item v-for="child in item.children" :item="child" child :key="child.id" />
     </div>
+    <a class="navbar-link" :style="'color:' + item.color">{{item.title}}</a>
   </div>
 
   <nuxt-link

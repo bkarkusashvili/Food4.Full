@@ -3,12 +3,19 @@
     <h1 class="title">ტეგები</h1>
 
     <form class="form">
-      <button type="button" class="button is-success is-medium" @click="addTag()">
-        <span class="icon">
-          <i class="mdi mdi-plus"></i>
-        </span>
-        <span>დამატება</span>
-      </button>
+      <div class="field is-grouped">
+        <div class="control">
+          <button type="button" class="button is-success" @click="addTag()">
+            <span class="icon">
+              <i class="mdi mdi-plus"></i>
+            </span>
+            <span>ახლის დამატება</span>
+          </button>
+        </div>
+        <div class="control">
+          <input type="text" class="input" v-model="filter.q" placeholder="სახელი" />
+        </div>
+      </div>
     </form>
 
     <table class="table is-striped is-hoverable is-fullwidth">
@@ -49,7 +56,7 @@
       </tbody>
     </table>
 
-    <pagination :page="page" :per-page="10" :total="total" />
+    <pagination :page="page" :per-page="perPage" :total="total" @goto="gotoPage" />
 
     <tag-editor
       :show="showEditModal"
@@ -71,7 +78,11 @@ export default {
       tags: [],
       showEditModal: false,
       editingTag: {},
+      filter: {
+        q: ""
+      },
       page: 1,
+      perPage: 25,
       total: 1
     };
   },
@@ -79,11 +90,17 @@ export default {
     this.fetchData();
   },
   methods: {
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.fetchData();
+    },
     fetchData: function() {
       this.$axios
-        .get("/api/admin/tags?limit=100")
+        .get("/api/admin/tags", { params: this.queryParams() })
         .then(response => {
           this.tags = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
         })
         .catch(err => {
           console.error(err);
@@ -127,10 +144,17 @@ export default {
     },
     tagSaved() {
       this.fetchData();
+    },
+    queryParams() {
+      return Object.assign({}, this.filter, {
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      });
     }
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
+    "filter.q": "fetchData"
   }
 };
 </script>

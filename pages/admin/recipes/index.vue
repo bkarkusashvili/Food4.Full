@@ -5,7 +5,7 @@
     <form class="form">
       <div class="field is-grouped">
         <div class="control">
-          <nuxt-link to="/admin/recipes/new" class="button is-success is-medium">
+          <nuxt-link to="/admin/recipes/new" class="button is-success">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>
@@ -13,7 +13,7 @@
           </nuxt-link>
         </div>
         <div class="control">
-          <div class="select is-medium">
+          <div class="select">
             <select v-model="filter.status">
               <option value>ყველა</option>
               <option value="published">გამოქვეყნებული</option>
@@ -22,17 +22,20 @@
             </select>
           </div>
         </div>
+        <div class="control">
+          <input type="text" class="input" v-model="filter.q" placeholder="სათაური" />
+        </div>
       </div>
     </form>
 
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th>სათაური</th>
-          <th>სტატუსი</th>
-          <th>თარიღი</th>
+          <th style="width: 30%">სათაური</th>
+          <th style="width: 1em">სტატუსი</th>
+          <th style="width: 10em">თარიღი</th>
           <th>ტეგები</th>
-          <th></th>
+          <th style="width: 1em"></th>
         </tr>
       </thead>
       <tbody>
@@ -50,7 +53,7 @@
           <td>
             <span v-for="tag in post.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</span>
           </td>
-          <td style="width: 1em">
+          <td>
             <div class="dropdown is-hoverable is-right">
               <div class="dropdown-trigger">
                 <button
@@ -119,6 +122,8 @@
         </tr>
       </tbody>
     </table>
+
+    <pagination :page="page" :per-page="perPage" :total="total" @goto="gotoPage" />
   </div>
 </template>
 
@@ -129,14 +134,22 @@ export default {
     return {
       posts: [],
       filter: {
-        status: ""
-      }
+        status: "",
+        q: ""
+      },
+      page: 1,
+      perPage: 25,
+      total: 1
     };
   },
   created() {
     this.fetchData();
   },
   methods: {
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.fetchData();
+    },
     archivePost: function(post) {
       if (!confirm("ნამდვილად გსურთ რეცეპტის დაარქივება?")) return;
       this.$axios
@@ -222,9 +235,11 @@ export default {
     },
     fetchData: function() {
       this.$axios
-        .get("/api/admin/posts", { params: this.filter })
+        .get("/api/admin/posts", { params: this.queryParams() })
         .then(response => {
           this.posts = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
         })
         .catch(err => {
           console.error(err);
@@ -233,11 +248,18 @@ export default {
             text: err.message
           });
         });
+    },
+    queryParams() {
+      return Object.assign({}, this.filter, {
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      });
     }
   },
   watch: {
     $route: "fetchData",
-    "filter.status": "fetchData"
+    "filter.status": "fetchData",
+    "filter.q": "fetchData"
   }
 };
 </script>

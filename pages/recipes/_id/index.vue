@@ -16,7 +16,7 @@
             v-if="$auth.user"
             @click="toggleFavorite()"
           >
-            <i class="mdi mdi-heart"></i>
+            <i class="mdi mdi-heart-outline"></i>
           </button>
           <button type="button" class="button is-outline is-rounded" @click="print()">
             <span class="icon">
@@ -43,10 +43,10 @@
       </section>
 
       <section class="recipe-ingredients" v-if="recipe.ingredients && recipe.ingredients.length">
-        <h2 class="section-header">ინგრედიენტები</h2>
-        <div class="columns flex-wrap">
+        <h2 class="section-header has-text-centered">ინგრედიენტები</h2>
+        <div class="columns flex-wrap flex-justify-content-center">
           <div
-            class="column"
+            class=""
             :class="{'is-6': recipe.ingredients.length > 2}"
             v-for="group in recipe.ingredients"
             :key="group.id"
@@ -65,7 +65,7 @@
       </section>
 
       <section class="recipe-preparation" v-if="recipe.content">
-        <h2 class="section-header">მომზადება</h2>
+        <h2 class="section-header has-text-centered">მომზადება</h2>
         <div v-html="recipe.content"></div>
       </section>
 

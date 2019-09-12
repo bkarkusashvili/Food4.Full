@@ -5,12 +5,15 @@
     <form class="form">
       <div class="field is-grouped">
         <div class="control">
-          <nuxt-link to="/admin/pages/new" class="button is-success is-medium">
+          <nuxt-link to="/admin/pages/new" class="button is-success">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>
             <span>ახლის დამატება</span>
           </nuxt-link>
+        </div>
+        <div class="control">
+          <input type="text" class="input" v-model="filter.q" placeholder="სათაური" />
         </div>
       </div>
     </form>
@@ -44,6 +47,7 @@
         </tr>
       </tbody>
     </table>
+    <pagination :page="page" :per-page="perPage" :total="total" @goto="gotoPage" />
   </div>
 </template>
 
@@ -53,13 +57,22 @@ export default {
   data() {
     return {
       pages: [],
-      filter: {}
+      filter: {
+        q: ""
+      },
+      page: 1,
+      perPage: 25,
+      total: 1
     };
   },
   created() {
     this.fetchData();
   },
   methods: {
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.fetchData();
+    },
     removePage: function(page) {
       if (!confirm("ნამდვილად გსურთ გვერდის წაშლა?")) return;
       this.$axios
@@ -81,9 +94,11 @@ export default {
     },
     fetchData: function() {
       this.$axios
-        .get("/api/admin/pages", { params: this.filter })
+        .get("/api/admin/pages", { params: this.queryParams() })
         .then(response => {
           this.pages = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
         })
         .catch(err => {
           console.error(err);
@@ -92,10 +107,17 @@ export default {
             text: err.message
           });
         });
+    },
+    queryParams() {
+      return Object.assign({}, this.filter, {
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      });
     }
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
+    "filter.q": "fetchData"
   }
 };
 </script>

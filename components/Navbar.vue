@@ -33,12 +33,6 @@
         </a>
         <nuxt-link to="/login" class="navbar-item" v-if="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
         <div class="navbar-item has-dropdown is-hoverable" v-if="$auth.user">
-          <a class="navbar-link">
-            <span class="icon">
-              <i class="mdi mdi-account" aria-hidden="true"></i>
-            </span>
-            <span>{{$auth.user.name}}</span>
-          </a>
           <div class="navbar-dropdown">
             <nuxt-link to="/admin" class="navbar-item" v-if="$auth.user.role === 'admin'">
               <span class="icon">
@@ -59,6 +53,12 @@
               <span>გასვლა</span>
             </a>
           </div>
+          <a class="navbar-link">
+            <span class="icon">
+              <i class="mdi mdi-account" aria-hidden="true"></i>
+            </span>
+            <span>{{$auth.user.name}}</span>
+          </a>
         </div>
       </div>
       <div class="navbar-end" v-show="showingSearch">
@@ -120,6 +120,11 @@
 .site-navbar .navbar-start {
   flex-grow: 2;
   justify-content: center;
+}
+
+.site-navbar .navbar-dropdown {
+  z-index: 0;
+  box-shadow: 0 0 8px rgba(10, 10, 10, 0.1);
 }
 
 .site-navbar .navbar-dropdown,
