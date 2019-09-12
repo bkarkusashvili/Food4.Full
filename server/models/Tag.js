@@ -9,6 +9,16 @@ const schema = new Schema({
         type: Boolean,
         default: false
     },
+    featured: {
+        type: Boolean,
+        default: false,
+        index: true
+    },
+    priority: {
+        type: Number,
+        default: 0,
+        index: true
+    },
     title: {
         type: String
     }

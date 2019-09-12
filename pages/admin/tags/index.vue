@@ -23,6 +23,7 @@
         <tr>
           <th>სახელი</th>
           <th>slug</th>
+          <th>პრიორიტეტი</th>
           <th>შექმნილია</th>
           <th></th>
         </tr>
@@ -33,9 +34,13 @@
             <span class="icon" v-if="tag.invisible" title="მომხმარებლისგან დამალული">
               <i class="mdi mdi-eye-off"></i>
             </span>
+            <span class="icon" v-if="tag.featured" title="ჩანს მთავარ გვერდზე">
+              <i class="mdi mdi-star"></i>
+            </span>
             <span>{{tag.title}}</span>
           </td>
           <td>{{tag.slug}}</td>
+          <td>{{tag.priority}}</td>
           <td>{{tag.createdAt | dateTime}}</td>
 
           <td style="width: 18em">
@@ -133,7 +138,7 @@ export default {
       this.openEditModal();
     },
     addTag: function() {
-      this.editingTag = { new: true };
+      this.editingTag = { new: true, priority: 0 };
       this.openEditModal();
     },
     openEditModal: function() {

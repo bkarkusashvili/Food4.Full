@@ -22,6 +22,7 @@ module.exports = function (req, res) {
             .find(query)
             .limit(limit)
             .skip(offset)
+            .sort("-featured priority -createdAt")
             .lean(),
         mongoose.model('Tag')
             .countDocuments(query)

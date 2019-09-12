@@ -54,6 +54,8 @@ export default {
       let params = {};
       if (this.section.tags) {
         params._id = this.section.tags;
+      } else {
+        params.featured = true;
       }
 
       this.$axios

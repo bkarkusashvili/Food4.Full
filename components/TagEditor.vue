@@ -17,9 +17,21 @@
             </div>
           </div>
           <div class="field">
+            <label class="label">პრიორიტეტი დალაგებაში</label>
+            <div class="control">
+              <input type="number" class="input" v-model="tag.priority" />
+            </div>
+          </div>
+          <div class="field">
             <label class="checkbox">
               <input type="checkbox" v-model="tag.invisible" />
               მომხმარებლისგან დამალული
+            </label>
+          </div>
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" v-model="tag.featured" />
+              გამოჩნდეს მთავარ გვერდზე
             </label>
           </div>
           <div class="field is-grouped is-grouped-centered">

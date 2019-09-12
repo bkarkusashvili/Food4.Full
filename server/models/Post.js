@@ -39,7 +39,8 @@ const schema = new Schema({
     },
     featured: {
         type: Boolean,
-        default: false
+        default: false,
+        index: true
     },
     ingredients: [Object],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],

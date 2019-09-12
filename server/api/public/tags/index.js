@@ -11,6 +11,9 @@ module.exports = function (req, res) {
         }
     }
 
+    if (req.query.featured)
+        query.featured = true;
+
     let limit = 10, offset = 0;
     if (!isNaN(req.query.limit)) {
         limit = parseInt(req.query.limit);
@@ -24,6 +27,7 @@ module.exports = function (req, res) {
             .find(query)
             .limit(limit)
             .skip(offset)
+            .sort("-featured priority -createdAt")
             .lean(),
         mongoose.model('Tag')
             .countDocuments(query)

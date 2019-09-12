@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     createTag() {
-      let newTag = { new: true };
+      let newTag = { new: true, priority: 0 };
       if (this.filterText && !this.haveExactMatch) {
         newTag.title = this.filterText;
         newTag.tag = slugify(this.filterText);
