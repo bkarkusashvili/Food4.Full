@@ -13,7 +13,9 @@
     },
     "mailer": {
         "ethereal": true,
-        "from": "info@food4.ge"
+        "defaults": {
+            "from": "info@food4.ge"
+        }
     },
     "session": {
         "secret": "ajapsandali",
