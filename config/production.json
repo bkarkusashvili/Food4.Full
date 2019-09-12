@@ -4,7 +4,10 @@
         "secure": false,
         "pool": true,
         "rejectUnauthorized": false,
-        "host": "food4.ge",
-        "port": 587
+        "host": "localhost",
+        "port": 587,
+        "tls": {
+            "rejectUnauthorized": false
+        }
     }
 }

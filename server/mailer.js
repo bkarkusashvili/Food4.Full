@@ -4,21 +4,13 @@ const mailer = {
     async setup(config) {
         if (config.ethereal) {
             mailer.ethereal = true;
-            mailer.auth = await nodemailer.createTestAccount();
+            config.auth = await nodemailer.createTestAccount();
             config.host = 'smtp.ethereal.email';
             config.port = 587;
             config.secure = false;
-        } else {
-            mailer.auth = config.auth;
         }
 
-        mailer.transporter = nodemailer.createTransport({
-            pool: config.pool,
-            host: config.host,
-            port: config.port,
-            secure: config.secure,
-            auth: mailer.auth
-        }, config.defaults);
+        mailer.transporter = nodemailer.createTransport(config, config.defaults);
 
         mailer.transporter.verify(function (error, success) {
             if (error) {
