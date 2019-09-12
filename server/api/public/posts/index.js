@@ -14,8 +14,8 @@ module.exports = function (req, res) {
         }
     }
 
-    if (req.query.featured) {
-        query.featured = true;
+    if (req.query.featured != null) {
+        query.featured = Boolean(req.query.featured);
     }
 
     let limit = 10, offset = 0;

@@ -111,6 +111,7 @@ export default {
         {
           title: "ბოლოს დამატებულები",
           type: "latest",
+          featured: false,
           compact: true
         },
         {

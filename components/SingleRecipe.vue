@@ -3,14 +3,8 @@
     <nuxt-link
       :to="'/recipes/' + post.slug"
       class="recipe-image"
-      :style="post.video | youtubeThumb | cssbg"
-      v-if="post.video && !noPicture"
-    ></nuxt-link>
-    <nuxt-link
-      :to="'/recipes/' + post.slug"
-      class="recipe-image"
-      :style="'background-image: url(' + post.picture + ')'"
-      v-if="post.picture && !post.video && !noPicture"
+      :style="(post.video || post.picture) | youtubeThumb | cssbg"
+      v-if="!noPicture"
     ></nuxt-link>
     <div class="recipe-description">
       <nuxt-link class="recipe-title" :to="'/recipes/' + post.slug">{{post.title}}</nuxt-link>
@@ -26,7 +20,7 @@ export default {
   props: {
     post: Object,
     excerpt: Boolean,
-    noPicture: Boolean,
+    noPicture: { type: Boolean, default: false },
     border: Boolean,
     compact: Boolean
   }
@@ -42,7 +36,6 @@ export default {
   }
 
   &.compact {
-    
   }
 
   .recipe-image {
