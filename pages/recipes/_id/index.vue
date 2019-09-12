@@ -190,6 +190,7 @@ export default {
   .recipe-picture {
     display: block;
     margin: 0 auto;
+    max-height: 400px;
   }
 
   .hero {
@@ -214,7 +215,6 @@ export default {
       text-decoration: line-through;
     }
     ul {
-      columns: 2;
     }
     h3 {
       font-size: 20px;

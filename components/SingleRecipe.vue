@@ -3,8 +3,14 @@
     <nuxt-link
       :to="'/recipes/' + post.slug"
       class="recipe-image"
+      :style="post.video | youtubeThumb | cssbg"
+      v-if="post.video && !noPicture"
+    ></nuxt-link>
+    <nuxt-link
+      :to="'/recipes/' + post.slug"
+      class="recipe-image"
       :style="'background-image: url(' + post.picture + ')'"
-      v-if="post.picture && !noPicture"
+      v-if="post.picture && !post.video && !noPicture"
     ></nuxt-link>
     <div class="recipe-description">
       <nuxt-link class="recipe-title" :to="'/recipes/' + post.slug">{{post.title}}</nuxt-link>

@@ -4,34 +4,28 @@
       <div class="field">
         <label class="label">სათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.title" @keyup="titleModified" />
+          <input type="text" class="input is-medium" v-model="post.title" @keyup="titleModified" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">სათაური ლათინურად (slug)</label>
         <div class="control">
-          <input
-            type="text"
-            class="input is-large"
-            v-model="post.slug"
-            @keyup="slugModified"
-            required
-          />
+          <input type="text" class="input" v-model="post.slug" @keyup="slugModified" required />
         </div>
       </div>
 
       <div class="field">
         <label class="label">ქვესათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="post.subtitle" />
+          <input type="text" class="input" v-model="post.subtitle" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">გამოქვეყნების თარიღი</label>
         <div class="control">
-          <datetime type="datetime" input-class="input is-large" v-model="post.publishedAt" />
+          <datetime type="datetime" input-class="input" v-model="post.publishedAt" />
         </div>
       </div>
 
@@ -72,7 +66,7 @@
         </div>
 
         <div class="control box" style="margin-top: 10px" v-if="post.picture">
-          <img :src="post.picture" alt />
+          <img :src="post.picture" alt class="post-picture" />
         </div>
       </div>
 
@@ -365,7 +359,7 @@ export default {
     addIngredient(parent) {
       if (!parent.children) parent.children = [];
 
-      let id = [parent.id + parent.children.length].join('-');
+      let id = [parent.id + parent.children.length].join("-");
 
       parent.children.push({
         name: "",
@@ -496,5 +490,10 @@ export default {
 
 <style lang="scss">
 .recipe-edit-page {
+  .post-picture {
+    display: block;
+    margin: 0 auto;
+    max-height: 400px;
+  }
 }
 </style>

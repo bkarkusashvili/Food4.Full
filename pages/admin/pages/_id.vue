@@ -4,21 +4,21 @@
       <div class="field">
         <label class="label">სათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="page.title" @keyup="titleModified" />
+          <input type="text" class="input is-medium" v-model="page.title" @keyup="titleModified" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">სათაური ლათინურად (slug)</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="page.slug" @keyup="slugModified" />
+          <input type="text" class="input" v-model="page.slug" @keyup="slugModified" />
         </div>
       </div>
 
       <div class="field">
         <label class="label">ქვესათაური</label>
         <div class="control">
-          <input type="text" class="input is-large" v-model="page.subtitle" />
+          <input type="text" class="input" v-model="page.subtitle" />
         </div>
       </div>
 
@@ -37,8 +37,30 @@
             </label>
           </div>
         </div>
-        <div class="control" style="padding-top: 10px">
-          <img :src="page.picture" v-if="page.picture != null" alt />
+        <div class="control box" style="margin-top: 10px">
+          <img :src="page.picture" class="page-picture" v-if="page.picture" alt />
+        </div>
+      </div>
+
+
+      <div class="field">
+        <label class="label">YouTube ვიდეო</label>
+        <div class="control">
+          <input type="url" class="input" v-model="page.video" />
+        </div>
+        <div
+          class="control"
+          v-if="page.video"
+          style="padding: 2em; max-width: 800px; margin: 0 auto"
+        >
+          <div class="youtube-embed">
+            <iframe
+              :src="page.video | youtubeEmbed"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
         </div>
       </div>
 
@@ -216,5 +238,10 @@ export default {
 
 <style lang="scss">
 .page-edit-page {
+  .page-picture {
+    display: block;
+    margin: 0 auto;
+    max-height: 400px;
+  }
 }
 </style>

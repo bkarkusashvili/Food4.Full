@@ -25,6 +25,4 @@ configs.forEach((name) => {
     }
 });
 
-console.log(config);
-
 module.exports = config;

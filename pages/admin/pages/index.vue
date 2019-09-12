@@ -27,40 +27,19 @@
           <td>
             <a :href="'/pages/' + page.slug" target="_blank">{{page.title}}</a>
           </td>
-          <td style="width: 1em">
-            <div class="dropdown is-hoverable is-right">
-              <div class="dropdown-trigger">
-                <button
-                  class="button is-primary"
-                  aria-haspopup="true"
-                  aria-controls="dropdown-menu"
-                >
-                  <span>მოქმედება</span>
-                  <span class="icon">
-                    <i class="mdi mdi-chevron-down" aria-hidden="true"></i>
-                  </span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <nuxt-link :to="'/admin/pages/' + page._id" class="dropdown-item">
-                    <span class="icon">
-                      <i class="mdi mdi-file-document-edit"></i>
-                    </span>
-                    <span>რედაქტირება</span>
-                  </nuxt-link>
-                  <a
-                    class="dropdown-item has-text-danger"
-                    @click="removePage(page)"
-                  >
-                    <span class="icon">
-                      <i class="mdi mdi-delete"></i>
-                    </span>
-                    <span>წაშლა</span>
-                  </a>
-                </div>
-              </div>
-            </div>
+          <td style="width: 18em">
+            <nuxt-link :to="'/admin/pages/' + page._id" class="button">
+              <span class="icon">
+                <i class="mdi mdi-file-document-edit"></i>
+              </span>
+              <span>რედაქტირება</span>
+            </nuxt-link>
+            <a class="button is-danger" @click="removePage(page)">
+              <span class="icon">
+                <i class="mdi mdi-delete"></i>
+              </span>
+              <span>წაშლა</span>
+            </a>
           </td>
         </tr>
       </tbody>

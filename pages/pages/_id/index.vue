@@ -6,9 +6,18 @@
         <h2 class="subtitle">{{page.subtitle}}</h2>
       </section>
       
-      <img :src="page.picture" alt="" v-if="page.picture">
+      <img class="page-picture" :src="page.picture" alt="" v-if="!page.video && page.picture">
 
-      <section class="page-preparation">
+      <div class="youtube-embed" v-if="page.video">
+        <iframe
+          :src="page.video | youtubeEmbed"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <section class="page-content">
         <div v-html="page.content"></div>
       </section>
     </div>
@@ -64,6 +73,12 @@ export default {
       margin-bottom: 10px;
       font-size: 18px;
     }
+  }
+
+  .page-picture {
+    display: block;
+    margin: 0 auto;
+    max-height: 400px;
   }
 
   .hero {

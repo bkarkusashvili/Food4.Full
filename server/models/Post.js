@@ -17,7 +17,7 @@ const schema = new Schema({
     content: {
         type: String
     },
-    excerpt: {
+    description: {
         type: String
     },
     picture: {
