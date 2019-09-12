@@ -55,14 +55,14 @@
             <span>ადმინისტრაცია</span>
           </p>
           <ul class="menu-list">
-            <!-- <li>
+            <li>
               <nuxt-link to="/admin/frontpage" active-class="is-active">
                 <span class="icon">
                   <i class="mdi mdi-star"></i>
                 </span>
                 <span>მთავარი გვერდი</span>
               </nuxt-link>
-            </li> -->
+            </li>
             <li>
               <nuxt-link to="/admin/navigation" active-class="is-active">
                 <span class="icon">

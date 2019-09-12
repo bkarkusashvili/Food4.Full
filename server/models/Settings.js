@@ -7,6 +7,7 @@ const schema = new Schema({
     },
     navigation: [Object],
     frontpage: [Object],
+    carousel: [Object],
     title: String,
     description: String,
     logo: String,

@@ -21,6 +21,7 @@ import Navbar from "~/components/Navbar.vue";
 import SecondaryNavbar from "~/components/SecondaryNavbar.vue";
 import Footer from "~/components/Footer.vue";
 import Pagination from "~/components/Pagination.vue";
+import AdSpace from "~/components/AdSpace.vue";
 
 export default {
   data() {

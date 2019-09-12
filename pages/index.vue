@@ -20,73 +20,102 @@ export default {
     return {
       sections: [
         {
-          type: "tiles",
-          tiles: [
-            {
-              ancestor: true,
-              vertical: true,
-              tiles: [
-                {
-                  parent: true,
-                  tiles: [
-                    {
-                      size: 8,
-                      video: "https://www.youtube.com/embed/-C4sZBA6Hgg"
-                    },
-                    {
-                      size: 4,
-                      parent: true,
-                      vertical: true,
-                      tiles: [
-                        {
-                          post: { featured: true, offset: 0, limit: 1 }
-                        },
-                        {
-                          post: { featured: true, offset: 1, limit: 1 }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
           type: "row",
           columns: [
             {
-              size: 3,
+              narrow: true,
               section: {
-                type: "featured",
-                title: "რჩეული რეცეპტები",
-                limit: 3,
-                vertical: true,
-                compact: true
+                type: "ad"
               }
             },
             {
               section: {
-                type: "video",
-                title: "შოკოლადის ტარტი ჟოლოთი",
-                description: "წარმოგიდგენთ უკონკურენტო დესერტს, რომელსაც უმარტივესად და ძალიან ცოტა ინგრედიენტით მოამზადებთ სახლში.",
-                videoUrl: "https://www.youtube.com/watch?v=Bidv64QmWAw"
+                type: "carousel"
               }
             },
             {
-              size: 3,
+              narrow: true,
               section: {
-                type: "latest",
-                limit: 3,
-                title: "ბოლოს დამატებული",
-                vertical: true,
-                compact: true
+                type: "ad"
               }
             }
           ]
         },
+        // {
+        //   type: "tiles",
+        //   tiles: [
+        //     {
+        //       ancestor: true,
+        //       vertical: true,
+        //       tiles: [
+        //         {
+        //           parent: true,
+        //           tiles: [
+        //             {
+        //               size: 8,
+        //               video: "https://www.youtube.com/embed/-C4sZBA6Hgg"
+        //             },
+        //             {
+        //               size: 4,
+        //               parent: true,
+        //               vertical: true,
+        //               tiles: [
+        //                 {
+        //                   post: { featured: true, offset: 0, limit: 1 }
+        //                 },
+        //                 {
+        //                   post: { featured: true, offset: 1, limit: 1 }
+        //                 }
+        //               ]
+        //             }
+        //           ]
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // },
+        // {
+        //   type: "row",
+        //   columns: [
+        //     {
+        //       size: 3,
+        //       section: {
+        //         type: "featured",
+        //         title: "რჩეული რეცეპტები",
+        //         limit: 3,
+        //         vertical: true,
+        //         compact: true
+        //       }
+        //     },
+        //     {
+        //       section: {
+        //         type: "video",
+        //         title: "შოკოლადის ტარტი ჟოლოთი",
+        //         description:
+        //           "წარმოგიდგენთ უკონკურენტო დესერტს, რომელსაც უმარტივესად და ძალიან ცოტა ინგრედიენტით მოამზადებთ სახლში.",
+        //         videoUrl: "https://www.youtube.com/watch?v=Bidv64QmWAw"
+        //       }
+        //     },
+        //     {
+        //       size: 3,
+        //       section: {
+        //         type: "latest",
+        //         limit: 3,
+        //         title: "ბოლოს დამატებული",
+        //         vertical: true,
+        //         compact: true
+        //       }
+        //     }
+        //   ]
+        // },
         {
+          title: "ბოლოს დამატებულები",
           type: "latest",
+          compact: true
+        },
+        {
+          title: "რჩეული რეცეპტები",
+          type: "featured",
           compact: true
         },
         {

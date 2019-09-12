@@ -22,6 +22,7 @@
     "defaultSettings": {
         "navigation": [],
         "title": "Food4.ge",
-        "name": "default"
+        "name": "default",
+        "carousel": []
     }
 }

@@ -31,7 +31,8 @@ module.exports = {
     './plugins/filters',
     './plugins/notifications',
     { src: './plugins/draggable.js', ssr: false },
-    { src: './plugins/datepicker.js', ssr: false }
+    { src: './plugins/datepicker.js', ssr: false },
+    { src: './plugins/carousel.js', ssr: false }
   ],
 
   /*

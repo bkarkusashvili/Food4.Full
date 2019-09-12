@@ -9,6 +9,8 @@
     <page-section-latest v-if="section.type === 'latest'" :section="section" />
     <page-section-featured v-if="section.type === 'featured'" :section="section" />
     <page-section-video v-if="section.type === 'video'" :section="section" />
+    <page-section-ad v-if="section.type === 'ad'" :section="section" />
+    <page-section-carousel v-if="section.type === 'carousel'" :section="section" />
   </div>
 </template>
 
@@ -23,6 +25,8 @@ import PageSectionLatest from "./PageSectionLatest";
 import PageSectionFeatured from "./PageSectionFeatured";
 import PageSectionVideo from "./PageSectionVideo";
 import PageSectionTiles from "./PageSectionTiles";
+import PageSectionAd from "./PageSectionAd";
+import PageSectionCarousel from "./PageSectionCarousel";
 
 export default Vue.component("page-section", {
   name: "page-section",
@@ -35,7 +39,9 @@ export default Vue.component("page-section", {
     "page-section-latest": PageSectionLatest,
     "page-section-featured": PageSectionFeatured,
     "page-section-video": PageSectionVideo,
-    "page-section-tiles": PageSectionTiles
+    "page-section-tiles": PageSectionTiles,
+    "page-section-ad": PageSectionAd,
+    "page-section-carousel": PageSectionCarousel
   },
   props: {
     section: { type: Object, required: true }

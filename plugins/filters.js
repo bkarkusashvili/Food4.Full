@@ -62,7 +62,7 @@ Vue.filter('youtubeThumb', function (url) {
 
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
-    if (!match || !match[2]) return "";
+    if (!match || !match[2]) return url;
     return "https://img.youtube.com/vi/" + match[2] + "/hqdefault.jpg";
 });
 

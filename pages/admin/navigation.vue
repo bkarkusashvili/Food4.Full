@@ -100,7 +100,6 @@ export default {
         });
     },
     tagSelected(tag) {
-      console.log(this.selectionTarget)
       if (!this.selectionTarget) return;
       this.selectionTarget.item.tag = tag;
       if (!this.selectionTarget.item.title) this.selectionTarget.item.title = tag.title;
