@@ -84,7 +84,7 @@ dist
 sw.*
 
 # Custom
-/config.local.js
+/config/local.json
 /static/uploads/*
 !/static/uploads/.keep
 /static/settings.json

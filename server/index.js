@@ -8,21 +8,12 @@ const express = require('express'),
   app = express(),
   db = require('./db'),
   mailer = require('./mailer'),
-  api = require('./api');
+  api = require('./api'),
+  config = require('./config');
 
 // Import and Set Nuxt.js options
 let nuxtConf = require('../nuxt.config.js');
 nuxtConf.dev = !(process.env.NODE_ENV === 'production');
-
-// Import app config
-let config;
-try {
-  // Try to load local config
-  config = require('../config.local');
-} catch (e) {
-  // Load default config if local config does not exist
-  config = require('../config.default')
-}
 
 async function start() {
   await db.connect(config.mongoose.url);

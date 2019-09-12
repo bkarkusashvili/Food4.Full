@@ -1,15 +1,6 @@
 const path = require('path'),
-    db = require('./db');
-
-// Import app config
-let config;
-try {
-    // Try to load local config
-    config = require('../config.local');
-} catch (e) {
-    // Load default config if local config does not exist
-    config = require('../config.default')
-}
+    db = require('./db'),
+    config = require('./config');
 
 async function start() {
     let migrationFile = process.argv[2];
