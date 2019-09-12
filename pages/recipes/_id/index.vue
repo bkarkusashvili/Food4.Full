@@ -44,15 +44,26 @@
 
       <section class="recipe-ingredients" v-if="recipe.ingredients && recipe.ingredients.length">
         <h2 class="section-header">ინგრედიენტები</h2>
-        <ul>
-          <li v-for="ingredient in recipe.ingredients" :key="ingredient">
-            <label>
-              <input type="checkbox" />
-              <span>{{ingredient}}</span>
-            </label>
-          </li>
-        </ul>
+        <div class="columns flex-wrap">
+          <div
+            class="column"
+            :class="{'is-6': recipe.ingredients.length > 2}"
+            v-for="group in recipe.ingredients"
+            :key="group.id"
+          >
+            <h3 v-if="group.name">{{group.name}}</h3>
+            <ul>
+              <li v-for="ingredient in group.children" :key="ingredient.id">
+                <label>
+                  <input type="checkbox" />
+                  <span>{{ingredient.name}}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
       </section>
+
       <section class="recipe-preparation" v-if="recipe.content">
         <h2 class="section-header">მომზადება</h2>
         <div v-html="recipe.content"></div>
@@ -116,10 +127,10 @@ export default {
           this.favorite = true;
         })
         .catch((err, response) => {
-          if(err.response && err.response.status === 404) {
+          if (err.response && err.response.status === 404) {
             this.favorite = false;
           } else {
-          console.error(err);
+            console.error(err);
           }
         });
     }
@@ -205,6 +216,10 @@ export default {
     ul {
       columns: 2;
     }
+    h3 {
+      font-size: 20px;
+      margin-bottom: 7px;
+    }
   }
 
   .section-header {
@@ -225,8 +240,7 @@ export default {
     .recipe-footer,
     .recipe-picture,
     .recipe-info,
-    .youtube-embed,
-    input[type="checkbox"] {
+    .youtube-embed {
       display: none;
     }
   }

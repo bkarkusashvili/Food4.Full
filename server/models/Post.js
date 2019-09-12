@@ -41,7 +41,7 @@ const schema = new Schema({
         type: Boolean,
         default: false
     },
-    ingredients: [String],
+    ingredients: [Object],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     textTags: [String],
     author: { type: Schema.Types.ObjectId, ref: 'User' }

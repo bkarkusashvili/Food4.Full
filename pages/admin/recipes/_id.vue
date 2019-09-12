@@ -81,7 +81,11 @@
         <div class="control">
           <input type="url" class="input" v-model="post.video" />
         </div>
-        <div class="control" v-if="post.video" style="padding: 2em; max-width: 800px; margin: 0 auto">
+        <div
+          class="control"
+          v-if="post.video"
+          style="padding: 2em; max-width: 800px; margin: 0 auto"
+        >
           <div class="youtube-embed">
             <iframe
               :src="post.video | youtubeEmbed"
@@ -119,52 +123,87 @@
 
       <div class="field">
         <label class="label">ინგრედიენტები</label>
-        <div class="control">
-          <table class="table is-fullwidth">
-            <tbody>
-              <tr v-for="(ingredient, index) in post.ingredients">
-                <td style="width: 9.9em;">
-                  <button class="button" type="button" @click="removeIngredient(index)">
+        <draggable
+          class="control columns flex-wrap"
+          v-model="post.ingredients"
+          group="ingredientSections"
+          handle=".group-handle"
+        >
+          <div class="column is-4" v-for="(group, index) in post.ingredients" :key="group.id">
+            <div style="border: 1px solid #555; border-radius: 5px; padding: 5px;">
+              <div class="field is-grouped">
+                <div class="control">
+                  <button
+                    class="button is-danger"
+                    type="button"
+                    @click="removeIngredientSection(index)"
+                  >
                     <i class="mdi mdi-delete"></i>
                   </button>
-                  <button
-                    class="button"
-                    type="button"
-                    @click="moveUp(index)"
-                    :disabled="!canMoveUp(index)"
-                  >
-                    <i class="mdi mdi-arrow-up"></i>
+                  <button class="button group-handle cursor-draggable" type="button">
+                    <i class="mdi mdi-arrow-all"></i>
                   </button>
-                  <button
-                    class="button"
-                    type="button"
-                    @click="moveDown(index)"
-                    :disabled="!canMoveDown(index)"
-                  >
-                    <i class="mdi mdi-arrow-down"></i>
-                  </button>
-                </td>
-                <td>
-                  <input class="input" type="text" v-model="post.ingredients[index]" />
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  <button
-                    type="button"
-                    class="button is-primary"
-                    @click="addIngredient()"
-                    :disabled="!canAddIngredient"
-                  >
-                    <span class="icon">
-                      <i class="mdi mdi-plus"></i>
-                    </span>
-                    <span>დამატება</span>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+                <div class="control flex-grow-1">
+                  <input
+                    class="input"
+                    type="text"
+                    v-model="group.name"
+                    placeholder="სექციის სახელი"
+                  />
+                </div>
+              </div>
+
+              <hr />
+
+              <draggable
+                v-model="group.children"
+                handle=".handle"
+                group="ingredients"
+                style="margin-bottom: 10px;"
+              >
+                <div
+                  class="field is-grouped"
+                  v-for="(child, childIndex) in group.children"
+                  :key="child.id"
+                >
+                  <div class="control">
+                    <button
+                      class="button"
+                      type="button"
+                      @click="removeIngredient(childIndex, group)"
+                    >
+                      <i class="mdi mdi-delete"></i>
+                    </button>
+                    <button class="button handle cursor-draggable" type="button">
+                      <i class="mdi mdi-arrow-all"></i>
+                    </button>
+                  </div>
+                  <div class="control flex-grow-1">
+                    <input class="input" type="text" v-model="child.name" />
+                  </div>
+                </div>
+              </draggable>
+
+              <div class="control">
+                <button type="button" class="button is-primary" @click="addIngredient(group)">
+                  <span class="icon">
+                    <i class="mdi mdi-plus"></i>
+                  </span>
+                  <span>ინგრედიენტის დამატება</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </draggable>
+
+        <div class="control">
+          <button type="button" class="button" @click="addIngredientSection()">
+            <span class="icon">
+              <i class="mdi mdi-plus"></i>
+            </span>
+            <span>სექციის დამატება</span>
+          </button>
         </div>
       </div>
 
@@ -253,7 +292,7 @@ export default {
     this.fetchData();
   },
   methods: {
-    fetchData: function() {
+    fetchData() {
       if (this.$route.params.id === "new") {
         this.new = true;
         this.loading = false;
@@ -289,67 +328,78 @@ export default {
           });
         });
     },
-    titleModified: function() {
+    isEmpty(ingredient) {
+      return !ingredient.name;
+    },
+    isEmptySection(group) {
+      return !group.name && (!group.children || !group.children.length);
+    },
+    titleModified() {
       if (!this.post.title || this.post.slugModified) return;
       this.post.slug = slugify(this.post.title);
       this.$forceUpdate();
     },
-    slugModified: function() {
+    slugModified() {
       this.post.slugModified = this.post.slug != "";
     },
-    addTag: function(tag) {
+    addTag(tag) {
       if (this.hasTag(tag)) return;
       this.post.tags.push(tag);
     },
-    addTags: function(tags) {
+    addTags(tags) {
       if (!tags instanceof Array) return;
       tags.forEach(tag => {
         this.addTag(tag);
       });
     },
-    removeTag: function(index) {
+    removeTag(index) {
       this.post.tags.splice(index, 1);
     },
-    hasTag: function(tag) {
+    hasTag(tag) {
       let found = false;
       this.post.tags.forEach(t => {
         if (t._id === tag._id) found = true;
       });
       return found;
     },
-    addIngredient: function() {
-      if (this.canAddIngredient) this.post.ingredients.push("");
+    addIngredient(parent) {
+      if (!parent.children) parent.children = [];
+
+      let id = [parent.id + parent.children.length].join('-');
+
+      parent.children.push({
+        name: "",
+        id: id
+      });
     },
-    removeIngredient: function(index) {
+    addIngredientSection() {
+      this.post.ingredients.push({
+        name: "",
+        section: true,
+        children: [],
+        id: "" + this.post.ingredients.length
+      });
+    },
+    removeIngredient(index, parent) {
+      if (
+        !this.isEmpty(parent.children[index]) &&
+        !confirm("ნამდვილად გსურთ ინგრედიენტის წაშლა?")
+      )
+        return;
+      parent.children.splice(index, 1);
+    },
+    removeIngredientSection(index) {
+      if (
+        !this.isEmptySection(this.post.ingredients[index]) &&
+        !confirm("ნამდვილად გსურთ სექციის წაშლა?")
+      )
+        return;
       this.post.ingredients.splice(index, 1);
     },
-    moveUp: function(index) {
-      if (!this.canMoveUp(index)) return;
-      this.post.ingredients.splice(
-        index - 1,
-        0,
-        this.post.ingredients.splice(index, 1)[0]
-      );
-    },
-    moveDown: function(index) {
-      if (!this.canMoveDown(index)) return;
-      this.post.ingredients.splice(
-        index + 1,
-        0,
-        this.post.ingredients.splice(index, 1)[0]
-      );
-    },
-
-    canMoveUp: function(index) {
-      return index > 0;
-    },
-    canMoveDown: function(index) {
-      return index < this.post.ingredients.length - 1;
-    },
-    removePicture: function() {
+    removePicture() {
       this.post.picture = null;
     },
-    uploadPicture: function() {
+    uploadPicture() {
       let file = this.$refs.file.files[0],
         formData = new FormData();
       if (!file) return;
@@ -372,7 +422,7 @@ export default {
           });
         });
     },
-    handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
+    handleImageAdded(file, Editor, cursorLocation, resetUploader) {
       var formData = new FormData();
       formData.append("file", file);
 
@@ -395,7 +445,7 @@ export default {
           });
         });
     },
-    save: function() {
+    save() {
       this.loading = true;
       if (this.new) {
         this.$axios
@@ -437,11 +487,7 @@ export default {
       }
     }
   },
-  computed: {
-    canAddIngredient: function() {
-      return this.post.ingredients && this.post.ingredients.indexOf("") === -1;
-    }
-  },
+  computed: {},
   watch: {
     $route: "fetchData"
   }

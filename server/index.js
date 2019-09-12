@@ -4,7 +4,6 @@ const express = require('express'),
   MongoStore = require('connect-mongo')(session),
   passport = require('./passport'),
   consola = require('consola'),
-  fs = require('fs-extra'),
   { Nuxt, Builder } = require('nuxt'),
   app = express(),
   db = require('./db'),
@@ -23,11 +22,6 @@ try {
 } catch (e) {
   // Load default config if local config does not exist
   config = require('../config.default')
-}
-
-if (!fs.pathExistsSync('./static/settings.json')) {
-  consola.info("Writing default settings to /static/settings.json");
-  fs.writeJSONSync('./static/settings.json', config.defaultSettings);
 }
 
 async function start() {
