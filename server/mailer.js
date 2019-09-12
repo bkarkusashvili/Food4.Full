@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 const mailer = {
     async setup(config) {
-        if (!config.auth || config.ethereal) {
+        if (config.ethereal) {
             mailer.ethereal = true;
             mailer.auth = await nodemailer.createTestAccount();
             config.host = 'smtp.ethereal.email';
@@ -17,10 +17,7 @@ const mailer = {
             host: config.host,
             port: config.port,
             secure: config.secure,
-            auth: {
-                user: mailer.auth.user,
-                pass: mailer.auth.pass
-            }
+            auth: mailer.auth
         }, config.defaults);
 
         mailer.transporter.verify(function (error, success) {

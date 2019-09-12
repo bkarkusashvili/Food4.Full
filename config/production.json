@@ -1,5 +1,9 @@
 {
     "mailer": {
-        "ethereal": false
+        "ethereal": false,
+        "secure": false,
+        "pool": true,
+        "host": "localhost",
+        "port": 587
     }
 }

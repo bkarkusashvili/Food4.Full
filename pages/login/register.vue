@@ -104,7 +104,7 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          error = err.message;
+          this.error = err.message;
         });
     }
   }
