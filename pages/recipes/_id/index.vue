@@ -46,7 +46,7 @@
         <h2 class="section-header has-text-centered">ინგრედიენტები</h2>
         <div class="columns flex-wrap flex-justify-content-center">
           <div
-            class=""
+            class="recipe-ingredients-group"
             :class="{'is-6': recipe.ingredients.length > 2}"
             v-for="group in recipe.ingredients"
             :key="group.id"
@@ -178,6 +178,10 @@ export default {
 
   .recipe-info > * {
     vertical-align: middle;
+  }
+
+  .recipe-ingredients-group {
+    padding: 15px;
   }
 
   .recipe-info {

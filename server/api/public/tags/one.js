@@ -14,6 +14,7 @@ module.exports = function (req, res) {
                 .lean()
                 .populate('author')
                 .populate('tags')
+                .sort('-featured -createdAt')
                 .then(function (posts) {
                     tag.posts = posts;
                     res.json(tag);

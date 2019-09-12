@@ -11,11 +11,11 @@ module.exports = function (req, res) {
     if (req.query.q) {
         query['$text'] = {
             '$search': req.query.q
-        }
+        };
     }
 
     if (req.query.featured != null) {
-        query.featured = Boolean(req.query.featured);
+        query.featured = req.query.featured !== "false";
     }
 
     let limit = 10, offset = 0;

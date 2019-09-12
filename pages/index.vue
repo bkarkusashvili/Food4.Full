@@ -112,12 +112,14 @@ export default {
           title: "ბოლოს დამატებულები",
           type: "latest",
           featured: false,
-          compact: true
+          compact: true,
+          limit: 9
         },
         {
           title: "რჩეული რეცეპტები",
           type: "featured",
-          compact: true
+          compact: true,
+          limit: 9
         },
         {
           type: "tags",

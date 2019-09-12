@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section-featured" v-show="posts.length" :class="{'compact': section.compact}">
+  <div class="page-section-featured" :class="{'compact': section.compact}">
     <h1 v-if="section.title" class="title">{{section.title}}</h1>
     <div
       class="flex"

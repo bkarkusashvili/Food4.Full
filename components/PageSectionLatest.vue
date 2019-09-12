@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section-latest" v-show="posts.length" :class="{'compact': section.compact}">
+  <div class="page-section-latest" :class="{'compact': section.compact}">
     <h1 v-if="section.title" class="title">{{section.title}}</h1>
     <div
       class="flex"
@@ -36,13 +36,13 @@ export default {
   },
   methods: {
     fetchPosts() {
-      let query = {};
+      let query = {
+        limit: this.section.limit
+      };
       if (this.section.featured != null) query.featured = this.section.featured;
       this.$axios
-        .get("/api/posts/latest", query, {
-          params: {
-            limit: this.section.limit
-          }
+        .get("/api/posts/latest", {
+          params: query
         })
         .then(response => {
           this.posts = response.data;

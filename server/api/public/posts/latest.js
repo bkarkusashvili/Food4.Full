@@ -7,8 +7,9 @@ module.exports = function (req, res) {
             $lte: new Date()
         }
     };
+
     if (req.query.featured != null) {
-        query.featured = Boolean(req.query.featured);
+        query.featured = req.query.featured !== "false";
     }
 
     let limit = 10, offset = 0;
