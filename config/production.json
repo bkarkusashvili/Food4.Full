@@ -3,6 +3,7 @@
         "ethereal": false,
         "secure": false,
         "pool": true,
+        "rejectUnauthorized": false,
         "host": "localhost",
         "port": 587
     }
