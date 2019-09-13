@@ -12,7 +12,7 @@
             <div
               class="carousel-item flex flex-align-content-center flex-align-items-center flex-justify-content-center"
               v-if="item.post"
-              :style="(item.post.video || item.post.picture) | youtubeThumb | cssbg"
+              :style="(item.post.video || item.post.picture) | youtubeThumb('maxresdefault') | cssbg"
             >
               <div class="carousel-item-content has-text-centered">
                 <h1 class="title" v-if="item.post.title">{{item.post.title}}</h1>

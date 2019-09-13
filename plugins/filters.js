@@ -53,17 +53,18 @@ Vue.filter('youtubeEmbed', function (url) {
     return "https://www.youtube.com/embed/" + match[2];
 });
 
-Vue.filter('cssbg', function(url) {
+Vue.filter('cssbg', function (url) {
     return "background-image: url('" + url + "')"
 })
 
-Vue.filter('youtubeThumb', function (url) {
+Vue.filter('youtubeThumb', function (url, res) {
     if (!url) return "";
+    if (!res) res = "hqdefault";
 
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
     if (!match || !match[2]) return url;
-    return "https://img.youtube.com/vi/" + match[2] + "/hqdefault.jpg";
+    return "https://img.youtube.com/vi/" + match[2] + "/" + res + ".jpg";
 });
 
 Vue.filter('navLink', function (object) {
