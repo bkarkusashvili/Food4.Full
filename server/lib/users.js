@@ -48,17 +48,19 @@ function confirmEmail(code) {
             code: code,
             type: "email"
         })
-        .populate('user')
         .then(function (confirmationCode) {
             if (confirmationCode) {
-                let user = confirmationCode.user;
-                user.email = confirmationCode.email;
-                user.unconfirmedEmail = null;
+                let userId = confirmationCode.user,
+                    email = confirmationCode.email;
                 confirmationCode.remove().catch(function (error) {
                     console.error("Error removing confirmation code", error);
                 });
-                return user.save().then(function () {
-                    mongoose.model('User').deleteMany({ unconfirmedEmail: user.email, _id: { $ne: user._id } }).catch(function (err) {
+
+                return mongoose.model('User').findByIdAndUpdate(userId, {
+                    email: email,
+                    unconfirmedEmail: null
+                }).then(function (user) {
+                    mongoose.model('User').deleteMany({ unconfirmedEmail: email, _id: { $ne: userId } }).catch(function (err) {
                         console.error("Error removing unconfirmed users", err);
                     });
                     return user;

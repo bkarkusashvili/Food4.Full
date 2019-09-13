@@ -43,8 +43,11 @@ export default {
       success: false
     };
   },
-  created() {
-    this.confirmCode();
+  render: {
+    ssr: false
+  },
+  mounted() {
+    if (process.client) this.confirmCode();
   },
   methods: {
     confirmCode() {
@@ -55,6 +58,9 @@ export default {
         .then(() => {
           this.success = true;
           this.loading = false;
+          setTimeout(() => {
+            this.$router.replace('/login');
+          }, 5000);
         })
         .catch(err => {
           this.loading = false;
