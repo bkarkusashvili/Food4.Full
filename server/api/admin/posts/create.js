@@ -12,5 +12,8 @@ module.exports = function (req, res) {
             post.setTextTags();
             return post.save().then();
         })
-        .catch((error) => res.status(500).json(error));
+        .catch((error) => {
+            console.error("Error saving post", error);
+            res.status(500).json(error)
+        });
 };

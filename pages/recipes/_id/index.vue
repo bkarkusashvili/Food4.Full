@@ -121,6 +121,9 @@ export default {
       }
     },
     checkFavorite() {
+      if(!this.$auth.user)
+        return;
+        
       this.$axios
         .get("/api/user/favorites/" + this.recipe._id)
         .then(response => {

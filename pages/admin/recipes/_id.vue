@@ -41,9 +41,11 @@
       <div class="field">
         <label class="label">სურათი</label>
         <div class="control">
-          <button type="button" class="button is-medium is-success" @click="showPictureDialog = true">
-            სურათის არჩევა
-          </button>
+          <button
+            type="button"
+            class="button is-medium is-success"
+            @click="showPictureDialog = true"
+          >სურათის არჩევა</button>
           <button
             type="button"
             class="button is-medium is-danger"
@@ -233,8 +235,8 @@
         </div>
         <div class="control">
           <button
-            type="submit"
-            @click="post.status = 'published'"
+            type="button"
+            @click="saveAndPublish"
             class="button is-success is-large"
             :disabled="loading"
             v-show="post.status !== 'published'"
@@ -396,7 +398,7 @@ export default {
     pictureSelected(picture) {
       if (!picture) return;
       this.post.picture = picture.url;
-      if(picture.variants && picture.variants.thumb) {
+      if (picture.variants && picture.variants.thumb) {
         this.post.thumb = picture.variants.thumb.url;
       }
     },
@@ -422,6 +424,11 @@ export default {
             text: err.message
           });
         });
+    },
+    saveAndPublish() {
+      this.post.status = "published";
+      if (!this.post.publishedAt) this.post.publishedAt = new Date();
+      this.save();
     },
     save() {
       this.loading = true;

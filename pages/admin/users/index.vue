@@ -14,7 +14,7 @@
         </div>
         <div class="control">
           <div class="select">
-            <select v-model="filter.role" @change="search()">
+            <select v-model="filter.role">
               <option value>ყველა</option>
               <option value="admin">ადმინისტრატორი</option>
               <option value="user">მომხმარებელი</option>
@@ -28,6 +28,7 @@
       <thead>
         <tr>
           <th>სახელი</th>
+          <th>ელ-ფოსტა</th>
           <th>როლი</th>
           <th></th>
         </tr>
@@ -38,8 +39,13 @@
             <nuxt-link :to="'/admin/users/' + user._id">{{user.name}}</nuxt-link>
           </td>
           <td>
-            {{user.role}}
+            <span v-if="user.email">{{user.email}}</span>
+            <span v-else-if="user.unconfirmedEmail" style="color: #777" title="დაუდასტურებელი">
+              <i class="mdi mdi-alert"></i>
+              {{user.unconfirmedEmail}}
+            </span>
           </td>
+          <td>{{user.role}}</td>
           <td style="width: 1em">
             <div class="dropdown is-hoverable is-right">
               <div class="dropdown-trigger">
@@ -79,6 +85,8 @@
         </tr>
       </tbody>
     </table>
+
+    <pagination :page="page" :per-page="perPage" :total="total" @goto="gotoPage" />
   </div>
 </template>
 
@@ -87,36 +95,63 @@ export default {
   data() {
     return {
       users: [],
+      total: 1,
+      page: 1,
+      perPage: 25,
       filter: {
         role: ""
       }
     };
   },
+  created() {
+    this.fetchData();
+  },
   methods: {
-    search() {
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.fetchData();
+    },
+    fetchData() {
       this.$axios
-      .get("/api/admin/users", { params: this.filter })
-      .then(response => {
-        this.users = response.data;
-      })
-      .catch(err => {
-            console.error(err);
-            this.$notifyError({
-              title: "მოხდა შეცდომა!",
-              text: err.message
-            });
-          })
+        .get("/api/admin/users", { params: this.queryParams() })
+        .then(response => {
+          this.users = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    deleteUser(user) {
+      this.$axios
+        .delete("/api/admin/users/" + user._id)
+        .then(response => {
+          this.fetchData();
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    queryParams() {
+      return Object.assign({}, this.filter, {
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      });
     }
   },
-  asyncData({ $axios, error }) {
-    return $axios
-      .get("/api/admin/users")
-      .then(response => {
-        return { users: response.data };
-      })
-      .catch(err => {
-        error({ statusCode: 500, message: "მოხდა შეცდომა" });
-      });
+  watch: {
+    $route: "fetchData",
+    "filter.role": "fetchData",
+    "filter.q": "fetchData"
   }
 };
 </script>
