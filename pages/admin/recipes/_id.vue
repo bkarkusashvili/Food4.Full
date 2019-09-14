@@ -277,7 +277,6 @@ export default {
   data() {
     return {
       post: {},
-      new: false,
       saved: false,
       showTagDialog: false,
       showPictureDialog: false,
@@ -290,8 +289,8 @@ export default {
   methods: {
     fetchData() {
       if (this.$route.params.id === "new") {
-        this.new = true;
-        this.loading = false;
+
+this.loading = false;
         this.post = {
           content: "",
           title: "",
@@ -304,8 +303,8 @@ export default {
         };
         return;
       }
-      this.new = false;
-      this.$axios
+
+this.$axios
         .get("/api/admin/posts/" + this.$route.params.id)
         .then(response => {
           this.loading = false;
@@ -432,12 +431,12 @@ export default {
     },
     save() {
       this.loading = true;
-      if (this.new) {
+      if (!this.post._id) {
         this.$axios
           .post("/api/admin/posts", this.post)
           .then(response => {
             this.loading = false;
-            this.new = false;
+            this.post = response.data;
             this.$notifySuccess({
               title: "შენახულია",
               text: "შენახვა წარმატებით დასრულდა!"

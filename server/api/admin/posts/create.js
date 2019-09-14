@@ -4,8 +4,6 @@ module.exports = function (req, res) {
     if (!req.body.author) {
         req.body.author = req.user;
     }
-    
-    console.log(req.body);
 
     mongoose.model('Post')
         .create(req.body)
@@ -15,6 +13,7 @@ module.exports = function (req, res) {
             return post.save().then();
         })
         .catch((error) => {
+            console.log(JSON.stringify(req.body));
             console.error("Error saving post", error);
             res.status(500).json(error)
         });

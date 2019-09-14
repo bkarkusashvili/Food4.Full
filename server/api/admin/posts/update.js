@@ -5,8 +5,6 @@ module.exports = function (req, res) {
         req.body.author = req.user;
     }
 
-    console.log(req.body);
-
     mongoose.model('Post')
         .findByIdAndUpdate(req.params.id, req.body, { new: true })
         .then(function (post) {
@@ -15,6 +13,7 @@ module.exports = function (req, res) {
             return post.save().then();
         })
         .catch((error) => {
+            console.log(JSON.stringify(req.body));
             console.error("Error updating post", error);
             res.status(500).json(error)
         });
