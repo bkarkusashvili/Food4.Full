@@ -6,5 +6,8 @@ module.exports = function (req, res) {
         .then(function (page) {
             res.json(page);
         })
-        .catch((error) => res.status(500).json(error));
+        .catch((error) => {
+            console.error("Error saving page", error);
+            res.status(500).json(error)
+        });
 };
