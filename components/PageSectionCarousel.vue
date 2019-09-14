@@ -4,6 +4,7 @@
       <carousel
         class="carousel"
         :per-page="1"
+        :autoplay-timeout="30000"
         autoplay
         navigation-enabled
         v-if="$store.state.settings && $store.state.settings.carousel"
@@ -75,6 +76,7 @@ export default {
       flex-direction: column;
       display: flex;
       justify-content: center;
+      align-items: center;
 
       .title {
         color: white;
@@ -98,7 +100,7 @@ export default {
 
     .VueCarousel-dot {
       &.VueCarousel-dot--active {
-        background-color: rgba(255,255,255, 0.5) !important;
+        background-color: rgba(255, 255, 255, 0.5) !important;
       }
     }
   }
