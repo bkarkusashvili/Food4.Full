@@ -128,6 +128,7 @@ export default {
         });
     },
     deleteUser(user) {
+      if (!confirm("ნამდვილად გსურთ მომხმარებლის წაშლა?")) return;
       this.$axios
         .delete("/api/admin/users/" + user._id)
         .then(response => {

@@ -87,6 +87,14 @@
                 <span>მომხმარებლები</span>
               </nuxt-link>
             </li>
+            <li>
+              <nuxt-link to="/admin/ads" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-currency-usd"></i>
+                </span>
+                <span>რეკლამები</span>
+              </nuxt-link>
+            </li>
           </ul>
         </aside>
         <nuxt-child class="column" />

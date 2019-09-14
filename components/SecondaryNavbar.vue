@@ -31,10 +31,10 @@ export default {
           icon: "instagram",
           title: "Instagram",
           href: "https://instagram.com",
-          color: "#1da1f2"
+          color: "#c13584"
         },
         {
-          icon: "twitter-box",
+          icon: "twitter",
           title: "Twitter",
           href: "https://twitter.com",
           color: "#1da1f2"

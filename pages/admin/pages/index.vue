@@ -28,7 +28,7 @@
       <tbody>
         <tr v-for="page in pages" :key="page._id">
           <td>
-            <a :href="'/pages/' + page.slug" target="_blank">{{page.title}}</a>
+            <a :href="'/pages/' + page.slug" target="_blank">{{page.title || page.slug}}</a>
           </td>
           <td style="width: 18em">
             <nuxt-link :to="'/admin/pages/' + page._id" class="button">
