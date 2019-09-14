@@ -5,6 +5,8 @@ module.exports = function (req, res) {
         req.body.author = req.user;
     }
 
+    console.log(req.body);
+
     mongoose.model('Post')
         .findByIdAndUpdate(req.params.id, req.body, { new: true })
         .then(function (post) {

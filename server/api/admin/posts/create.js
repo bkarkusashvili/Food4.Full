@@ -4,6 +4,8 @@ module.exports = function (req, res) {
     if (!req.body.author) {
         req.body.author = req.user;
     }
+    
+    console.log(req.body);
 
     mongoose.model('Post')
         .create(req.body)
