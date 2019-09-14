@@ -16,7 +16,8 @@
             v-if="$auth.user"
             @click="toggleFavorite()"
           >
-            <i class="mdi mdi-heart-outline"></i>
+            <i class="mdi mdi-heart" v-if="favorite"></i>
+            <i class="mdi mdi-heart-outline" v-else></i>
           </button>
           <button type="button" class="button is-outline is-rounded" @click="print()">
             <span class="icon">
@@ -27,20 +28,22 @@
         </div>
       </section>
 
-      <img class="recipe-picture" :src="recipe.picture" alt v-if="recipe.picture" />
-
-      <div class="youtube-embed" v-if="!recipe.picture && recipe.video">
-        <iframe
-          :src="recipe.video | youtubeEmbed"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      </div>
-
       <section class="recipe-description" v-if="recipe.description">
         <div v-html="recipe.description"></div>
       </section>
+
+      <img class="recipe-picture" :src="recipe.picture" alt v-if="recipe.picture && !recipe.video" />
+
+      <div class="recipe-video" v-if="recipe.video">
+        <div class="youtube-embed">
+          <iframe
+            :src="recipe.video | youtubeEmbed"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
 
       <section class="recipe-ingredients" v-if="recipe.ingredients && recipe.ingredients.length">
         <h2 class="section-header has-text-centered">ინგრედიენტები</h2>
@@ -121,9 +124,8 @@ export default {
       }
     },
     checkFavorite() {
-      if(!this.$auth.user)
-        return;
-        
+      if (!this.$auth.user) return;
+
       this.$axios
         .get("/api/user/favorites/" + this.recipe._id)
         .then(response => {
@@ -162,6 +164,7 @@ export default {
 .recipe-page {
   .container {
     background: white;
+    max-width: 960px;
   }
 
   .recipe-header {
@@ -177,6 +180,11 @@ export default {
       margin-bottom: 10px;
       font-size: 18px;
     }
+  }
+
+  .recipe-description {
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .recipe-info > * {
@@ -198,6 +206,11 @@ export default {
     display: block;
     margin: 0 auto;
     max-height: 400px;
+  }
+
+  .recipe-video {
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .hero {

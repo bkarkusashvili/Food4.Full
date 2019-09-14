@@ -65,8 +65,33 @@ html {
 }
 
 @media print {
-  .navbar, .secondary-navbar {
+  .navbar,
+  .secondary-navbar {
     display: none;
+  }
+}
+
+.navbar-item.has-dropdown:hover .navbar-dropdown {
+  display: block;
+}
+
+@media screen and (max-width: $desktop) {
+  .navbar-item.has-dropdown.active .navbar-link::after {
+    transform: rotate(-45deg) scaleX(-1) scaleY(-1);
+  }
+
+  .navbar-item.has-dropdown.active > .navbar-link {
+    background: white;
+    color: black;
+  }
+
+  .navbar-item.has-dropdown .navbar-dropdown {
+    display: none;
+    box-shadow: none;
+  }
+
+  .navbar-item.has-dropdown.active .navbar-dropdown {
+    display: block;
   }
 }
 

@@ -1,9 +1,15 @@
 <template>
-  <div class="navbar-item has-dropdown is-hoverable" v-if="item.type === 'parent'" :key="item.id">
+  <div
+    class="navbar-item has-dropdown"
+    v-if="item.type === 'parent'"
+    :key="item.id"
+    :class="{'active': active}"
+  >
+    <a class="navbar-link" :style="'color:' + item.color" @click="active=!active">{{item.title}}</a>
+
     <div class="navbar-dropdown" v-if="item.children">
       <nav-item v-for="child in item.children" :item="child" child :key="child.id" />
     </div>
-    <a class="navbar-link" :style="'color:' + item.color">{{item.title}}</a>
   </div>
 
   <nuxt-link
@@ -44,6 +50,11 @@
 import Vue from "vue";
 export default Vue.component("nav-item", {
   name: "nav-item",
+  data() {
+    return {
+      active: false
+    };
+  },
   props: {
     item: Object,
     child: Boolean

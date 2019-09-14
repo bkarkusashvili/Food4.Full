@@ -9,7 +9,7 @@
     <div class="recipe-description">
       <nuxt-link class="recipe-title" :to="'/recipes/' + post.slug">{{post.title}}</nuxt-link>
 
-      <h2 class="recipe-subtitle">{{post.subtitle}}</h2>
+      <h2 class="recipe-subtitle" v-if="post.subtitle">{{post.subtitle}}</h2>
       <div class="recipe-excerpt" v-show="excerpt" v-html="post.excerpt"></div>
     </div>
   </div>
@@ -36,6 +36,10 @@ export default {
   }
 
   &.compact {
+    .recipe-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
   }
 
   .recipe-image {

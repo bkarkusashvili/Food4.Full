@@ -63,7 +63,7 @@ export default {
   margin-bottom: 10px;
 }
 .page-section-latest .flex-row .recipe-container {
-  flex-basis: 20em;
+  flex-basis: 25%;
   padding-right: 1em;
 }
 </style>

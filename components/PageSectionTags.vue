@@ -86,4 +86,8 @@ export default {
   font-size: 24px;
   margin-bottom: 10px;
 }
+.page-section-tags .recipe-container {
+  flex-basis: 25%;
+  padding-right: 1em;
+}
 </style>

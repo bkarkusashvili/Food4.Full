@@ -21,7 +21,7 @@
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-start">
-        <nav-item v-for="item in $store.state.settings.navigation" :item="item" :key="item.id"/>
+        <nav-item v-for="item in $store.state.settings.navigation" :item="item" :key="item.id" />
       </div>
 
       <div class="navbar-end" v-show="!showingSearch">
@@ -32,13 +32,25 @@
           <span>ძებნა</span>
         </a>
         <nuxt-link to="/login" class="navbar-item" v-if="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
-        <div class="navbar-item has-dropdown is-hoverable" v-if="$auth.user">
+        <div class="navbar-item has-dropdown" v-if="$auth.user" :class="{'active': userMenuActive}">
+          <a class="navbar-link" @click="userMenuActive = !userMenuActive">
+            <span class="icon">
+              <i class="mdi mdi-account" aria-hidden="true"></i>
+            </span>
+            <span>{{$auth.user.name}}</span>
+          </a>
           <div class="navbar-dropdown">
             <nuxt-link to="/admin" class="navbar-item" v-if="$auth.user.role === 'admin'">
               <span class="icon">
                 <i class="mdi mdi-radioactive" aria-hidden="true"></i>
               </span>
               <span>სამართავი პანელი</span>
+            </nuxt-link>
+            <nuxt-link to="/favorites" class="navbar-item">
+              <span class="icon">
+                <i class="mdi mdi-star" aria-hidden="true"></i>
+              </span>
+              <span>ფავორიტები</span>
             </nuxt-link>
             <!--<nuxt-link to="/users/me" class="navbar-item">
               <span class="icon">
@@ -53,12 +65,6 @@
               <span>გასვლა</span>
             </a>
           </div>
-          <a class="navbar-link">
-            <span class="icon">
-              <i class="mdi mdi-account" aria-hidden="true"></i>
-            </span>
-            <span>{{$auth.user.name}}</span>
-          </a>
         </div>
       </div>
       <div class="navbar-end" v-show="showingSearch">
@@ -163,6 +169,10 @@
   transform: rotate(-45deg) scaleX(-1) scaleY(-1);
 }
 
+.navbar-item.has-dropdown > .navbar-link {
+  z-index: 2;
+}
+
 .navbar-end .navbar-dropdown {
   right: 0;
   left: auto;
@@ -170,7 +180,7 @@
 </style>
 
 <script>
-import NavItem from './NavItem';
+import NavItem from "./NavItem";
 
 export default {
   data() {
@@ -178,7 +188,8 @@ export default {
       showNav: false,
       showingSearch: false,
       query: "",
-      searchSuggestions: []
+      searchSuggestions: [],
+      userMenuActive: false
     };
   },
   methods: {

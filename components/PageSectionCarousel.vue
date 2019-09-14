@@ -95,6 +95,12 @@ export default {
     position: absolute;
     z-index: 9;
     bottom: 20px;
+
+    .VueCarousel-dot {
+      &.VueCarousel-dot--active {
+        background-color: rgba(255,255,255, 0.5) !important;
+      }
+    }
   }
 
   .VueCarousel-navigation {
@@ -111,8 +117,11 @@ export default {
       padding: 7px 12px 10px 12px !important;
       margin: 0 !important;
       font-size: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
+      color: rgba(255, 255, 255, 0.8);
+
+      &:hover {
+        color: white;
+      }
     }
   }
 }

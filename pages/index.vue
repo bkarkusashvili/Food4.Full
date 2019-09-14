@@ -23,7 +23,8 @@ export default {
           type: "row",
           columns: [
             {
-              narrow: true,
+              //narrow: true,
+              size: 1,
               section: {
                 type: "ad"
               }
@@ -34,7 +35,8 @@ export default {
               }
             },
             {
-              narrow: true,
+              // narrow: true,
+              size: 1,
               section: {
                 type: "ad"
               }
