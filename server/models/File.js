@@ -5,6 +5,7 @@ const schema = new Schema({
     url: { type: String },
     name: { type: String },
     friendlyName: { type: String },
+    variants: { type: Object, default: {} },
     size: { type: Number },
     md5: { type: String },
     mimetype: { type: String },

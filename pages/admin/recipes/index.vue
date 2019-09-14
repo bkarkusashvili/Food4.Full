@@ -41,7 +41,7 @@
       <tbody>
         <tr v-for="post in posts" :key="post._id">
           <td>
-            <a :href="'/recipes/' + post.slug" target="_blank">{{post.title}}</a>
+            <a :href="'/recipes/' + post.slug" target="_blank">{{post.title || post.slug}}</a>
           </td>
           <td>
             <span class="tag is-warning" v-if="post.featured">რჩეული</span>

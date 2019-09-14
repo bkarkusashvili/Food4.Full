@@ -83,7 +83,7 @@ export default {
       let newTag = { new: true, priority: 0 };
       if (this.filterText && !this.haveExactMatch) {
         newTag.title = this.filterText;
-        newTag.tag = slugify(this.filterText);
+        newTag.slug = slugify(this.filterText);
       }
       this.newTag = newTag;
       this.editMode = true;

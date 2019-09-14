@@ -23,6 +23,9 @@ const schema = new Schema({
     picture: {
         type: String
     },
+    thumb: {
+        type: String
+    },
     originalPicture: {
         type: Schema.Types.ObjectId,
         ref: 'File'

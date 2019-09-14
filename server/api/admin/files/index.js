@@ -20,6 +20,7 @@ module.exports = function (req, res) {
     Promise.all([
         mongoose.model('File')
             .find(query)
+            .sort("-createdAt")
             .limit(limit)
             .skip(offset)
             .lean(),

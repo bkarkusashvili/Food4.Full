@@ -14,7 +14,7 @@
     "mailer": {
         "ethereal": true,
         "defaults": {
-            "from": "info@food4.ge"
+            "from": "\"Food4.ge\" <info@food4.ge>"
         }
     },
     "session": {

@@ -41,17 +41,9 @@
       <div class="field">
         <label class="label">სურათი</label>
         <div class="control">
-          <div class="file is-medium is-primary" style="display: inline-block">
-            <label class="file-label">
-              <input class="file-input" type="file" ref="file" @change="uploadPicture()" />
-              <span class="file-cta">
-                <span class="file-icon">
-                  <i class="mdi mdi-upload"></i>
-                </span>
-                <span class="file-label">არჩევა</span>
-              </span>
-            </label>
-          </div>
+          <button type="button" class="button is-medium is-success" @click="showPictureDialog = true">
+            სურათის არჩევა
+          </button>
           <button
             type="button"
             class="button is-medium is-danger"
@@ -263,22 +255,30 @@
       @hide="showTagDialog = false"
       @select="addTags"
     />
+    <picture-chooser
+      single
+      :show="showPictureDialog"
+      @hide="showPictureDialog = false"
+      @select="pictureSelected"
+    />
   </div>
 </template>
 
 <script>
 import VueEditor from "../../../components/VueEditor";
 import TagChooser from "../../../components/TagChooser";
+import PictureChooser from "../../../components/PictureChooser";
 import slugify from "slugify";
 
 export default {
-  components: { VueEditor, TagChooser },
+  components: { VueEditor, TagChooser, PictureChooser },
   data() {
     return {
       post: {},
       new: false,
       saved: false,
       showTagDialog: false,
+      showPictureDialog: false,
       loading: true
     };
   },
@@ -393,28 +393,12 @@ export default {
     removePicture() {
       this.post.picture = null;
     },
-    uploadPicture() {
-      let file = this.$refs.file.files[0],
-        formData = new FormData();
-      if (!file) return;
-      formData.append("file", file);
-      this.$axios
-        .post("/api/admin/files", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(response => {
-          this.post.picture = response.data.url;
-          this.$forceUpdate();
-        })
-        .catch(err => {
-          console.error(err);
-          this.$notifyError({
-            title: "მოხდა შეცდომა!",
-            text: err.message
-          });
-        });
+    pictureSelected(picture) {
+      if (!picture) return;
+      this.post.picture = picture.url;
+      if(picture.variants && picture.variants.thumb) {
+        this.post.thumb = picture.variants.thumb.url;
+      }
     },
     handleImageAdded(file, Editor, cursorLocation, resetUploader) {
       var formData = new FormData();
