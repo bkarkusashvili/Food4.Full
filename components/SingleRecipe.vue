@@ -3,7 +3,7 @@
     <nuxt-link
       :to="'/recipes/' + post.slug"
       class="recipe-image"
-      :style="(post.video || post.thumb || post.picture) | youtubeThumb | cssbg"
+      :style="(post.thumb || post.picture || post.video) | youtubeThumb | cssbg"
       v-if="!noPicture"
     ></nuxt-link>
     <div class="recipe-description">

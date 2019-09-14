@@ -27,9 +27,9 @@
         </div>
       </section>
 
-      <img class="recipe-picture" :src="recipe.picture" alt v-if="recipe.picture && !recipe.video" />
+      <img class="recipe-picture" :src="recipe.picture" alt v-if="recipe.picture" />
 
-      <div class="youtube-embed" v-if="recipe.video">
+      <div class="youtube-embed" v-if="!recipe.picture && recipe.video">
         <iframe
           :src="recipe.video | youtubeEmbed"
           frameborder="0"

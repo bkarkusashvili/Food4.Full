@@ -5,6 +5,7 @@
         class="carousel"
         :per-page="1"
         autoplay
+        navigation-enabled
         v-if="$store.state.settings && $store.state.settings.carousel"
       >
         <slide v-for="(item, index) in $store.state.settings.carousel" :key="index">
@@ -12,7 +13,7 @@
             <div
               class="carousel-item flex flex-align-content-center flex-align-items-center flex-justify-content-center"
               v-if="item.post"
-              :style="(item.post.video || item.post.picture) | youtubeThumb('maxresdefault') | cssbg"
+              :style="(item.post.picture || item.post.video) | youtubeThumb('maxresdefault') | cssbg"
             >
               <div class="carousel-item-content has-text-centered">
                 <h1 class="title" v-if="item.post.title">{{item.post.title}}</h1>
@@ -66,9 +67,14 @@ export default {
     background-position: 50% 50%;
 
     .carousel-item-content {
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(255, 184, 83, 0.7);
       padding: 2em;
       color: white;
+      min-width: 25em;
+      min-height: 12em;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
 
       .title {
         color: white;
@@ -77,6 +83,36 @@ export default {
       .subtitle {
         color: white;
       }
+
+      .button {
+        background-color: rgb(249, 171, 59);
+      }
+    }
+  }
+
+  .VueCarousel-pagination {
+    user-select: none;
+    position: absolute;
+    z-index: 9;
+    bottom: 20px;
+  }
+
+  .VueCarousel-navigation {
+    user-select: none;
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    z-index: 10;
+
+    .VueCarousel-navigation-button {
+      position: static;
+      transform: none;
+      display: inline-block;
+      padding: 7px 12px 10px 12px !important;
+      margin: 0 !important;
+      font-size: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
     }
   }
 }
