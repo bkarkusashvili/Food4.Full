@@ -1,5 +1,10 @@
 <template>
-  <div class="modal picture-chooser" :class="{ 'is-active': show }">
+  <div
+    class="modal picture-chooser"
+    :class="{ 'is-active': show }"
+    @dragover.prevent
+    @drop.prevent="onDrop"
+  >
     <div class="modal-background" @click="close()"></div>
     <div class="modal-content" style="width: 900px">
       <div class="box" v-if="!editMode">
@@ -32,6 +37,7 @@
               v-for="picture in pictures"
               :key="picture._id"
               @click="togglePicture(picture)"
+              :class="{ 'selected': isSelected(picture) }"
             >
               <img :src="picture.url" :alt="picture.friendlyName || picture.name" />
               <span>{{picture.friendlyName || picture.name}}</span>
@@ -48,7 +54,6 @@
               class="button is-success"
               @click="save()"
               :disabled="!canSave()"
-              v-show="!single"
             >არჩევა</button>
           </div>
           <div class="control">
@@ -87,7 +92,7 @@ export default {
       showDropzone: true,
       newPicture: {},
       page: 1,
-      perPage: 20,
+      perPage: 8,
       total: 1
     };
   },
@@ -96,44 +101,13 @@ export default {
   },
   computed: {},
   methods: {
-    enableDrop() {
-      if (process.client) {
-        window.addEventListener("dragenter", e => {
-          this.showDropzone = true;
-        });
+    onDrop(event) {
+      this.showDropzone = false;
 
-        window.addEventListener("dragleave", e => {
-          e.preventDefault();
-          this.showDropzone = false;
-        });
+      let file = event.dataTransfer.files && event.dataTransfer.files[0];
+      if (!file) return;
 
-        window.addEventListener("dragover", e => {
-          e.preventDefault();
-          this.showDropzone = true;
-        });
-
-        window.addEventListener("drop", e => {
-          e.preventDefault();
-
-          this.showDropzone = false;
-
-          let file = e.dataTransfer.files && e.dataTransfer.files[0];
-          if (!file) return;
-
-          this.uploadPicture(file);
-        });
-      }
-    },
-    disableDrop() {
-      if (process.client) {
-        window.removeEventListener("dragenter");
-
-        window.addEventListener("dragleave");
-
-        window.addEventListener("dragover");
-
-        window.addEventListener("drop");
-      }
+      this.uploadPicture(file);
     },
     gotoPage(page) {
       this.page = parseInt(page);
@@ -185,7 +159,7 @@ export default {
       this.editMode = true;
     },
     pictureSaved(picture) {
-      this.pictures.push(picture);
+      this.pictures.unshift(picture);
       this.selectPicture(picture);
     },
     canSave() {
@@ -212,7 +186,6 @@ export default {
     selectPicture(picture) {
       if (this.single) {
         this.selectedPictures = [picture];
-        this.save();
       } else {
         this.selectedPictures.push(picture);
       }
@@ -246,15 +219,24 @@ export default {
 .picture-chooser .picture {
   display: inline-block;
   margin: 5px;
+  padding: 5px;
   vertical-align: middle;
+  color: black;
   width: 200px;
 }
+
+.picture-chooser .picture.selected {
+  background: #00b89c;
+  color: white;
+}
+
 .picture-chooser .picture img {
-  max-width: 200px;
+  max-width: 190px;
   margin: 0 auto;
   max-height: 200px;
   display: block;
 }
+
 .picture-chooser .picture span {
   text-align: center;
   display: block;

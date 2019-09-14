@@ -5,7 +5,9 @@ module.exports = function (req, res) {
         return res.status(400).send('No files were uploaded.');
     }
 
-    files.upload(req.files.file, req.body.name, true)
+    let process = req.query.process !== 'false';
+
+    files.upload(req.files.file, req.body.name, process)
         .then(function (uploadedFile) {
             res.status(201).json(uploadedFile);
         })
