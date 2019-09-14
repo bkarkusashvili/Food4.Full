@@ -9,7 +9,7 @@ module.exports = function (req, res) {
             res.json(page);
         })
         .catch((error) => {
-            console.error("Error saving page", error);
+            console.error("Error updating page", error);
             res.status(500).json(error)
         });
 };

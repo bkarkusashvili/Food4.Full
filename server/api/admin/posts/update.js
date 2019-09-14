@@ -13,7 +13,7 @@ module.exports = function (req, res) {
             return post.save().then();
         })
         .catch((error) => {
-            console.error("Error saving post", error);
+            console.error("Error updating post", error);
             res.status(500).json(error)
         });
 };
