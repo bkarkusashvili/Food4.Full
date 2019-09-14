@@ -3,7 +3,8 @@ const Schema = require('mongoose').Schema;
 const schema = new Schema({
     slug: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     invisible: {
         type: Boolean,
@@ -20,7 +21,9 @@ const schema = new Schema({
         index: true
     },
     title: {
-        type: String
+        type: String,
+        required: true,
+        unique: true
     }
 }, { timestamps: true });
 

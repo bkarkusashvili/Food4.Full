@@ -10,8 +10,14 @@
             <input type="text" class="input" placeholder="ძებნა" v-model="filterText" />
           </div>
 
-          <div class="control">
-            <a class="tag is-medium" v-for="tag in tags" :key="tag._id" @click="toggleTag(tag)">
+          <div class="control" style="line-height: 2.5;">
+            <a
+              class="tag is-medium"
+              v-for="tag in tags"
+              :key="tag._id"
+              :class="{ 'is-success': isSelected(tag) }"
+              @click="toggleTag(tag)"
+            >
               <span class="icon" v-show="!single">
                 <i class="mdi mdi-check" v-show="isSelected(tag)"></i>
               </span>
@@ -19,13 +25,13 @@
               <span>{{tag.title}}</span>
             </a>
 
-            <a class="tag is-medium" @click="createTag()">
+            <a class="tag is-medium" @click="createTag()" v-show="!haveExactMatch">
               <span class="icon">
                 <i class="mdi mdi-plus"></i>
               </span>
 
-              <span v-show="filterText && !haveExactMatch">ახლის შექმნა: {{filterText}}</span>
-              <span v-show="!filterText || haveExactMatch">ახლის შექმნა</span>
+              <span v-if="filterText">ახლის შექმნა: {{filterText}}</span>
+              <span v-else>ახლის შექმნა</span>
             </a>
           </div>
         </div>
