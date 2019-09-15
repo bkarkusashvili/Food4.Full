@@ -68,28 +68,30 @@ export default {
     background-position: 50% 50%;
 
     .carousel-item-content {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.6);
       padding: 1.5em;
       color: #2d2d2d;
       min-width: 25em;
       max-width: 70%;
       min-height: 11em;
+      border-radius: 20px;
       flex-direction: column;
       display: flex;
       justify-content: center;
       align-items: center;
 
       .title {
-        color: #2d2d2d;
+        color: #373b3c;
       }
 
       .subtitle {
-        color: #2d2d2d;
+        color: #373b3c;
       }
 
       .button {
-        background-color: #ddece5;
-        color: #2d2d2d;
+        background-color: #707e80;
+        color: white;
+        border-radius: 20px;
       }
     }
   }
