@@ -81,9 +81,17 @@ export default {
 
     setQuillElement() {
       const Quill = require("quill");
+      const quillImageResize = require("quill-image-resize"),
+      ImageResize = quillImageResize.default;
+      console.log(ImageResize)
+      Quill.register("modules/imageResize", ImageResize);
+
       this.quill = new Quill(this.$refs.quillContainer, {
         modules: {
-          toolbar: this.toolbar
+          toolbar: this.toolbar,
+          imageResize: {
+            modules: [ 'Resize', 'DisplaySize', 'Toolbar' ]
+          }
         },
         placeholder: this.placeholder ? this.placeholder : "",
         theme: "snow",
