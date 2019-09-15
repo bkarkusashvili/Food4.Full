@@ -24,19 +24,19 @@ export default {
         {
           icon: "instagram",
           title: "Instagram",
-          href: "https://instagram.com",
+          href: "https://instagram.com/food.4.ge",
           color: "#c13584"
         },
         {
           icon: "facebook-box",
           title: "Facebook",
-          href: "https://facebook.com",
+          href: "https://facebook.com/food4.ge",
           color: "#3b5998"
         },
         {
           icon: "twitter",
           title: "Twitter",
-          href: "https://twitter.com",
+          href: "https://twitter.com/Food4Ge",
           color: "#1da1f2"
         }
       ]
