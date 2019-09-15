@@ -1,10 +1,10 @@
 <template>
-  <div class="favorites-page">
+  <div class="featured-page">
     <div class="container page-container">
-      <h1 class="title">ფავორიტები</h1>
+      <h1 class="title">რჩეული რეცეპტები</h1>
       <div class="flex flex-row flex-wrap">
-        <div class="recipe-container" v-for="favorite in favorites" :key="favorite._id">
-          <single-recipe class="search-result" :post="favorite.post" />
+        <div class="recipe-container" v-for="post in posts" :key="post._id">
+          <single-recipe class="search-result" :post="post" />
         </div>
       </div>
       <pagination :page="page" :total="total" :per-page="perPage" @goto="gotoPage" />
@@ -19,9 +19,9 @@ export default {
   components: { SingleRecipe },
   data() {
     return {
-      favorites: [],
-      page: 1,
+      posts: [],
       total: 1,
+      page: 1,
       perPage: 12
     };
   },
@@ -29,7 +29,7 @@ export default {
   methods: {
     fetchData() {
       this.$axios
-        .get("/api/posts", { params: this.queryParams() })
+        .get("/api/posts/latest", { params: this.queryParams() })
         .then(response => {
           this.posts = response.data;
           let total = response.headers["x-total-count"];
@@ -49,17 +49,18 @@ export default {
     },
     queryParams() {
       return {
+        featured: true,
         offset: (this.page - 1) * this.perPage,
         limit: this.perPage
       };
     }
   },
-  watch: {},
-  asyncData({ $axios, params, error }) {
+  asyncData({ $axios, error }) {
     return $axios
-      .get("/api/user/favorites")
+      .get("/api/posts/latest", { params: { featured: true } })
       .then(response => {
-        let data = { favorites: response.data };
+        let data = { posts: response.data };
+
         let total = response.headers["x-total-count"];
         if (!isNaN(total)) data.total = parseInt(total);
         return data;
@@ -70,22 +71,16 @@ export default {
       });
   },
   head() {
-    if (this.tag)
-      return {
-        title: "ფავორიტები" + " - " + this.$store.state.settings.title
-      };
+    return {
+      title: "რჩეული რეცეპტები - " + this.$store.state.settings.title
+    };
   }
 };
 </script>
 
 <style lang="scss">
-.favorites-page {
+.featured-page {
   padding-top: 2em;
   padding-bottom: 2em;
-}
-
-.favorites-page .recipe-container {
-  flex-basis: 25%;
-  padding-right: 1em;
 }
 </style>

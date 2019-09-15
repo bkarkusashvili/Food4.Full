@@ -10,6 +10,7 @@
           <single-recipe class="search-result" :post="post" />
         </div>
       </div>
+      <pagination :page="page" :total="total" :per-page="perPage" @goto="gotoPage" />
     </div>
   </div>
 </template>
@@ -21,7 +22,10 @@ export default {
   components: { SingleRecipe },
   data() {
     return {
-      posts: []
+      posts: [],
+      page: 1,
+      total: 1,
+      perPage: 12
     };
   },
   created() {},
@@ -29,13 +33,26 @@ export default {
     search: function() {
       if (!this.$route.query.q) return;
       this.$axios
-        .get("/api/posts", { params: { q: this.$route.query.q } })
+        .get("/api/posts", { params: this.queryParams() })
         .then(response => {
           this.posts = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
         })
         .catch(err => {
           console.error(err);
         });
+    },
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.search();
+    },
+    queryParams() {
+      return {
+        q: this.$route.query.q,
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      };
     }
   },
   watch: {
@@ -44,9 +61,12 @@ export default {
   asyncData({ $axios, query, error }) {
     if (!query.q) return;
     return $axios
-      .get("/api/posts", { params: { q: query.q } })
+      .get("/api/posts", { params: { q: query.q, perPage: 12 } })
       .then(response => {
-        return { posts: response.data };
+        let data = { posts: response.data };
+        let total = response.headers["x-total-count"];
+        if (!isNaN(total)) data.total = parseInt(total);
+        return data;
       })
       .catch(err => {
         console.error(err);
