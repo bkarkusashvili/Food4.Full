@@ -13,6 +13,12 @@ module.exports = function (req, res) {
             '$search': req.query.q
         };
     }
+    
+    if (req.query.type) {
+        query.type = req.query.type;
+    } else {
+        query.type = 'recipe';
+    }
 
     if (req.query.featured != null) {
         query.featured = req.query.featured !== "false";

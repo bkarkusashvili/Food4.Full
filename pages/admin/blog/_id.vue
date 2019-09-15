@@ -30,15 +30,6 @@
       </div>
 
       <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" v-model="post.featured" />
-            რჩეული რეცეპტი
-          </label>
-        </div>
-      </div>
-
-      <div class="field">
         <label class="label">სურათი</label>
         <div class="control">
           <button
@@ -110,93 +101,7 @@
       </div>
 
       <div class="field">
-        <label class="label">ინგრედიენტები</label>
-        <draggable
-          class="control columns flex-wrap"
-          v-model="post.ingredients"
-          group="ingredientSections"
-          handle=".group-handle"
-        >
-          <div class="column is-4" v-for="(group, index) in post.ingredients" :key="group.id">
-            <div style="border: 1px solid #555; border-radius: 5px; padding: 5px;">
-              <div class="field is-grouped">
-                <div class="control">
-                  <button
-                    class="button is-danger"
-                    type="button"
-                    @click="removeIngredientSection(index)"
-                  >
-                    <i class="mdi mdi-delete"></i>
-                  </button>
-                  <button class="button group-handle cursor-draggable" type="button">
-                    <i class="mdi mdi-arrow-all"></i>
-                  </button>
-                </div>
-                <div class="control flex-grow-1">
-                  <input
-                    class="input"
-                    type="text"
-                    v-model="group.name"
-                    placeholder="სექციის სახელი"
-                  />
-                </div>
-              </div>
-
-              <hr />
-
-              <draggable
-                v-model="group.children"
-                handle=".handle"
-                group="ingredients"
-                style="margin-bottom: 10px;"
-              >
-                <div
-                  class="field is-grouped"
-                  v-for="(child, childIndex) in group.children"
-                  :key="child.id"
-                >
-                  <div class="control">
-                    <button
-                      class="button"
-                      type="button"
-                      @click="removeIngredient(childIndex, group)"
-                    >
-                      <i class="mdi mdi-delete"></i>
-                    </button>
-                    <button class="button handle cursor-draggable" type="button">
-                      <i class="mdi mdi-arrow-all"></i>
-                    </button>
-                  </div>
-                  <div class="control flex-grow-1">
-                    <input class="input" type="text" v-model="child.name" />
-                  </div>
-                </div>
-              </draggable>
-
-              <div class="control">
-                <button type="button" class="button is-primary" @click="addIngredient(group)">
-                  <span class="icon">
-                    <i class="mdi mdi-plus"></i>
-                  </span>
-                  <span>ინგრედიენტის დამატება</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </draggable>
-
-        <div class="control">
-          <button type="button" class="button" @click="addIngredientSection()">
-            <span class="icon">
-              <i class="mdi mdi-plus"></i>
-            </span>
-            <span>სექციის დამატება</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">აღწერა</label>
+        <label class="label">მოკლე აღწერა</label>
         <div class="control">
           <no-ssr>
             <vue-editor
@@ -210,7 +115,7 @@
       </div>
 
       <div class="field">
-        <label class="label">მომზადება</label>
+        <label class="label">ტექსტი</label>
         <div class="control">
           <no-ssr>
             <vue-editor
@@ -297,9 +202,7 @@ export default {
           excerpt: "",
           status: "unpublished",
           tags: [],
-          ingredients: [],
-          featured: false,
-          type: "recipe"
+          type: "blog"
         };
         return;
       }
@@ -356,40 +259,6 @@ export default {
         if (t._id === tag._id) found = true;
       });
       return found;
-    },
-    addIngredient(parent) {
-      if (!parent.children) parent.children = [];
-
-      let id = [parent.id + parent.children.length].join("-");
-
-      parent.children.push({
-        name: "",
-        id: id
-      });
-    },
-    addIngredientSection() {
-      this.post.ingredients.push({
-        name: "",
-        section: true,
-        children: [],
-        id: "" + this.post.ingredients.length
-      });
-    },
-    removeIngredient(index, parent) {
-      if (
-        !this.isEmpty(parent.children[index]) &&
-        !confirm("ნამდვილად გსურთ ინგრედიენტის წაშლა?")
-      )
-        return;
-      parent.children.splice(index, 1);
-    },
-    removeIngredientSection(index) {
-      if (
-        !this.isEmptySection(this.post.ingredients[index]) &&
-        !confirm("ნამდვილად გსურთ სექციის წაშლა?")
-      )
-        return;
-      this.post.ingredients.splice(index, 1);
     },
     removePicture() {
       this.post.picture = null;

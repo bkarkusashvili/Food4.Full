@@ -2,7 +2,8 @@ const Schema = require('mongoose').Schema;
 
 const schema = new Schema({
     type: {
-        type: String
+        type: String,
+        default: 'recipe'
     },
     slug: {
         type: String,

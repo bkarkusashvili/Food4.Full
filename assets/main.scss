@@ -21,6 +21,12 @@ $navbar-dropdown-item-active-color: black;
 
 @import "~bulma/bulma";
 
+.ql-snow .ql-picker.ql-size .ql-picker-item::before,
+.ql-snow .ql-picker.ql-size .ql-picker-label::before {
+  content: attr(data-value);
+  font-size: attr(data-value) !important;
+}
+
 html,
 body {
   height: 100%;

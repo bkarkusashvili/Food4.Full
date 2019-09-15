@@ -13,6 +13,7 @@
   </div>
 </template>
 <script>
+var fontSizes = ["14px", "16px", "18px", "22px", "24px", "28px", "32px"];
 var defaultToolbar = [
   ["bold", "italic", "underline", "strike"],
   ["blockquote", "code-block", "image", "link"],
@@ -23,7 +24,7 @@ var defaultToolbar = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
   [{ color: [] }, { background: [] }],
-  [{ font: [] }],
+  [{ font: [] }, { size: fontSizes }],
   [{ align: [] }],
 
   ["clean"]
@@ -82,15 +83,17 @@ export default {
     setQuillElement() {
       const Quill = require("quill");
       const quillImageResize = require("quill-image-resize"),
-      ImageResize = quillImageResize.default;
-      console.log(ImageResize)
+        ImageResize = quillImageResize.default;
       Quill.register("modules/imageResize", ImageResize);
+      const Size = Quill.import("attributors/style/size");
+      Size.whitelist = fontSizes;
+      Quill.register(Size, true);
 
       this.quill = new Quill(this.$refs.quillContainer, {
         modules: {
           toolbar: this.toolbar,
           imageResize: {
-            modules: [ 'Resize', 'DisplaySize', 'Toolbar' ]
+            modules: ["Resize", "DisplaySize", "Toolbar"]
           }
         },
         placeholder: this.placeholder ? this.placeholder : "",

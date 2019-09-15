@@ -12,6 +12,12 @@ module.exports = function (req, res) {
         query.featured = req.query.featured !== "false";
     }
 
+    if (req.query.type) {
+        query.type = req.query.type;
+    } else {
+        query.type = 'recipe';
+    }
+
     let limit = 10, offset = 0;
     if (!isNaN(req.query.limit)) {
         limit = parseInt(req.query.limit);
