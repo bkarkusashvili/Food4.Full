@@ -115,13 +115,13 @@ export default {
           type: "latest",
           featured: false,
           compact: true,
-          limit: 4
+          limit: 8
         },
         {
           title: "რჩეული რეცეპტები",
           type: "featured",
           compact: true,
-          limit: 4
+          limit: 8
         },
         {
           type: "tags",

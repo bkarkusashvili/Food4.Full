@@ -11,7 +11,7 @@ module.exports = function (req, res) {
     if (req.query.featured)
         query.featured = true;
 
-    let limit = 10, offset = 0, postLimit = 10, postOffset = 0;
+    let limit = 10, offset = 0, postLimit = 8, postOffset = 0;
     if (!isNaN(req.query.limit)) {
         limit = parseInt(req.query.limit);
     }
@@ -32,6 +32,7 @@ module.exports = function (req, res) {
         .sort("-featured priority -createdAt")
         .lean()
         .then(function (tags) {
+            postLimit = tags.length * postLimit;
             return mongoose.model('Post')
                 .find({ tags: { $in: tags.map((tag) => mongoose.Types.ObjectId(tag._id)) } })
                 .lean()
