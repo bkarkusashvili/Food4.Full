@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-var fontSizes = ["14px", "16px", "18px", "22px", "24px", "28px", "32px"];
+var fontSizes = ["12px", "14px", "16px", "18px", "22px", "24px", "28px", "32px"];
 var defaultToolbar = [
   ["bold", "italic", "underline", "strike"],
   ["blockquote", "code-block", "image", "link"],
