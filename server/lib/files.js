@@ -53,7 +53,7 @@ function processUploadedFile(file, options) {
     return fs.mkdirp(options.path).then(() => {
         let promises = [];
         promises.push(sharp(file.data).toFile(variants.original.path));
-        promises.push(sharp(file.data).resize(300).toFile(variants.thumb.path));
+        promises.push(sharp(file.data).resize(300, null, { withoutEnlargement: true }).toFile(variants.thumb.path));
         return Promise.all(promises);
     }).then(function () {
         options.variants = variants;

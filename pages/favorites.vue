@@ -49,4 +49,9 @@ export default {
   padding-top: 2em;
   padding-bottom: 2em;
 }
+
+.favorites-page .recipe-container {
+  flex-basis: 25%;
+  padding-right: 1em;
+}
 </style>

@@ -72,6 +72,7 @@ export default {
       padding: 2em;
       color: white;
       min-width: 25em;
+      max-width: 70%;
       min-height: 12em;
       flex-direction: column;
       display: flex;
