@@ -28,7 +28,7 @@
         </div>
       </section>
 
-      <section class="recipe-description" v-if="recipe.description">
+      <section class="recipe-description ql-editor" v-if="recipe.description">
         <div v-html="recipe.description"></div>
       </section>
 
@@ -67,7 +67,7 @@
         </div>
       </section>
 
-      <section class="recipe-preparation" v-if="recipe.content">
+      <section class="recipe-preparation ql-editor" v-if="recipe.content">
         <h2 class="section-header has-text-centered">მომზადება</h2>
         <div v-html="recipe.content"></div>
       </section>

@@ -22,16 +22,16 @@ export default {
     return {
       links: [
         {
-          icon: "facebook-box",
-          title: "Facebook",
-          href: "https://facebook.com",
-          color: "#3b5998"
-        },
-        {
           icon: "instagram",
           title: "Instagram",
           href: "https://instagram.com",
           color: "#c13584"
+        },
+        {
+          icon: "facebook-box",
+          title: "Facebook",
+          href: "https://facebook.com",
+          color: "#3b5998"
         },
         {
           icon: "twitter",

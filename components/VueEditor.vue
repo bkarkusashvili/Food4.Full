@@ -13,9 +13,6 @@
   </div>
 </template>
 <script>
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-
 var defaultToolbar = [
   ["bold", "italic", "underline", "strike"],
   ["blockquote", "code-block", "image", "link"],

@@ -17,7 +17,7 @@
         ></iframe>
       </div>
 
-      <section class="page-content">
+      <section class="page-content ql-editor">
         <div v-html="page.content"></div>
       </section>
     </div>

@@ -7,6 +7,7 @@
           <single-recipe class="search-result" :post="post" />
         </div>
       </div>
+      <pagination :page="page" :total="total" :per-page="perPage" @goto="gotoPage" />
     </div>
   </div>
 </template>
@@ -18,18 +19,51 @@ export default {
   components: { SingleRecipe },
   data() {
     return {
-      tag: {}
+      tag: {},
+      total: 1,
+      page: 1,
+      perPage: 12
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    fetchData() {
+      this.$axios
+        .get("/api/tags/" + this.$route.params.id)
+        .then(response => {
+          this.tag = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.fetchData();
+    },
+    queryParams() {
+      return {
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      };
+    }
+  },
   watch: {},
   asyncData({ $axios, params, error }) {
     if (!params.id) return;
     return $axios
-      .get("/api/tags/" + params.id)
+      .get("/api/tags/" + params.id, {params: { perPage: 12 }})
       .then(response => {
-        return { tag: response.data };
+        let data = { tag: response.data };
+        let total = response.headers["x-total-count"];
+        if (!isNaN(total)) data.total = parseInt(total);
+        return data;
       })
       .catch(err => {
         console.error(err);
