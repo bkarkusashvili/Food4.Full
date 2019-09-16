@@ -5,8 +5,8 @@
         <h1 class="title">{{page.title}}</h1>
         <h2 class="subtitle">{{page.subtitle}}</h2>
       </section>
-      
-      <img class="page-picture" :src="page.picture" alt="" v-if="!page.video && page.picture">
+
+      <img class="page-picture" :src="page.picture" alt v-if="!page.video && page.picture" />
 
       <div class="youtube-embed" v-if="page.video">
         <iframe
@@ -48,7 +48,15 @@ export default {
   head() {
     if (this.page)
       return {
-        title: this.page.title + " - " + this.$store.state.settings.title
+        title: this.page.title + " - " + this.$store.state.settings.title,
+        meta: [
+          {
+            hid: "og:title",
+            name: "og:title",
+            property: "og:title",
+            content: this.page.title + " - " + this.$store.state.settings.title
+          }
+        ]
       };
   }
 };

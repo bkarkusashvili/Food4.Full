@@ -2,7 +2,7 @@
   <article class="blog-page">
     <div class="container">
       <div class="flex">
-        <div class="picture-container" style="">
+        <div class="picture-container">
           <div
             class="post-image"
             v-if="post.picture"
@@ -71,6 +71,12 @@ export default {
             name: 'og:type',
             property: 'og:type',
             content: "article"
+          },
+          {
+            hid: "og:title",
+            name: "og:title",
+            property: "og:title",
+            content: this.post.title + " - " + this.$store.state.settings.title
           }
         ]
       };
@@ -97,13 +103,16 @@ export default {
     }
   }
 
+  .picture-container {
+    text-align: center;
+  }
   .post-image {
-    width: 100%;
-    display: block;
-    padding-bottom: 100%;
+    width: 300px;
+    height: 300px;
     background-size: cover;
     background-position: center;
     border-radius: 100%;
+    margin: 0 auto;
   }
 
   .hero {

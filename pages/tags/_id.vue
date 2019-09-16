@@ -75,7 +75,15 @@ export default {
   head() {
     if (this.tag)
       return {
-        title: this.tag.title + " - " + this.$store.state.settings.title
+        title: this.tag.title + " - " + this.$store.state.settings.title,
+        meta: [
+          {
+            hid: "og:title",
+            name: "og:title",
+            property: "og:title",
+            content: this.tag.title + " - " + this.$store.state.settings.title
+          }
+        ]
       };
   }
 };

@@ -26,6 +26,19 @@ export default {
   },
   created() {
   },
+  head() {
+      return {
+        title: "შესვლა / რეგისტრაცია" + " - " + this.$store.state.settings.title,
+        meta: [
+          {
+            hid: "og:title",
+            name: "og:title",
+            property: "og:title",
+            content: "შესვლა / რეგისტრაცია" + " - " + this.$store.state.settings.title
+          }
+        ]
+      };
+  },
   methods: {
   }
 };

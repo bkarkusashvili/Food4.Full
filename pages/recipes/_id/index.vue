@@ -167,6 +167,11 @@ export default {
             name: 'og:type',
             property: 'og:type',
             content: "article"
+          },{
+            hid: "og:title",
+            name: "og:title",
+            property: "og:title",
+            content: this.recipe.title + " - " + this.$store.state.settings.title
           }
         ]
       };
