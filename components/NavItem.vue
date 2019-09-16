@@ -5,7 +5,7 @@
     :key="item.id"
     :class="{'active': active}"
   >
-    <a class="navbar-link" :style="'color:' + item.color" @click="active=!active">{{item.title}}</a>
+    <a class="navbar-link" :style="'color:' + item.color" @click.stop="active=!active">{{item.title}}</a>
 
     <div class="navbar-dropdown" v-if="item.children">
       <nav-item v-for="child in item.children" :item="child" child :key="child.id" />

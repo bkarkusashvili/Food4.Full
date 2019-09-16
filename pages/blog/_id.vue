@@ -58,7 +58,21 @@ export default {
   head() {
     if (this.post)
       return {
-        title: this.post.title + " - " + this.$store.state.settings.title
+        title: this.post.title + " - " + this.$store.state.settings.title,
+        meta: [
+          {
+            hid: 'og:image',
+            name: 'og:image',
+            property: 'og:image',
+            content: this.post.thumb || this.post.picture
+          },
+          {
+            hid: 'og:type',
+            name: 'og:type',
+            property: 'og:type',
+            content: "article"
+          }
+        ]
       };
   }
 };
@@ -88,7 +102,7 @@ export default {
     display: block;
     padding-bottom: 100%;
     background-size: cover;
-    background-position-y: center;
+    background-position: center;
     border-radius: 100%;
   }
 

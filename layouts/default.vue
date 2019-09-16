@@ -36,11 +36,29 @@ export default {
   head() {
     let head = {
       title: this.$store.state.settings.title,
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://food4.ge' + this.$route.path,
+        }
+      ],
       meta: [
         {
           hid: "description",
           name: "description",
           content: this.$store.state.settings.description
+        },
+        {
+          hid: "og:description",
+          name: "og:description",
+          property: "og:description",
+          content: this.$store.state.settings.description
+        },
+        {
+          hid: "og:title",
+          name: "og:title",
+          property: "og:title",
+          content: this.$store.state.settings.title
         }
       ]
     };

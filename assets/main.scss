@@ -94,13 +94,19 @@ html {
 }
 
 .blog-page .picture-container {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding: 1.5em;
   flex-basis: 30%;
 }
 
 .page-section-blog {
   padding-top: 2em;
+}
+
+.blog-post .post-image-container {
+  padding: 2em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 @media screen and (max-width: $desktop) {

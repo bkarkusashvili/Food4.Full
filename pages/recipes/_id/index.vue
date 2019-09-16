@@ -154,7 +154,21 @@ export default {
   head() {
     if (this.recipe)
       return {
-        title: this.recipe.title + " - " + this.$store.state.settings.title
+        title: this.recipe.title + " - " + this.$store.state.settings.title,
+        meta: [
+          {
+            hid: 'og:image',
+            name: 'og:image',
+            property: 'og:image',
+            content: this.recipe.thumb || this.recipe.picture
+          },
+          {
+            hid: 'og:type',
+            name: 'og:type',
+            property: 'og:type',
+            content: "article"
+          }
+        ]
       };
   }
 };

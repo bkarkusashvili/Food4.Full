@@ -59,7 +59,7 @@ export default {
     display: block;
     padding-bottom: 100%;
     background-size: cover;
-    background-position-y: center;
+    background-position: center;
     border-radius: 100%;
   }
 
