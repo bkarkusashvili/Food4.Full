@@ -2,22 +2,22 @@
   <div class="registration-form">
     <form @submit.prevent="register" autocomplete="off" v-show="!showEmailConfirmation">
       <div class="field">
-        <label class="label is-large">სახელი</label>
+        <label class="label is-medium">სახელი</label>
         <div class="control">
-          <input class="input is-large" type="name" autocomplete="name" v-model="name" required />
+          <input class="input is-medium" type="name" autocomplete="name" v-model="name" required />
         </div>
       </div>
       <div class="field">
-        <label class="label is-large">ელ-ფოსტა</label>
+        <label class="label is-medium">ელ-ფოსტა</label>
         <div class="control">
-          <input class="input is-large" autocomplete="email" type="email" v-model="email" required />
+          <input class="input is-medium" autocomplete="email" type="email" v-model="email" required />
         </div>
       </div>
       <div class="field">
-        <label class="label is-large">პაროლი</label>
+        <label class="label is-medium">პაროლი</label>
         <div class="control">
           <input
-            class="input is-large"
+            class="input is-medium"
             type="password"
             autocomplete="new-password"
             v-model="password"
@@ -26,10 +26,10 @@
         </div>
       </div>
       <div class="field">
-        <label class="label is-large">პაროლი (განმეორებით)</label>
+        <label class="label is-medium">პაროლი (განმეორებით)</label>
         <div class="control">
           <input
-            class="input is-large"
+            class="input is-medium"
             type="password"
             autocomplete="new-password"
             v-model="repeatPassword"
@@ -45,7 +45,7 @@
 
       <div class="field">
         <div class="control">
-          <button class="button is-success is-large is-fullwidth" :disabled="loading">
+          <button class="button is-success is-medium is-fullwidth" :disabled="loading">
             <span>რეგისტრაცია</span>
             <span class="icon" v-show="loading">
               <i class="mdi-refresh mdi-spin"></i>

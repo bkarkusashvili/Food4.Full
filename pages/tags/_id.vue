@@ -4,7 +4,8 @@
       <h1 class="title">{{tag.title}}</h1>
       <div class="flex flex-row flex-wrap">
         <div class="recipe-container" v-for="post in tag.posts" :key="post._id">
-          <single-recipe class="search-result" :post="post" />
+          <single-recipe class="search-result" :post="post" v-if="post.type === 'recipe'" />
+          <blog-post class="search-result" :post="post" v-if="post.type === 'blog'" />
         </div>
       </div>
       <pagination :page="page" :total="total" :per-page="perPage" @goto="gotoPage" />
@@ -14,9 +15,10 @@
 
 <script>
 import SingleRecipe from "../../components/SingleRecipe";
+import BlogPost from "../../components/BlogPost";
 
 export default {
-  components: { SingleRecipe },
+  components: { SingleRecipe, BlogPost },
   data() {
     return {
       tag: {},
@@ -83,10 +85,5 @@ export default {
 .tag-page {
   padding-top: 2em;
   padding-bottom: 2em;
-}
-
-.tag-page .recipe-container {
-  flex-basis: 25%;
-  padding-right: 1em;
 }
 </style>

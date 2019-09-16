@@ -2,21 +2,21 @@
   <div class="login-form">
     <form @submit.prevent="login">
       <div class="field">
-        <label class="label is-large">ელ-ფოსტა</label>
+        <label class="label is-medium">ელ-ფოსტა</label>
         <div class="control">
-          <input class="input is-large" type="email" v-model="email" autocomplete="username" />
+          <input class="input is-medium" type="email" v-model="email" autocomplete="username" />
         </div>
       </div>
       <div class="field">
-        <label class="label is-large">პაროლი</label>
+        <label class="label is-medium">პაროლი</label>
         <div class="control">
-          <input class="input is-large" type="password" v-model="password" autocomplete="current-password" />
+          <input class="input is-medium" type="password" v-model="password" autocomplete="current-password" />
         </div>
       </div>
 
       <div class="field is-grouped">
         <div class="control">
-          <label class="checkbox is-large">
+          <label class="checkbox is-medium">
             <input type="checkbox" v-model="remember" />
             დამიმახსოვრე
           </label>
@@ -38,7 +38,7 @@
 
       <div class="field">
         <div class="control">
-          <button class="button is-success is-large is-fullwidth" :disabled="loading">
+          <button class="button is-success is-medium is-fullwidth" :disabled="loading">
             <span>შესვლა</span>
             <span class="icon" v-show="loading">
               <i class="mdi-refresh mdi-spin"></i>

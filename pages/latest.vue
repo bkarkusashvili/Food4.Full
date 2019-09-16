@@ -77,7 +77,6 @@ export default {
 
 <style lang="scss">
 .latest-page {
-  padding-top: 2em;
-  padding-bottom: 2em;
+  padding: 1.5em;
 }
 </style>

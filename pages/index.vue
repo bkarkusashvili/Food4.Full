@@ -2,7 +2,7 @@
   <div class="index-page">
     <div class="container">
       <page-section
-        class="section"
+        class="section main-page-section"
         v-for="(section, index) in sections"
         :section="section"
         :key="index"
@@ -127,6 +127,12 @@ export default {
           type: "tags",
           compact: true
           //tags: ["5d36e717452aac0656d518ad", "5d373520478a544f3e7e5fb2"]
+        },
+        {
+          type: "tags",
+          class: "compact page-section-blog",
+          all: true,
+          tags: ["blog"]
         }
       ]
     };

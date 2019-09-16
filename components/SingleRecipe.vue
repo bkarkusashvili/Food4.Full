@@ -1,5 +1,5 @@
 <template>
-  <div class="single-recipe" :class="{ 'bordered': border, 'compact': compact }">
+  <div class="single-recipe has-text-centered" :class="{ 'bordered': border, 'compact': compact }">
     <nuxt-link
       :to="'/recipes/' + post.slug"
       class="recipe-image"

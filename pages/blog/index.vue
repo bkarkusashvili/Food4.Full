@@ -1,9 +1,11 @@
 <template>
-  <div class="latest-page">
+  <div class="blog-index-page">
     <div class="container page-container">
-      <h1 class="title">ბლოგი</h1>
-      <div>
-        <blog-post :post="post" v-for="post in posts" :key="post._id" />
+      <!-- <h1 class="title">ბლოგი</h1> -->
+      <div class="flex flex-row flex-wrap">
+        <div class="recipe-container">
+          <blog-post :post="post" v-for="post in posts" :key="post._id" />
+        </div>
       </div>
       <pagination :page="page" :total="total" :per-page="perPage" @goto="gotoPage" />
     </div>
@@ -75,8 +77,7 @@ export default {
 </script>
 
 <style lang="scss">
-.latest-page {
-  padding-top: 2em;
-  padding-bottom: 2em;
+.blog-index-page {
+  padding: 1.5em;
 }
 </style>

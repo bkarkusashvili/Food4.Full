@@ -259,6 +259,7 @@ export default {
 
     .recipe-footer,
     .recipe-picture,
+    .recipe-description,
     .recipe-info,
     .youtube-embed {
       display: none;

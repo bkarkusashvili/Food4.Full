@@ -1,6 +1,6 @@
 <template>
-  <div class="blog-post flex flex-row" :class="{ 'bordered': border, 'compact': compact }">
-    <div class="flex-grow-2 post-image-container">
+  <div class="blog-post" :class="{ 'bordered': border, 'compact': compact }">
+    <div class="post-image-container">
       <nuxt-link
         :to="'/blog/' + post.slug"
         class="post-image"
@@ -8,14 +8,13 @@
         v-if="!noPicture"
       ></nuxt-link>
     </div>
-    <div class="post-description flex-grow-3">
+    <div class="post-description">
       <div class="post-info">
         {{post.publishedAt | date}}
       </div>
       <nuxt-link class="post-title" :to="'/blog/' + post.slug">{{post.title}}</nuxt-link>
 
       <h2 class="post-subtitle" v-if="post.subtitle">{{post.subtitle}}</h2>
-      <div class="post-excerpt" v-show="excerpt" v-html="post.description"></div>
     </div>
   </div>
 </template>
@@ -24,7 +23,6 @@
 export default {
   props: {
     post: Object,
-    excerpt: { type: Boolean, default: true },
     noPicture: { type: Boolean, default: false },
     border: Boolean,
     compact: Boolean
@@ -36,6 +34,7 @@ export default {
 .blog-post {
   padding: 5px;
   margin-bottom: 15px;
+  text-align: center;
 
   &.bordered {
     border-bottom: 1px solid #666;
@@ -50,22 +49,18 @@ export default {
       font-size: 14px;
       margin-bottom: 8px;
     }
-    .post-excerpt {
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
   }
 
   .post-image-container {
-    margin-right: 1em;
   }
 
   .post-image {
     width: 100%;
     display: block;
-    padding-bottom: 56.25%;
+    padding-bottom: 100%;
     background-size: cover;
     background-position-y: center;
+    border-radius: 100%;
   }
 
   .post-description {
@@ -76,7 +71,7 @@ export default {
     color: black;
     font-size: 22px;
     line-height: 1.3;
-    margin-bottom: 13px;
+    margin-bottom: 8px;
     font-weight: normal;
     transition: color 0.3s;
 
@@ -91,11 +86,6 @@ export default {
     font-size: 16px;
     line-height: 1;
     margin-bottom: 13px;
-  }
-
-  .post-excerpt {
-    font-size: 16px;
-    line-height: 27px;
   }
 
   .post-link {

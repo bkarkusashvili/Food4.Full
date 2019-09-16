@@ -1,26 +1,35 @@
 <template>
   <article class="blog-page">
     <div class="container">
-      <section class="post-header has-text-centered">
-        <div class="post-info">{{post.publishedAt | date}}</div>
-        <h1 class="title">{{post.title}}</h1>
-        <h2 class="subtitle">{{post.subtitle}}</h2>
-      </section>
+      <div class="flex">
+        <div class="flex-grow-1 picture-container" style="">
+          <div
+            class="post-image"
+            v-if="post.picture"
+            :style="(post.thumb || post.picture) | cssbg"
+          ></div>
+        </div>
+        <div class="flex-grow-3">
+          <section class="post-header">
+            <div class="post-info">{{post.publishedAt | date}}</div>
+            <h1 class="title">{{post.title}}</h1>
+            <h2 class="subtitle">{{post.subtitle}}</h2>
+          </section>
 
-      <img class="post-picture" :src="post.picture" alt v-if="!post.video && post.picture" />
+          <div class="youtube-embed" v-if="post.video">
+            <iframe
+              :src="post.video | youtubeEmbed"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
 
-      <div class="youtube-embed" v-if="post.video">
-        <iframe
-          :src="post.video | youtubeEmbed"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+          <section class="post-content ql-editor">
+            <div v-html="post.content"></div>
+          </section>
+        </div>
       </div>
-
-      <section class="post-content ql-editor">
-        <div v-html="post.content"></div>
-      </section>
     </div>
   </article>
 </template>
@@ -74,10 +83,13 @@ export default {
     }
   }
 
-  .post-picture {
+  .post-image {
+    width: 100%;
     display: block;
-    margin: 0 auto;
-    max-height: 400px;
+    padding-bottom: 100%;
+    background-size: cover;
+    background-position-y: center;
+    border-radius: 100%;
   }
 
   .hero {

@@ -20,7 +20,7 @@
     </div>
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
-      <div class="navbar-start">
+      <div class="navbar-start" @click="showNav = false">
         <nav-item v-for="item in $store.state.settings.navigation" :item="item" :key="item.id" />
       </div>
 

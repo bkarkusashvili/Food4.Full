@@ -1,6 +1,6 @@
 <template>
-  <div class="page-section-tags" :class="{'compact': section.compact}">
-    <div class="tags are-medium is-centered" v-show="!all">
+  <div class="page-section-tags" :class="section.class">
+    <div class="tags are-medium is-centered" v-show="!section.all">
       <a
         class="tag"
         v-for="tag in tags"
@@ -20,6 +20,14 @@
           :no-picture="section.noPictures"
           :border="section.borders"
           :compact="section.compact"
+          v-if="post.type === 'recipe'"
+        />
+        <blog-post
+          :post="post"
+          v-if="post.type === 'blog'"
+          :no-picture="section.noPictures"
+          :border="section.borders"
+          :compact="section.compact"
         />
       </div>
     </div>
@@ -28,13 +36,13 @@
 
 <script>
 import SingleRecipe from "./SingleRecipe";
+import BlogPost from "./BlogPost";
 
 export default {
   name: "page-section-tags",
-  components: { SingleRecipe },
+  components: { SingleRecipe, BlogPost },
   props: {
     section: { type: Object, required: true },
-    all: Boolean
   },
   data() {
     return {
@@ -85,9 +93,5 @@ export default {
 .page-section-tags.compact .title {
   font-size: 24px;
   margin-bottom: 10px;
-}
-.page-section-tags .recipe-container {
-  flex-basis: 25%;
-  padding-right: 1em;
 }
 </style>

@@ -1,11 +1,35 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    let query = {
-        invisible: false
-    };
-    if (req.query._id) {
-        query._id = req.query._id;
+    let query = {};
+
+    if (req.query._id instanceof Array) {
+        let ids = [];
+        for (let i in req.query._id) {
+            if (mongoose.Types.ObjectId.isValid(req.query._id)) {
+                ids.push(mongoose.Types.ObjectId(req.query._id));
+            }
+        }
+        if (ids.length) {
+
+            query['$or'] = [
+                { _id: ids },
+                { slug: req.query._id }
+            ]
+        } else {
+            query['slug'] = req.query._id;
+        }
+    } else if (req.query._id != null) {
+        if (mongoose.Types.ObjectId.isValid(req.query._id)) {
+            query['$or'] = [
+                { _id: id },
+                { slug: mongoose.Types.ObjectId(req.query._id) }
+            ]
+        } else {
+            query['slug'] = req.query._id;
+        }
+    } else {
+        query.invisible = false;
     }
 
     if (req.query.featured)

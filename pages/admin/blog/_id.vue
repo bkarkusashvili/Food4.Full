@@ -101,20 +101,6 @@
       </div>
 
       <div class="field">
-        <label class="label">მოკლე აღწერა</label>
-        <div class="control">
-          <no-ssr>
-            <vue-editor
-              v-model="post.description"
-              id="editor-description"
-              useCustomImageHandler
-              @imageAdded="handleImageAdded"
-            />
-          </no-ssr>
-        </div>
-      </div>
-
-      <div class="field">
         <label class="label">ტექსტი</label>
         <div class="control">
           <no-ssr>
