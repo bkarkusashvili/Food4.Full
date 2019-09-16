@@ -3,11 +3,7 @@
     <div class="container">
       <div class="flex">
         <div class="picture-container">
-          <div
-            class="post-image"
-            v-if="post.picture"
-            :style="(post.thumb || post.picture) | cssbg"
-          ></div>
+          <div class="post-image" v-if="post.picture" :style="(post.thumb || post.picture) | cssbg"></div>
         </div>
         <div class="flex-grow-1">
           <section class="post-header">
@@ -56,30 +52,39 @@ export default {
       });
   },
   head() {
-    if (this.post)
-      return {
-        title: this.post.title + " - " + this.$store.state.settings.title,
-        meta: [
-          {
-            hid: 'og:image',
-            name: 'og:image',
-            property: 'og:image',
-            content: this.post.thumb || this.post.picture
-          },
-          {
-            hid: 'og:type',
-            name: 'og:type',
-            property: 'og:type',
-            content: "article"
-          },
-          {
-            hid: "og:title",
-            name: "og:title",
-            property: "og:title",
-            content: this.post.title + " - " + this.$store.state.settings.title
-          }
-        ]
-      };
+    if (!this.post) return;
+
+    let head = {
+      title: this.post.title + " - " + this.$store.state.settings.title,
+      meta: [
+        {
+          hid: "og:type",
+          property: "og:type",
+          content: "article"
+        },
+        {
+          hid: "og:title",
+          property: "og:title",
+          content: this.post.title + " - " + this.$store.state.settings.title
+        }
+      ]
+    };
+
+    if (this.post.picture) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: "https://food4.ge" + this.post.picture
+      });
+    } else if (this.post.video) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: this.$options.filters.youtubeThumb(this.post.video)
+      });
+    }
+
+    return head;
   }
 };
 </script>

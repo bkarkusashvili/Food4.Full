@@ -46,18 +46,39 @@ export default {
       });
   },
   head() {
-    if (this.page)
-      return {
-        title: this.page.title + " - " + this.$store.state.settings.title,
-        meta: [
-          {
-            hid: "og:title",
-            name: "og:title",
-            property: "og:title",
-            content: this.page.title + " - " + this.$store.state.settings.title
-          }
-        ]
-      };
+    if (!this.page) return;
+
+    let head = {
+      title: this.page.title + " - " + this.$store.state.settings.title,
+      meta: [
+        {
+          hid: "og:type",
+          property: "og:type",
+          content: "article"
+        },
+        {
+          hid: "og:title",
+          property: "og:title",
+          content: this.page.title + " - " + this.$store.state.settings.title
+        }
+      ]
+    };
+
+    if (this.page.picture) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: "https://food4.ge" + this.page.picture
+      });
+    } else if (this.page.video) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: this.$options.filters.youtubeThumb(this.page.video)
+      });
+    }
+
+    return head;
   }
 };
 </script>

@@ -63,14 +63,22 @@ export default {
         },
         {
           hid: "og:description",
-          name: "og:description",
           property: "og:description",
           content: this.$store.state.settings.description
         },
         {
           hid: "og:title",
-          name: "og:title",
           property: "og:title",
+          content: this.$store.state.settings.title
+        },
+        {
+          hid: "og:site_name",
+          property: "og:site_name",
+          content: this.$store.state.settings.title
+        },
+        {
+          hid: "apple-mobile-web-app-title",
+          property: "apple-mobile-web-app-title",
           content: this.$store.state.settings.title
         }
       ]

@@ -152,29 +152,39 @@ export default {
       });
   },
   head() {
-    if (this.recipe)
-      return {
-        title: this.recipe.title + " - " + this.$store.state.settings.title,
-        meta: [
-          {
-            hid: 'og:image',
-            name: 'og:image',
-            property: 'og:image',
-            content: this.recipe.thumb || this.recipe.picture
-          },
-          {
-            hid: 'og:type',
-            name: 'og:type',
-            property: 'og:type',
-            content: "article"
-          },{
-            hid: "og:title",
-            name: "og:title",
-            property: "og:title",
-            content: this.recipe.title + " - " + this.$store.state.settings.title
-          }
-        ]
-      };
+    if (!this.recipe) return;
+
+    let head = {
+      title: this.recipe.title + " - " + this.$store.state.settings.title,
+      meta: [
+        {
+          hid: "og:type",
+          property: "og:type",
+          content: "article"
+        },
+        {
+          hid: "og:title",
+          property: "og:title",
+          content: this.recipe.title + " - " + this.$store.state.settings.title
+        }
+      ]
+    };
+
+    if (this.recipe.picture) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: "https://food4.ge" + this.recipe.picture
+      });
+    } else if (this.recipe.video) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: this.$options.filters.youtubeThumb(this.recipe.video)
+      });
+    }
+
+    return head;
   }
 };
 </script>
