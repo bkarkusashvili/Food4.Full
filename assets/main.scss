@@ -31,9 +31,17 @@ $navbar-dropdown-item-active-color: black;
   font-size: 16px;
 }
 
-html,
-body {
+.post-content.ql-editor,
+.page-content.ql-editor,
+.recipe-description.ql-editor {
+  height: auto;
+}
+
+html {
   height: 100%;
+}
+body {
+  min-height: 100%;
 }
 
 .nuxt-progress {
@@ -100,6 +108,9 @@ html {
 
 .page-section-blog {
   // padding-top: 2em;
+  .flex-row {
+    justify-content: center;
+  }
 }
 
 .blog-post .post-image-container {

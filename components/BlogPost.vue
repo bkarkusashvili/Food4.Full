@@ -54,9 +54,10 @@ export default {
   }
 
   .post-image {
-    width: 100%;
+    height: 180px;
+    width: 180px;
+    margin: 0 auto;
     display: block;
-    padding-bottom: 100%;
     background-size: cover;
     background-position: center;
     border-radius: 100%;
