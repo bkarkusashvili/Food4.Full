@@ -77,7 +77,7 @@
       </div>
 
       <label class="label">ტეგები</label>
-      <div class="field is-grouped">
+      <div class="field" style="line-height: 2.5">
         <div class="control">
           <draggable v-model="post.tags">
             <span
