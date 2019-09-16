@@ -83,7 +83,7 @@ export default {
         return (
           post.tags && post.tags.find(tag => tag._id === this.selectedTag._id)
         );
-      });
+      }).slice(0, 3);
     }
   }
 };
