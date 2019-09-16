@@ -32,7 +32,6 @@ export default {
 
 <style lang="scss">
 .blog-post {
-  padding: 5px;
   margin-bottom: 15px;
   text-align: center;
 
