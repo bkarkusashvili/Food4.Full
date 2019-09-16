@@ -13,6 +13,19 @@
       :duration="10000"
       :max="5"
     />
+    <no-ssr>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148021181-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "UA-148021181-1");
+      </script>
+    </no-ssr>
   </div>
 </template>
 
@@ -38,8 +51,8 @@ export default {
       title: this.$store.state.settings.title,
       link: [
         {
-          rel: 'canonical',
-          href: 'https://food4.ge' + this.$route.path,
+          rel: "canonical",
+          href: "https://food4.ge" + this.$route.path
         }
       ],
       meta: [
