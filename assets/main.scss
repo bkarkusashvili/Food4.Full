@@ -96,6 +96,7 @@ html {
 .blog-page .picture-container {
   padding-top: 1em;
   padding-bottom: 1em;
+  flex-basis: 30%;
 }
 
 .page-section-blog {
@@ -114,6 +115,7 @@ html {
   .blog-page .picture-container {
     padding-left: 1em;
     padding-right: 1em;
+    flex-basis: auto;
   }
   .blog-page .post-header {
     text-align: center;

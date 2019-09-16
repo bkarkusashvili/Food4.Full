@@ -2,14 +2,14 @@
   <article class="blog-page">
     <div class="container">
       <div class="flex">
-        <div class="flex-grow-1 picture-container" style="">
+        <div class="picture-container" style="">
           <div
             class="post-image"
             v-if="post.picture"
             :style="(post.thumb || post.picture) | cssbg"
           ></div>
         </div>
-        <div class="flex-grow-3">
+        <div class="flex-grow-1">
           <section class="post-header">
             <div class="post-info">{{post.publishedAt | date}}</div>
             <h1 class="title">{{post.title}}</h1>
