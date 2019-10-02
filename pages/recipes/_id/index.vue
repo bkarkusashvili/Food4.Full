@@ -29,7 +29,7 @@
       </section>
 
       <section class="recipe-description ql-editor" v-if="recipe.description">
-        <div v-html="recipe.description"></div>
+        <div ref="description" v-html="recipe.description"></div>
       </section>
 
       <img class="recipe-picture" :src="recipe.picture" alt v-if="recipe.picture && !recipe.video" />
@@ -169,6 +169,19 @@ export default {
         }
       ]
     };
+
+    if (this.recipe.excerpt) {
+      head.meta.push({
+        hid: "og:description",
+        property: "og:description",
+        content: this.recipe.excerpt
+      });
+
+      head.meta.push({
+        hid: "description",
+        content: this.recipe.excerpt
+      });
+    }
 
     if (this.recipe.picture) {
       head.meta.push({

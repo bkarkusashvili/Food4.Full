@@ -11,6 +11,9 @@ const schema = new Schema({
     title: {
         type: String
     },
+    excerpt: {
+        type: String
+    },
     subtitle: {
         type: String
     },

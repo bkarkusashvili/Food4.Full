@@ -21,6 +21,9 @@ const schema = new Schema({
     description: {
         type: String
     },
+    excerpt: {
+        type: String
+    },
     picture: {
         type: String
     },
@@ -32,6 +35,9 @@ const schema = new Schema({
         ref: 'File'
     },
     video: {
+        type: String
+    },
+    link: {
         type: String
     },
     status: {

@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import BlogPost from "../../components/BlogPost";
+import NewsPost from "../../components/NewsPost";
 
 export default {
-  components: { BlogPost },
+  components: { NewsPost },
   data() {
     return {
       posts: [],
@@ -45,7 +45,7 @@ export default {
     },
     queryParams() {
       return {
-        type: "blog",
+        type: "news",
         offset: (this.page - 1) * this.perPage,
         limit: this.perPage
       };
@@ -55,7 +55,7 @@ export default {
   },
   asyncData({ $axios, error }) {
     return $axios
-      .get("/api/posts/latest", { params: { type: "blog" } })
+      .get("/api/posts/latest", { params: { type: "news" } })
       .then(response => {
         let data = { posts: response.data };
         let total = response.headers["x-total-count"];

@@ -25,9 +25,9 @@
       </div>
 
       <div class="field">
-        <label class="label">საიტის მოკლე აღწერა</label>
+        <label class="label">საიტის <strong>მოკლე</strong> აღწერა საძიებო სისტემებისთვის (არაუმეტეს 150 სიმბოლო)</label>
         <div class="control">
-          <textarea rows="5" class="textarea" v-model="settings.description"></textarea>
+          <textarea rows="5" maxlength="150" class="textarea" v-model="settings.description"></textarea>
         </div>
       </div>
 

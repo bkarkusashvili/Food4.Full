@@ -202,6 +202,7 @@
             <vue-editor
               v-model="post.description"
               id="editor-description"
+              ref="description"
               useCustomImageHandler
               @imageAdded="handleImageAdded"
             />
@@ -430,6 +431,10 @@ export default {
       this.save();
     },
     save() {
+      this.post.excerpt = this.$refs.description && this.$refs.description.$el.innerText;
+      if(this.post.excerpt)
+        this.post.excerpt = this.post.excerpt.substr(0, 160);
+
       this.loading = true;
       if (!this.post._id) {
         this.$axios

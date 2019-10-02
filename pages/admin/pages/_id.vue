@@ -42,7 +42,6 @@
         </div>
       </div>
 
-
       <div class="field">
         <label class="label">YouTube ვიდეო</label>
         <div class="control">
@@ -71,6 +70,7 @@
             <vue-editor
               v-model="page.content"
               id="editor-content"
+              ref="content"
               useCustomImageHandler
               @imageAdded="handleImageAdded"
             />
@@ -185,6 +185,11 @@ export default {
         });
     },
     save: function() {
+      this.page.excerpt =
+        this.$refs.content && this.$refs.content.$el.innerText;
+      if(this.page.excerpt)
+        this.page.excerpt = this.page.excerpt.substr(0, 160);
+
       if (this.new) {
         this.$axios
           .post("/api/admin/pages", this.page)

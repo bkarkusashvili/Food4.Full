@@ -76,6 +76,13 @@
         </div>
       </div>
 
+      <div class="field">
+        <label class="label">გარე ლინკი</label>
+        <div class="control">
+          <input type="url" class="input" v-model="post.link" />
+        </div>
+      </div>
+
       <label class="label">ტეგები</label>
       <div class="field" style="line-height: 2.5">
         <div class="control">
@@ -101,7 +108,12 @@
       </div>
 
       <div class="field">
-        <label class="label">ტექსტი</label>
+        <label class="label">
+          ტექსტი
+          <span v-show="post.link" class="has-text-warning" title="ლინკის გამო ტექსტი არ გამოჩნდება">
+            <i class="mdi mdi-alert"></i>
+          </span>
+        </label>
         <div class="control">
           <no-ssr>
             <vue-editor
@@ -189,7 +201,7 @@ export default {
           excerpt: "",
           status: "unpublished",
           tags: [],
-          type: "blog"
+          type: "news"
         };
         return;
       }
@@ -286,8 +298,9 @@ export default {
       this.save();
     },
     save() {
-      this.post.excerpt = this.$refs.content && this.$refs.content.$el.innerText;
-      if(this.post.excerpt)
+      this.post.excerpt =
+        this.$refs.content && this.$refs.content.$el.innerText;
+      if (this.post.excerpt)
         this.post.excerpt = this.post.excerpt.substr(0, 160);
 
       this.loading = true;

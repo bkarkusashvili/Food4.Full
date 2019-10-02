@@ -1,24 +1,25 @@
 <template>
-  <article class="page-page">
+  <article class="news-page">
     <div class="container">
-      <section class="page-header has-text-centered">
-        <h1 class="title">{{page.title}}</h1>
-        <h2 class="subtitle">{{page.subtitle}}</h2>
+      <section class="post-header">
+        <div class="post-info">{{post.publishedAt | date}}</div>
+        <h1 class="title">{{post.title}}</h1>
+        <h2 class="subtitle">{{post.subtitle}}</h2>
       </section>
 
-      <img class="page-picture" :src="page.picture" alt v-if="!page.video && page.picture" />
+      <img class="post-image" :src="post.picture" alt v-if="post.picture && !post.video" />
 
-      <div class="youtube-embed" v-if="page.video">
+      <div class="youtube-embed" v-if="post.video">
         <iframe
-          :src="page.video | youtubeEmbed"
+          :src="post.video | youtubeEmbed"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
       </div>
 
-      <section class="page-content ql-editor">
-        <div v-html="page.content"></div>
+      <section class="post-content ql-editor">
+        <div v-html="post.content"></div>
       </section>
     </div>
   </article>
@@ -29,7 +30,7 @@ export default {
   components: {},
   data() {
     return {
-      page: {}
+      post: {}
     };
   },
   created() {},
@@ -37,19 +38,19 @@ export default {
   watch: {},
   asyncData({ params, error, $axios }) {
     return $axios
-      .get("/api/pages/" + params.id)
+      .get("/api/posts/" + params.id)
       .then(response => {
-        return { page: response.data };
+        return { post: response.data };
       })
       .catch(err => {
-        error({ statusCode: 404, message: "გვერდი ვერ მოიძებნა" });
+        error({ statusCode: 404, message: "პოსტი ვერ მოიძებნა" });
       });
   },
   head() {
-    if (!this.page) return;
+    if (!this.post) return;
 
     let head = {
-      title: this.page.title + " - " + this.$store.state.settings.title,
+      title: this.post.title + " - " + this.$store.state.settings.title,
       meta: [
         {
           hid: "og:type",
@@ -59,36 +60,35 @@ export default {
         {
           hid: "og:title",
           property: "og:title",
-          content: this.page.title + " - " + this.$store.state.settings.title
+          content: this.post.title + " - " + this.$store.state.settings.title
         }
       ]
     };
 
-
-    if (this.page.excerpt) {
+    if (this.post.excerpt) {
       head.meta.push({
         hid: "og:description",
         property: "og:description",
-        content: this.page.excerpt
+        content: this.post.excerpt
       });
 
       head.meta.push({
         hid: "description",
-        content: this.page.excerpt
+        content: this.post.excerpt
       });
     }
 
-    if (this.page.picture) {
+    if (this.post.picture) {
       head.meta.push({
         hid: "og:image",
         property: "og:image",
-        content: "https://food4.ge" + this.page.picture
+        content: "https://food4.ge" + this.post.picture
       });
-    } else if (this.page.video) {
+    } else if (this.post.video) {
       head.meta.push({
         hid: "og:image",
         property: "og:image",
-        content: this.$options.filters.youtubeThumb(this.page.video)
+        content: this.$options.filters.youtubeThumb(this.post.video)
       });
     }
 
@@ -98,27 +98,26 @@ export default {
 </script>
 
 <style lang="scss">
-.page-page {
+.news-page {
   .container {
     background: white;
   }
 
-  .page-header {
-    padding-top: 4em;
-
+  .post-header {
+    text-align: center;
     .title {
       color: black;
       font-size: 38px;
     }
 
-    .page-info {
+    .post-info {
       color: #888;
       margin-bottom: 10px;
       font-size: 18px;
     }
   }
 
-  .page-picture {
+  .post-image {
     display: block;
     margin: 0 auto;
     max-height: 400px;

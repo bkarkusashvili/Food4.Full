@@ -6,6 +6,7 @@
         <div class="recipe-container" v-for="post in tag.posts" :key="post._id">
           <single-recipe class="search-result" :post="post" v-if="post.type === 'recipe'" />
           <blog-post class="search-result" :post="post" v-if="post.type === 'blog'" />
+          <news-post class="search-result" :post="post" v-if="post.type === 'news'" />
         </div>
       </div>
       <pagination :page="page" :total="total" :per-page="perPage" @goto="gotoPage" />
@@ -16,9 +17,10 @@
 <script>
 import SingleRecipe from "../../components/SingleRecipe";
 import BlogPost from "../../components/BlogPost";
+import NewsPost from "../../components/NewsPost";
 
 export default {
-  components: { SingleRecipe, BlogPost },
+  components: { SingleRecipe, BlogPost, NewsPost },
   data() {
     return {
       tag: {},

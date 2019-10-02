@@ -19,7 +19,8 @@
               <div class="carousel-item-content has-text-centered">
                 <h1 class="title" v-if="item.post.title">{{item.post.title}}</h1>
                 <h2 class="subtitle" v-if="item.post.subtitle">{{item.post.subtitle}}</h2>
-                <nuxt-link class="button is-success" :to="item | navLink">რეცეპტზე გადასვლა</nuxt-link>
+                <nuxt-link class="button is-success" :to="item | navLink" v-if="item.post.video">ვიდეო რეცეპტზე გადასვლა</nuxt-link>
+                <nuxt-link class="button is-success" :to="item | navLink" v-else>რეცეპტზე გადასვლა</nuxt-link>
               </div>
             </div>
             <div

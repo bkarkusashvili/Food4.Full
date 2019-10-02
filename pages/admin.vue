@@ -48,9 +48,17 @@
               </nuxt-link>
             </li>
             <li>
+              <nuxt-link to="/admin/news" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-newspaper"></i>
+                </span>
+                <span>სიახლეები</span>
+              </nuxt-link>
+            </li>
+            <li>
               <nuxt-link to="/admin/blog" active-class="is-active">
                 <span class="icon">
-                  <i class="mdi mdi-file-document"></i>
+                  <i class="mdi mdi-post"></i>
                 </span>
                 <span>ბლოგი</span>
               </nuxt-link>
