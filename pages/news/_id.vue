@@ -123,6 +123,11 @@ export default {
     max-height: 400px;
   }
 
+  .post-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
   .hero {
     min-height: 300px;
   }
