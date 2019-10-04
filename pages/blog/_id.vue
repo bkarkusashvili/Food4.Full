@@ -30,7 +30,7 @@
               class="fb-like"
               data-href="https://facebook.com/food4.ge"
               data-width
-              data-layout="button_count"
+              data-layout="button"
               data-action="like"
               data-size="large"
               data-show-faces="false"
