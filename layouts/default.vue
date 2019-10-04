@@ -80,6 +80,11 @@ export default {
           content: this.$store.state.settings.title
         },
         {
+          hid: "fb:app_id",
+          property: "fb:app_id",
+          content: "3019510804998107"
+        },
+        {
           hid: "og:site_name",
           property: "og:site_name",
           content: this.$store.state.settings.title
