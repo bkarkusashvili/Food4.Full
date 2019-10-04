@@ -1,6 +1,6 @@
 <template>
   <div class="page-section-carousel">
-    <no-ssr>
+    <client-only>
       <carousel
         class="carousel"
         :per-page="1"
@@ -37,7 +37,7 @@
           </div>
         </slide>
       </carousel>
-    </no-ssr>
+    </client-only>
   </div>
 </template>
 

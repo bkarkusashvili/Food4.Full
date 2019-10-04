@@ -13,7 +13,7 @@
       :duration="10000"
       :max="5"
     />
-    <no-ssr>
+    <client-only>
       <!-- Global site tag (gtag.js) - Google Analytics -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148021181-1"></script>
       <script>
@@ -25,7 +25,15 @@
 
   gtag("config", "UA-148021181-1");
       </script>
-    </no-ssr>
+
+      <div id="fb-root"></div>
+      <script
+        async
+        defer
+        crossorigin="anonymous"
+        src="https://connect.facebook.net/ka_GE/sdk.js#xfbml=1&version=v4.0&appId=3019510804998107&autoLogAppEvents=1"
+      ></script>
+    </client-only>
   </div>
 </template>
 
@@ -94,6 +102,13 @@ export default {
     }
 
     return head;
+  },
+  watch: {
+    '$route': function() {
+      if(process.browser && FB) {
+        setTimeout(()=>FB.XFBML.parse(), 500);
+      }
+    }
   }
 };
 </script>

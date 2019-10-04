@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <div class="admin-page page-container">
       <div class="columns" style="margin:0">
         <aside class="menu column is-narrow admin-navigation">
@@ -116,7 +116,7 @@
         <nuxt-child class="column" />
       </div>
     </div>
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>

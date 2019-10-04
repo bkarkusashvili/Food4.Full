@@ -115,7 +115,7 @@
           </span>
         </label>
         <div class="control">
-          <no-ssr>
+          <client-only>
             <vue-editor
               v-model="post.content"
               id="editor-content"
@@ -123,7 +123,7 @@
               useCustomImageHandler
               @imageAdded="handleImageAdded"
             />
-          </no-ssr>
+          </client-only>
         </div>
       </div>
 

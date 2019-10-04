@@ -66,7 +66,7 @@
       <div class="field">
         <label class="label">შიგთავსი</label>
         <div class="control">
-          <no-ssr>
+          <client-only>
             <vue-editor
               v-model="page.content"
               id="editor-content"
@@ -74,7 +74,7 @@
               useCustomImageHandler
               @imageAdded="handleImageAdded"
             />
-          </no-ssr>
+          </client-only>
         </div>
       </div>
 

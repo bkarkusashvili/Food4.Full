@@ -6,11 +6,26 @@
       :class="{'flex-column': section.vertical, 'flex-row': !section.vertical, 'flex-wrap': !section.vertical}"
     >
       <div class="recipe-container" v-for="post in posts" :key="post._id">
+        <blog-post
+          :no-picture="section.noPictures"
+          :border="section.borders"
+          :compact="section.compact"
+          :post="post"
+          v-if="post.type === 'blog'"
+        />
+        <news-post
+          :no-picture="section.noPictures"
+          :border="section.borders"
+          :compact="section.compact"
+          :post="post"
+          v-else-if="post.type === 'news'"
+        />
         <single-recipe
           :post="post"
           :no-picture="section.noPictures"
           :border="section.borders"
           :compact="section.compact"
+          v-else
         />
       </div>
     </div>
@@ -19,10 +34,12 @@
 
 <script>
 import SingleRecipe from "./SingleRecipe";
+import NewsPost from "./NewsPost";
+import BlogPost from "./BlogPost";
 
 export default {
   name: "page-section-latest",
-  components: { SingleRecipe },
+  components: { SingleRecipe, NewsPost, BlogPost },
   props: {
     section: { type: Object, required: true }
   },
@@ -37,7 +54,8 @@ export default {
   methods: {
     fetchPosts() {
       let query = {
-        limit: this.section.limit
+        limit: this.section.limit,
+        type: ["news", "recipe"]
       };
       if (this.section.featured != null) query.featured = this.section.featured;
       this.$axios

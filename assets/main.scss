@@ -21,6 +21,10 @@ $navbar-dropdown-item-active-color: black;
 
 @import "~bulma/bulma";
 
+.fb-comments iframe {
+  width: 100% !important;
+}
+
 .ql-snow .ql-picker.ql-size .ql-picker-item::before,
 .ql-snow .ql-picker.ql-size .ql-picker-label::before {
   content: attr(data-value);

@@ -198,7 +198,7 @@
       <div class="field">
         <label class="label">აღწერა</label>
         <div class="control">
-          <no-ssr>
+          <client-only>
             <vue-editor
               v-model="post.description"
               id="editor-description"
@@ -206,21 +206,21 @@
               useCustomImageHandler
               @imageAdded="handleImageAdded"
             />
-          </no-ssr>
+          </client-only>
         </div>
       </div>
 
       <div class="field">
         <label class="label">მომზადება</label>
         <div class="control">
-          <no-ssr>
+          <client-only>
             <vue-editor
               v-model="post.content"
               id="editor-content"
               useCustomImageHandler
               @imageAdded="handleImageAdded"
             />
-          </no-ssr>
+          </client-only>
         </div>
       </div>
 
