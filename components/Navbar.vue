@@ -39,7 +39,7 @@
             </span>
             <span>{{$auth.user.name}}</span>
           </a>
-          <div class="navbar-dropdown">
+          <div class="navbar-dropdown" @click="showNav = false">
             <nuxt-link to="/admin" class="navbar-item" v-if="$auth.user.role === 'admin'">
               <span class="icon">
                 <i class="mdi mdi-radioactive" aria-hidden="true"></i>

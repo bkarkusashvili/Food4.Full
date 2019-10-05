@@ -121,7 +121,21 @@ html {
   padding: 1.5em;
 }
 
+.modal-content {
+  max-width: 100%;
+}
+
+.field.is-grouped {
+  flex-wrap: wrap;
+}
+
 @media screen and (max-width: $desktop) {
+  .modal-content {
+    max-height: 100%;
+    & > .box {
+      border-radius: 0;
+    }
+  }
   .page-container .title {
     text-align: center;
   }

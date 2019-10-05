@@ -11,7 +11,7 @@ module.exports = function (req, res) {
             Object.assign(user, req.body);
             let promise;
             if (req.body.password) {
-                promise = user.setPassword().then(function () { user.save() })
+                promise = user.setPassword(req.body.password).then(function () { return user.save() });
             } else {
                 promise = user.save();
             }
@@ -20,5 +20,8 @@ module.exports = function (req, res) {
                 res.json(user);
             });
         })
-        .catch((error) => res.status(500).json(error));
+        .catch((error) => {
+            console.error(error);
+            res.status(500).json(error)
+        });
 };
