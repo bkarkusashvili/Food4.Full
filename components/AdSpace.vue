@@ -1,9 +1,19 @@
 <template>
-  <div class="ad-space" v-if="ad">
-    <a :href="ad.link" target="_blank" rel="noopener"><img 
-      :src="ad.picture" 
-      :alt="ad.text" 
-      :title="ad.text" /></a>
+  <div
+    class="ad-space"
+    :class="{'ad-mobile': ad.mobile, 'ad-has-mobile-picture': ad.mobilePicture}"
+    v-if="ad"
+  >
+    <a :href="ad.link" target="_blank" rel="noopener">
+      <img class="ad-picture" :src="ad.picture" :alt="ad.text" :title="ad.text" />
+      <img
+        class="ad-picture-mobile"
+        v-if="ad.mobilePicture"
+        :src="ad.mobilePicture"
+        :alt="ad.text"
+        :title="ad.text"
+      />
+    </a>
   </div>
 </template>
 

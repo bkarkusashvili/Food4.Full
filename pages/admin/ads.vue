@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div class="ads-page">
     <h1 class="title">რეკლამები</h1>
 
     <button type="submit" class="button is-success is-medium" @click="save()">
@@ -38,16 +38,24 @@
             </div>
           </div>
           <div class="field">
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox" v-model="settings.ads[ad].mobile" />
+                მობილურზე გამოჩენა
+              </label>
+            </div>
+          </div>
+          <div class="field">
             <label class="label">სურათი</label>
             <div class="control">
               <button
                 type="button"
-                class="button is-medium is-success"
+                class="button is-success"
                 @click="selectPicture(settings.ads[ad])"
               >სურათის არჩევა</button>
               <button
                 type="button"
-                class="button is-medium is-danger"
+                class="button is-danger"
                 v-show="settings.ads[ad].picture"
                 @click="removePicture(settings.ads[ad])"
               >
@@ -60,6 +68,32 @@
 
             <div class="control box" style="margin-top: 10px" v-if="settings.ads[ad].picture">
               <img :src="settings.ads[ad].picture" alt class="ad-picture" />
+            </div>
+          </div>
+
+          <div class="field" v-if="settings.ads[ad].mobile">
+            <label class="label">სურათი მობილურისთვის</label>
+            <div class="control">
+              <button
+                type="button"
+                class="button is-success"
+                @click="selectMobilePicture(settings.ads[ad])"
+              >სურათის არჩევა</button>
+              <button
+                type="button"
+                class="button is-danger"
+                v-show="settings.ads[ad].mobilePicture"
+                @click="removeMobilePicture(settings.ads[ad])"
+              >
+                <span class="icon">
+                  <i class="mdi mdi-delete"></i>
+                </span>
+                <span>წაშლა</span>
+              </button>
+            </div>
+
+            <div class="control box" style="margin-top: 10px" v-if="settings.ads[ad].mobilePicture">
+              <img :src="settings.ads[ad].mobilePicture" alt class="ad-picture" />
             </div>
           </div>
         </div>
@@ -95,22 +129,31 @@ export default {
         ads: {}
       },
       showPictureChooser: false,
-      selectionTarget: null
+      selectionTarget: null,
+      selectionProperty: null
     };
   },
   methods: {
     pictureSelected(picture) {
       if (!this.selectionTarget) return;
-      console.log(picture);
-      this.selectionTarget.picture = picture.url;
+      this.selectionTarget[this.selectionProperty || "picture"] = picture.url;
       this.$forceUpdate();
     },
     selectPicture(item) {
       this.selectionTarget = item;
+      this.selectionProperty = "picture";
       this.showPictureChooser = true;
     },
     removePicture(item) {
       item.picture = null;
+    },
+    selectMobilePicture(item) {
+      this.selectionTarget = item;
+      this.selectionProperty = "mobilePicture";
+      this.showPictureChooser = true;
+    },
+    removeMobilePicture(item) {
+      item.mobilePicture = null;
     },
     save() {
       this.$axios
@@ -153,5 +196,10 @@ function ensureAds(settings) {
 }
 </script>
 
-<style>
+<style lang="scss">
+.ads-page {
+  .subtitle {
+    margin-top: 1em;
+  }
+}
 </style>

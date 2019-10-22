@@ -130,6 +130,35 @@ html {
   flex-wrap: wrap;
 }
 
+.ad-space {
+  .ad-picture {
+    max-width: 100%;
+  }
+
+  .ad-picture-mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .ad-space {
+    display: none;
+
+    &.ad-mobile {
+      display: block;
+
+      &.ad-has-mobile-picture {
+        .ad-picture {
+          display: none;
+        }
+        .ad-picture-mobile {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: $desktop) {
   .modal-content {
     max-height: 100%;
