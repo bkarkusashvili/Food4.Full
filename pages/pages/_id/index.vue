@@ -60,23 +60,18 @@ export default {
           hid: "og:title",
           property: "og:title",
           content: this.page.title + " - " + this.$store.state.settings.title
+        },
+        {
+          hid: "og:description",
+          property: "og:description",
+          content: this.page.excerpt
+        },
+        {
+          hid: "description",
+          content: this.page.excerpt
         }
       ]
     };
-
-
-    if (this.page.excerpt) {
-      head.meta.push({
-        hid: "og:description",
-        property: "og:description",
-        content: this.page.excerpt
-      });
-
-      head.meta.push({
-        hid: "description",
-        content: this.page.excerpt
-      });
-    }
 
     if (this.page.picture) {
       head.meta.push({

@@ -43,6 +43,20 @@ async function start() {
       return defaultSettings.save().then(function () {
         consola.success("Created default settings:", defaultSettings);
       });
+    } else {
+      consola.info("Settings found, checking for missing fields");
+      let needUpdate = false;
+      for(let key in config.admin.defaultSettings) {
+        if(config.admin.defaultSettings.hasOwnProperty(key) && (!foundSettings.hasOwnProperty(key) || foundSettings[key] == null)) {
+          foundSettings[key] = config.admin.defaultSettings[key];
+          needUpdate = true;
+        }
+      }
+      if (needUpdate) {
+        return defaultSettings.save().then(function () {
+          consola.success("Settings updated:", defaultSettings);
+        });
+      }
     }
   });
 

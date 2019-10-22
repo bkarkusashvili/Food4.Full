@@ -15,7 +15,7 @@ fs.readdirSync(normalizedPath).forEach(function (file) {
 
 module.exports = {
     connect(url) {
-        return mongoose.connect(url, { useNewUrlParser: true });
+        return mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
     },
     models: models,
     mongoose: mongoose

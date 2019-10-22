@@ -8,6 +8,10 @@ const schema = new Schema({
     navigation: [Object],
     frontpage: [Object],
     carousel: [Object],
+    ads: {
+        type: Object,
+        default: {}
+    },
     title: String,
     description: String,
     logo: String,

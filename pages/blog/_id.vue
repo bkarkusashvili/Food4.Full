@@ -98,6 +98,15 @@ export default {
           hid: "og:title",
           property: "og:title",
           content: this.post.title + " - " + this.$store.state.settings.title
+        },
+        {
+          hid: "og:description",
+          property: "og:description",
+          content: this.post.excerpt
+        },
+        {
+          hid: "description",
+          content: this.post.excerpt
         }
       ]
     };

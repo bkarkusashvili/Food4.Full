@@ -118,7 +118,7 @@ export default {
     },
     addCarouselItem() {
       if (!this.settings.carousel) this.settings.carousel = [];
-      this.settings.carousel.push({
+      this.settings.carousel.unshift({
         type: "post",
         id: this.settings.carousel.length
       });

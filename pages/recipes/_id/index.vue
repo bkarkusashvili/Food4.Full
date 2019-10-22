@@ -198,22 +198,18 @@ export default {
           hid: "og:title",
           property: "og:title",
           content: this.recipe.title + " - " + this.$store.state.settings.title
+        },
+        {
+          hid: "og:description",
+          property: "og:description",
+          content: this.recipe.excerpt
+        },
+        {
+          hid: "description",
+          content: this.recipe.excerpt
         }
       ]
     };
-
-    if (this.recipe.excerpt) {
-      head.meta.push({
-        hid: "og:description",
-        property: "og:description",
-        content: this.recipe.excerpt
-      });
-
-      head.meta.push({
-        hid: "description",
-        content: this.recipe.excerpt
-      });
-    }
 
     if (this.recipe.picture) {
       head.meta.push({

@@ -23,10 +23,11 @@ export default {
           type: "row",
           columns: [
             {
-              //narrow: true,
-              size: 1,
+              narrow: true,
+              //size: 1,
               section: {
-                type: "ad"
+                type: "ad",
+                ad: "main_page_top_left"
               }
             },
             {
@@ -35,10 +36,11 @@ export default {
               }
             },
             {
-              // narrow: true,
-              size: 1,
+              narrow: true,
+              //size: 1,
               section: {
-                type: "ad"
+                type: "ad",
+                ad: "main_page_top_right"
               }
             }
           ]
