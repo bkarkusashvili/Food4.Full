@@ -27,4 +27,7 @@ export default {
 </script>
 
 <style>
+.page-section-column {
+  overflow: hidden;
+}
 </style>

@@ -1,15 +1,14 @@
 <template>
   <div class="page-section-carousel">
     <client-only>
-      <carousel
+      <siema
         class="carousel"
-        :per-page="1"
-        :autoplay-timeout="30000"
-        autoplay
-        navigation-enabled
+        auto-play
+        ref="siema"
+        :options="{loop: true}"
         v-if="$store.state.settings && $store.state.settings.carousel"
       >
-        <slide v-for="(item, index) in $store.state.settings.carousel" :key="index">
+        <div class="slide" v-for="(item, index) in $store.state.settings.carousel" :key="index">
           <div class="carousel-item-container">
             <div
               class="carousel-item flex flex-align-content-center flex-align-items-center flex-justify-content-center"
@@ -35,8 +34,8 @@
               </div>
             </div>
           </div>
-        </slide>
-      </carousel>
+        </div>
+      </siema>
     </client-only>
   </div>
 </template>
@@ -53,6 +52,9 @@ export default {
 
 <style lang="scss">
 .page-section-carousel {
+  width: 100%;
+  overflow: hidden;
+  
   .carousel-item-container {
     position: relative;
     height: 0;

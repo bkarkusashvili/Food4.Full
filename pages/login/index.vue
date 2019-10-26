@@ -76,7 +76,7 @@ export default {
         })
         .then(result => {
           this.loading = false;
-          this.$router.replace("/");
+          this.$router.replace(this.$route.query.return || "/");
         })
         .catch(error => {
           this.loading = false;

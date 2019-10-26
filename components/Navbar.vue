@@ -31,7 +31,11 @@
           </span>
           <span>ძებნა</span>
         </a>
-        <nuxt-link to="/login" class="navbar-item" v-if="!$auth.user">შესვლა / რეგისტრაცია</nuxt-link>
+        <nuxt-link
+          :to="'/login?return=' + $route.path"
+          class="navbar-item"
+          v-if="!$auth.user"
+        >შესვლა / რეგისტრაცია</nuxt-link>
         <div class="navbar-item has-dropdown" v-if="$auth.user" :class="{'active': userMenuActive}">
           <a class="navbar-link" @click="userMenuActive = !userMenuActive">
             <span class="icon">

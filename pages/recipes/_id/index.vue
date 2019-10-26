@@ -19,6 +19,14 @@
             <i class="mdi mdi-heart" v-if="favorite"></i>
             <i class="mdi mdi-heart-outline" v-else></i>
           </button>
+          <nuxt-link
+            :to="'/login?return=' + $route.path"
+            class="button is-outline is-rounded"
+            title="ფავორიტებში დასამატებლად გაიარეთ ავტორიზაცია"
+            v-else
+          >
+            <i class="mdi mdi-heart-outline"></i>
+          </nuxt-link>
           <button type="button" class="button is-outline is-rounded" @click="print()">
             <span class="icon">
               <i class="mdi mdi-printer"></i>
