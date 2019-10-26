@@ -7,7 +7,8 @@
         </div>
         <h1 class="title" v-if="error.statusCode === 404">გვერდი ვერ მოიძებნა</h1>
         <h1 class="title" v-else>მოხდა შეცდომა</h1>
-        <nuxt-link class="subtitle button is-link" to="/">მთავარ გვერდზე დაბრუნება</nuxt-link>
+        <button class="subtitle button is-link" @click="$router.go(-1)">უკან დაბრუნება</button><br>
+        <nuxt-link class="is-link" to="/">მთავარ გვერდზე დაბრუნება</nuxt-link>
       </div>
     </div>
   </div>
