@@ -66,6 +66,38 @@
           </ul>
           <p class="menu-label">
             <span class="icon">
+              <i class="mdi mdi-cart"></i>
+            </span>
+            <span>მაღაზია</span>
+          </p>
+          <ul class="menu-list">
+            <li>
+              <nuxt-link to="/admin/shop/orders" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-cart-outline"></i>
+                </span>
+                <span>შეკვეთები</span>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/admin/shop/categories" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-store"></i>
+                </span>
+                <span>კატეგორიები</span>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/admin/shop/items" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-shopping"></i>
+                </span>
+                <span>ნივთები</span>
+              </nuxt-link>
+            </li>
+          </ul>
+          <p class="menu-label">
+            <span class="icon">
               <i class="mdi mdi-tune"></i>
             </span>
             <span>ადმინისტრაცია</span>
