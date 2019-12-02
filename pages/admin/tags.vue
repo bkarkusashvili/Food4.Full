@@ -23,9 +23,9 @@
         <tr>
           <th>სახელი</th>
           <th>slug</th>
-          <th>პრიორიტეტი</th>
-          <th>შექმნილია</th>
-          <th></th>
+          <th style="width: 4em">პრი.</th>
+          <th style="width: 11em">შექმნილია</th>
+          <th style="width: 18em"></th>
         </tr>
       </thead>
       <tbody>
@@ -43,7 +43,7 @@
           <td>{{tag.priority}}</td>
           <td>{{tag.createdAt | dateTime}}</td>
 
-          <td style="width: 18em">
+          <td>
             <button type="button" class="button is-primary" @click="editTag(tag)">
               <span class="icon">
                 <i class="mdi mdi-file-document-edit"></i>

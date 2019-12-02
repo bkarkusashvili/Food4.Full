@@ -31,9 +31,9 @@
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th style="width: 30%">სათაური</th>
+          <th style="width: 40%">სათაური</th>
           <th style="width: 1em">სტატუსი</th>
-          <th style="width: 10em">თარიღი</th>
+          <th style="width: 11em">თარიღი</th>
           <th>ტეგები</th>
           <th style="width: 1em"></th>
         </tr>
