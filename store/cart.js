@@ -16,12 +16,9 @@ export const mutations = {
             return;
         }
 
-        state.items.push({
-            _id: item._id,
-            name: item.name,
-            item: item,
+        state.items.push(Object.assign({}, item, {
             quantity: 1
-        });
+        }));
     },
     remove(state, _id) {
         let index = findIndex(state.items, _id);

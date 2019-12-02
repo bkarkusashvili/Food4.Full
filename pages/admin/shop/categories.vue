@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1 class="title">ტეგები</h1>
+    <h1 class="title">მაღაზია - კატეგორიები</h1>
 
     <form class="form">
       <div class="field is-grouped">
         <div class="control">
-          <button type="button" class="button is-success" @click="addTag()">
+          <button type="button" class="button is-success" @click="addCategory()">
             <span class="icon">
               <i class="mdi mdi-plus"></i>
             </span>
@@ -29,28 +29,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="tag in tags" :key="tag._id">
+        <tr v-for="category in categories" :key="category._id">
           <td>
-            <span class="icon" v-if="tag.invisible" title="მომხმარებლისგან დამალული">
+            <span class="icon" v-if="category.invisible" title="მომხმარებლისგან დამალული">
               <i class="mdi mdi-eye-off"></i>
             </span>
-            <span class="icon" v-if="tag.featured" title="ჩანს მთავარ გვერდზე">
+            <span class="icon" v-if="category.featured" title="ჩანს მთავარ გვერდზე">
               <i class="mdi mdi-star"></i>
             </span>
-            <span>{{tag.title}}</span>
+            <span>{{category.title}}</span>
           </td>
-          <td>{{tag.slug}}</td>
-          <td>{{tag.priority}}</td>
-          <td>{{tag.createdAt | dateTime}}</td>
+          <td>{{category.slug}}</td>
+          <td>{{category.priority}}</td>
+          <td>{{category.createdAt | dateTime}}</td>
 
           <td style="width: 18em">
-            <button type="button" class="button is-primary" @click="editTag(tag)">
+            <button type="button" class="button is-primary" @click="editCategory(category)">
               <span class="icon">
                 <i class="mdi mdi-file-document-edit"></i>
               </span>
               <span>რედაქტირება</span>
             </button>
-            <button type="button" class="button is-danger" @click="removeTag(tag)">
+            <button type="button" class="button is-danger" @click="removeCategory(category)">
               <span class="icon">
                 <i class="mdi mdi-delete"></i>
               </span>
@@ -63,26 +63,26 @@
 
     <pagination :page="page" :per-page="perPage" :total="total" @goto="gotoPage" />
 
-    <tag-editor
+    <category-editor
       :show="showEditModal"
       @hide="showEditModal = false"
-      :tag="editingTag"
-      @saved="tagSaved"
+      :category="editingCategory"
+      @saved="categorySaved"
     />
   </div>
 </template>
 
 <script>
 import slugify from "slugify";
-import TagEditor from "../../../components/TagEditor";
+import CategoryEditor from "../../../components/CategoryEditor";
 
 export default {
-  components: { TagEditor },
+  components: { CategoryEditor },
   data() {
     return {
-      tags: [],
+      categories: [],
       showEditModal: false,
-      editingTag: {},
+      editingCategory: {},
       filter: {
         q: ""
       },
@@ -101,9 +101,9 @@ export default {
     },
     fetchData: function() {
       this.$axios
-        .get("/api/admin/tags", { params: this.queryParams() })
+        .get("/api/admin/shop/categories", { params: this.queryParams() })
         .then(response => {
-          this.tags = response.data;
+          this.categories = response.data;
           let total = response.headers["x-total-count"];
           if (!isNaN(total)) this.total = parseInt(total);
         })
@@ -115,10 +115,10 @@ export default {
           });
         });
     },
-    removeTag: function(tag) {
-      if (!confirm("ნამდვილად გსურთ ტეგის წაშლა?")) return;
+    removeCategory: function(category) {
+      if (!confirm("ნამდვილად გსურთ კატეგორიის წაშლა?")) return;
       this.$axios
-        .delete("/api/admin/tags/" + tag._id)
+        .delete("/api/admin/shop/categories/" + category._id)
         .then(response => {
           this.fetchData();
         })
@@ -130,15 +130,15 @@ export default {
           });
         });
     },
-    editTag: function(tag) {
-      this.editingTag = Object.assign({}, tag);
-      if (this.editingTag.slug != slugify(this.editingTag.title || "")) {
-        this.editingTag.slugModified = true;
+    editCategory: function(category) {
+      this.editingCategory = Object.assign({}, category);
+      if (this.editingCategory.slug != slugify(this.editingCategory.title || "")) {
+        this.editingCategory.slugModified = true;
       }
       this.openEditModal();
     },
-    addTag: function() {
-      this.editingTag = { new: true, priority: 0 };
+    addCategory: function() {
+      this.editingCategory = { new: true, priority: 0 };
       this.openEditModal();
     },
     openEditModal: function() {
@@ -147,7 +147,7 @@ export default {
     closeEditModal: function() {
       this.showEditModal = false;
     },
-    tagSaved() {
+    categorySaved() {
       this.fetchData();
     },
     queryParams() {

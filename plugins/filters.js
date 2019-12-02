@@ -79,3 +79,8 @@ Vue.filter('navLink', function (object) {
             return object.post ? '/recipes/' + object.post.slug : "";
     }
 });
+
+Vue.filter('price', function (number) {
+    if(isNaN(number)) return "";
+    return (parseInt(number) / 100).toFixed(2);
+});

@@ -12,7 +12,7 @@
         </nuxt-link>
       </div>
       <div class="control is-expanded">
-        <nuxt-link to="/cart" class="button is-black is-fullwidth">
+        <nuxt-link to="/order/start" class="button is-black is-fullwidth">
           <span class="icon">
             <i class="mdi mdi-shopping"></i>
           </span>
