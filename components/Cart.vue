@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cart">
     <cart-item :item="item" v-for="item in items" :key="item._id" />
   </div>
 </template>
@@ -34,4 +34,8 @@ export default {
 </script>
 
 <style>
+.cart {
+    min-width: 250px;
+    padding: 5px 10px;
+}
 </style>
