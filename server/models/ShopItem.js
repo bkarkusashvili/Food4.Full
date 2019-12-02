@@ -2,6 +2,7 @@ const Schema = require('mongoose').Schema;
 
 const schema = new Schema({
     category: { type: Schema.Types.ObjectId, ref: 'ShopCategory' },
+    categoryName: String,
     slug: {
         type: String,
         required: true
