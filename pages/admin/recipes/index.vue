@@ -32,7 +32,7 @@
       <thead>
         <tr>
           <th style="width: 30%">სათაური</th>
-          <th style="width: 1em">სტატუსი</th>
+          <th style="width: 9em">სტატუსი</th>
           <th style="width: 10em">თარიღი</th>
           <th>ტეგები</th>
           <th style="width: 1em"></th>

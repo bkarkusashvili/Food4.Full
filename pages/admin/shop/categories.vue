@@ -23,9 +23,9 @@
         <tr>
           <th>სახელი</th>
           <th>slug</th>
-          <th>პრიორიტეტი</th>
-          <th>შექმნილია</th>
-          <th></th>
+          <th style="width: 4em">პრი.</th>
+          <th style="width: 11em">შექმნილია</th>
+          <th style="width: 18em"></th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +37,7 @@
             <span class="icon" v-if="category.featured" title="ჩანს მთავარ გვერდზე">
               <i class="mdi mdi-star"></i>
             </span>
-            <span>{{category.title}}</span>
+            <a :href="'/shop/' + category.slug" target="_blank">{{category.title}}</a>
           </td>
           <td>{{category.slug}}</td>
           <td>{{category.priority}}</td>
