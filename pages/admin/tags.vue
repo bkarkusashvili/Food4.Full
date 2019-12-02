@@ -37,7 +37,7 @@
             <span class="icon" v-if="tag.featured" title="ჩანს მთავარ გვერდზე">
               <i class="mdi mdi-star"></i>
             </span>
-            <span>{{tag.title}}</span>
+            <a :href="'/tags/' + tag.slug" target="_blank">{{tag.title}}</a>
           </td>
           <td>{{tag.slug}}</td>
           <td>{{tag.priority}}</td>
