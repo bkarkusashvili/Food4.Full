@@ -31,6 +31,28 @@
           </span>
           <span>ძებნა</span>
         </a>
+        <div
+          class="navbar-item has-dropdown navbar-cart"
+          v-if="$auth.user"
+          :class="{'active': cartActive}"
+        >
+          <a class="navbar-link is-arrowless" @click="cartActive = !cartActive" title="კალათა">
+            <i
+              class="mdi mdi-cart has-badge-rounded has-badge-success has-badge-bottom"
+              :data-badge="$store.state.cart.items.length"
+              aria-hidden="true"
+              v-if="$store.state.cart.items.length"
+            ></i>
+            <i
+              class="mdi mdi-cart"
+              aria-hidden="true"
+              v-else
+            ></i>
+          </a>
+          <div class="navbar-dropdown" @click="showNav = false">
+            <cart />
+          </div>
+        </div>
         <nuxt-link
           :to="'/login?return=' + $route.path"
           class="navbar-item"
@@ -185,12 +207,15 @@
 
 <script>
 import NavItem from "./NavItem";
+import Cart from "./Cart";
 
 export default {
+  components: { Cart },
   data() {
     return {
       showNav: false,
       showingSearch: false,
+      cartActive: false,
       query: "",
       searchSuggestions: [],
       userMenuActive: false

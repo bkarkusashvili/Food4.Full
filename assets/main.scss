@@ -20,6 +20,7 @@ $navbar-dropdown-arrow: black;
 $navbar-dropdown-item-active-color: black;
 
 @import "~bulma/bulma";
+@import "~bulma-badge/src/sass/index";
 
 .fb-comments iframe {
   width: 100% !important;

@@ -87,6 +87,10 @@ router.get('/user/favorites/:postId', api.user.favorites.one);
 router.post('/user/favorites/:postId', api.user.favorites.create);
 router.delete('/user/favorites/:postId', api.user.favorites.remove);
 
+// Cart
+router.get('/user/cart', api.user.cart.index);
+router.put('/user/cart', api.user.cart.update);
+
 /*
 * Admin API
 */
