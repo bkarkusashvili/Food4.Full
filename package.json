@@ -20,6 +20,7 @@
     "@shvelo/date-fns": "^2.0.3",
     "bcrypt": "^3.0.6",
     "bulma": "^0.7.5",
+    "bulma-badge": "^3.0.1",
     "connect-mongo": "^3.1.2",
     "cross-env": "^5.2.1",
     "ejs": "^2.7.2",

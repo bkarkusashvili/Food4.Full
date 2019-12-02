@@ -39,13 +39,20 @@ const schema = new Schema({
 
 schema.index({ '$**': 'text' });
 
-
 schema.virtual('posts', {
     ref: 'Post',
     localField: '_id',
     foreignField: 'author',
     justOne: false,
     options: { sort: { publishedAt: -1 }, limit: 10, projection: { content: 0 } }
+});
+
+schema.virtual('cart', {
+    ref: 'ShopCart',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: true,
+    options: {  }
 });
 
 schema.methods.setPassword = function (newPassword) {
