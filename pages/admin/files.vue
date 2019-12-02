@@ -6,10 +6,10 @@
       <thead>
         <tr>
           <th>სახელი</th>
-          <th>ტიპი</th>
-          <th>ზომა</th>
-          <th>თარიღი</th>
-          <th></th>
+          <th style="width: 8em">ტიპი</th>
+          <th style="width: 6em">ზომა</th>
+          <th style="width: 11em">თარიღი</th>
+          <th style="width: 5em"></th>
         </tr>
       </thead>
       <tbody>
