@@ -38,8 +38,8 @@
         >
           <a class="navbar-link is-arrowless" @click="cartActive = !cartActive" title="კალათა">
             <i
-              class="mdi mdi-cart has-badge-rounded has-badge-success has-badge-bottom"
-              :data-badge="$store.state.cart.items.length"
+              class="mdi mdi-cart has-badge-rounded has-badge-black has-badge-bottom"
+              :data-badge="$store.getters['cart/itemCount']"
               aria-hidden="true"
               v-if="$store.state.cart.items.length"
             ></i>

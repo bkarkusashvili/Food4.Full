@@ -2,6 +2,12 @@ export const state = () => ({
     items: []
 });
 
+export const getters = {
+    itemCount(state) {
+        return state.items.reduce((sum, item) => sum + item.quantity, 0);
+    }
+}
+
 export const mutations = {
     add(state, item) {
         let index = findIndex(state.items, item._id);
