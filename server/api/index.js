@@ -133,4 +133,20 @@ router.post('/admin/users', api.admin.users.create);
 router.put('/admin/users/:id', api.admin.users.update);
 router.delete('/admin/users/:id', api.admin.users.remove);
 
+// Shop categories
+router.get('/admin/shop/categories', api.admin.shop.categories.index);
+router.post('/admin/shop/categories', api.admin.shop.categories.create);
+router.put('/admin/shop/categories/:id', api.admin.shop.categories.update);
+router.delete('/admin/shop/categories/:id', api.admin.shop.categories.remove);
+
+// Shop items
+router.get('/admin/shop/items', api.admin.shop.items.index);
+router.get('/admin/shop/items/:id', api.admin.shop.items.one);
+router.put('/admin/shop/items/:id', api.admin.shop.items.update);
+router.delete('/admin/shop/items/:id', api.admin.shop.items.remove);
+
+// Shop orders
+router.get('/admin/shop/orders', api.admin.shop.orders.index);
+router.get('/admin/shop/orders/:id', api.admin.shop.orders.one);
+
 module.exports = router;

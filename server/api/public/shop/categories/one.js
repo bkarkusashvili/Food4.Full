@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 module.exports = function (req, res) {
-    mongoose.model('Tag')
+    mongoose.model('ShopCategory')
         .findOne({ slug: req.params.id })
         .lean()
         .then(function (tag) {
             if (!tag) {
-                return res.status(404).send("Tag not found");
+                return res.status(404).send("Category not found");
             }
 
             let query = { tags: mongoose.Types.ObjectId(tag._id) },
@@ -19,19 +19,17 @@ module.exports = function (req, res) {
             }
 
             return Promise.all([
-                mongoose.model('Post')
+                mongoose.model('ShopItem')
                     .find(query)
                     .lean()
                     .limit(limit)
                     .offset(offset)
-                    .populate('author')
-                    .populate('tags')
                     .sort('-featured -createdAt'),
-                mongoose.model('Post')
+                mongoose.model('ShopItem')
                     .countDocuments(query)
-            ]).then(function ([posts, count]) {
+            ]).then(function ([items, count]) {
                 res.header('X-Total-Count', count);
-                tag.posts = posts;
+                tag.shopitems = items;
                 res.json(tag);
             })
         })
