@@ -6,7 +6,7 @@
         auto-play
         ref="siema"
         :options="{loop: true}"
-        v-if="$store.state.settings && $store.state.settings.carousel"
+        v-if="$store.state.settings && $store.state.settings.carousel && $store.state.settings.carousel.length"
       >
         <div class="slide" v-for="(item, index) in $store.state.settings.carousel" :key="index">
           <div class="carousel-item-container">
