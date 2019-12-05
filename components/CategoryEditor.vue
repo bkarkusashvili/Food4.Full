@@ -22,18 +22,6 @@
               <input type="number" class="input" v-model="category.priority" />
             </div>
           </div>
-          <div class="field">
-            <label class="checkbox">
-              <input type="checkbox" v-model="category.invisible" />
-              მომხმარებლისგან დამალული
-            </label>
-          </div>
-          <div class="field">
-            <label class="checkbox">
-              <input type="checkbox" v-model="category.featured" />
-              გამოჩნდეს მთავარ გვერდზე
-            </label>
-          </div>
           <div class="field is-grouped is-grouped-centered">
             <div class="control">
               <button type="submit" class="button is-success">შენახვა</button>
