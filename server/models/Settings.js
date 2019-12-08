@@ -18,7 +18,10 @@ const schema = new Schema({
     noIndex: {
         type: Boolean,
         default: false
-    }
+    },
+    ipaySecret: String,
+    ipayId: String,
+    ipayEndpoint: String
 });
 
 module.exports = schema;
