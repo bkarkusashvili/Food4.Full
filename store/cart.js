@@ -5,6 +5,9 @@ export const state = () => ({
 export const getters = {
     itemCount(state) {
         return state.items.reduce((sum, item) => sum + item.quantity, 0);
+    },
+    total(state) {
+        return state.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
     }
 }
 

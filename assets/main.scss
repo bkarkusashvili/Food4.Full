@@ -21,6 +21,15 @@ $navbar-dropdown-item-active-color: black;
 
 @import "~bulma/bulma";
 @import "~bulma-badge/src/sass/index";
+@import "~bulma-o-steps/bulma-steps.scss";
+
+.modal {
+  position: fixed;
+}
+
+.vue-notification-group {
+  position: fixed;
+}
 
 .fb-comments iframe {
   width: 100% !important;

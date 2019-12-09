@@ -1,12 +1,12 @@
 <template>
-  <div class="cart-item columns">
-    <div class="column">
+  <div class="cart-item flex flex-row">
+    <div class="flex-grow-1">
       <button type="button" class="button is-small is-white" @click="remove()">
         <i class="mdi mdi-close"></i>
       </button>
       <nuxt-link class="cart-item-name" :to="'/shop/items/' + item.slug">{{item.name}}</nuxt-link>
     </div>
-    <div class="column is-narrow">
+    <div class="">
       <div class="field has-addons">
         <button type="button" class="button is-small is-white" @click="decrement()">-</button>
         <strong class="cart-item-quantity">{{item.quantity}}</strong>

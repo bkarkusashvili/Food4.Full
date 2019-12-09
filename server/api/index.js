@@ -77,6 +77,15 @@ router.post('/users/register', api.public.users.register);
 router.post('/users/confirm', api.public.users.confirm);
 router.post('/users/requestCode', api.public.users.requestCode);
 
+// Shop categories
+router.get('/shop/categories', api.public.shop.categories.index);
+router.get('/shop/categories/:id', api.public.shop.categories.one);
+
+// Shop items
+router.get('/shop/items', api.public.shop.items.index);
+router.get('/shop/items/items', api.public.shop.items.index);
+router.get('/shop/items/:id', api.public.shop.items.one);
+
 /*
 * User API
 */
@@ -90,6 +99,10 @@ router.delete('/user/favorites/:postId', api.user.favorites.remove);
 // Cart
 router.get('/user/cart', api.user.cart.index);
 router.put('/user/cart', api.user.cart.update);
+
+// Orders
+router.get('/user/orders', api.user.orders.index);
+router.get('/user/orders/:id', api.user.orders.one);
 
 /*
 * Admin API
@@ -141,6 +154,7 @@ router.delete('/admin/shop/categories/:id', api.admin.shop.categories.remove);
 
 // Shop items
 router.get('/admin/shop/items', api.admin.shop.items.index);
+router.post('/admin/shop/items', api.admin.shop.items.create);
 router.get('/admin/shop/items/:id', api.admin.shop.items.one);
 router.put('/admin/shop/items/:id', api.admin.shop.items.update);
 router.delete('/admin/shop/items/:id', api.admin.shop.items.remove);

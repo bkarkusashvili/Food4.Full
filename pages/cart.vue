@@ -1,5 +1,9 @@
 <template>
-  <full-cart buttons />
+  <div class="full-cart">
+    <div class="container">
+      <full-cart buttons />
+    </div>
+  </div>
 </template>
 
 <script>

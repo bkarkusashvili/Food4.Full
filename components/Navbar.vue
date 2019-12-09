@@ -203,6 +203,10 @@
   right: 0;
   left: auto;
 }
+
+.navbar-cart .navbar-dropdown {
+  padding: 0;
+}
 </style>
 
 <script>

@@ -1,25 +1,31 @@
 <template>
   <div class="cart">
-    <cart-item :item="item" v-for="item in items" :key="item._id" />
+    <div class="cart-items">
+      <cart-item :item="item" v-for="item in items" :key="item._id" />
+    </div>
 
-    <div class="field is-grouped" v-if="items.length">
-      <div class="control">
-        <nuxt-link to="/cart" class="button">
-          <span class="icon">
-            <i class="mdi mdi-cart"></i>
-          </span>
-          <span>სრულად</span>
-        </nuxt-link>
-      </div>
-      <div class="control is-expanded">
-        <nuxt-link to="/order/start" class="button is-black is-fullwidth">
-          <span class="icon">
-            <i class="mdi mdi-shopping"></i>
-          </span>
-          <span>ყიდვა</span>
-        </nuxt-link>
+    <div class="cart-controls" v-if="items.length">
+      სულ: {{$store.getters['cart/total'] | price}}
+      <div class="field is-grouped cart-controls">
+        <div class="control">
+          <nuxt-link to="/cart" class="button">
+            <span class="icon">
+              <i class="mdi mdi-cart"></i>
+            </span>
+            <span>სრულად</span>
+          </nuxt-link>
+        </div>
+        <div class="control is-expanded">
+          <nuxt-link to="/order/start" class="button is-black is-fullwidth">
+            <span class="icon">
+              <i class="mdi mdi-shopping"></i>
+            </span>
+            <span>ყიდვა</span>
+          </nuxt-link>
+        </div>
       </div>
     </div>
+
     <div class="cart-no-items has-text-centered" v-else>
       <p>თქვენი კალათა ცარიელია</p>
       <nuxt-link to="/shop">მაღაზიაზე გადასვლა</nuxt-link>
@@ -100,6 +106,14 @@ function debounce(func, delay) {
 <style>
 .cart {
   min-width: 250px;
-  padding: 5px 10px;
+}
+
+.cart .cart-controls {
+  background: #eeeeee;
+  padding: 5px;
+}
+
+.cart .cart-items {
+  padding: 5px;
 }
 </style>

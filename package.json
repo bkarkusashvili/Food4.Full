@@ -21,6 +21,7 @@
     "bcrypt": "^3.0.6",
     "bulma": "^0.7.5",
     "bulma-badge": "^3.0.1",
+    "bulma-o-steps": "^1.0.9",
     "connect-mongo": "^3.1.2",
     "cross-env": "^5.2.1",
     "ejs": "^2.7.2",

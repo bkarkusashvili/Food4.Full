@@ -2,23 +2,49 @@
   <div class="item-edit-page">
     <form @submit.prevent="save()">
       <div class="field">
-        <label class="label">სათაური</label>
+        <label class="label">სახელი</label>
         <div class="control">
           <input type="text" class="input is-medium" v-model="item.title" @keyup="titleModified" />
         </div>
       </div>
 
       <div class="field">
-        <label class="label">სათაური ლათინურად (slug)</label>
+        <label class="label">სახელი ლათინურად (slug)</label>
         <div class="control">
           <input type="text" class="input" v-model="item.slug" @keyup="slugModified" />
         </div>
       </div>
 
+      <label class="label">კატეგორია</label>
+      <div class="field" style="line-height: 2.5">
+        <div class="control" v-if="item.category">
+          <a
+            class="tag is-medium"
+            @click.prevent="showCategoryDialog = true"
+            title="დააკლიკეთ ასარჩევად"
+          >{{item.categoryName}}</a>
+        </div>
+        <div class="control" v-else>
+          <a class="tag is-primary is-medium" @click.prevent="showCategoryDialog = true">
+            <span class="icon">
+              <i class="mdi mdi-plus"></i>
+            </span>
+            <span>არჩევა</span>
+          </a>
+        </div>
+      </div>
+
       <div class="field">
-        <label class="label">ქვესათაური</label>
+        <label class="label">ფასი (თეთრებში)</label>
         <div class="control">
-          <input type="text" class="input" v-model="item.subtitle" />
+          <input type="number" class="input" v-model="item.price" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">რაოდენობა მარაგში</label>
+        <div class="control">
+          <input type="number" class="input" v-model="item.stock" />
         </div>
       </div>
 
@@ -64,7 +90,7 @@
       </div>
 
       <div class="field">
-        <label class="label">შიგთავსი</label>
+        <label class="label">აღწერა</label>
         <div class="control">
           <client-only>
             <vue-editor
@@ -89,6 +115,12 @@
         </div>
       </div>
     </form>
+
+    <category-chooser
+      :show="showCategoryDialog"
+      @hide="showCategoryDialog = false"
+      @select="categorySelected"
+    />
   </div>
 </template>
 
@@ -98,7 +130,7 @@ import CategoryChooser from "../../../../components/CategoryChooser";
 import slugify from "slugify";
 
 export default {
-  components: { VueEditor },
+  components: { VueEditor, CategoryChooser },
   data() {
     return {
       item: {},
@@ -118,7 +150,7 @@ export default {
         this.item = {
           content: "",
           title: "",
-          subtitle: ""
+          stock: 0
         };
         return;
       }
@@ -189,7 +221,7 @@ export default {
     save: function() {
       this.item.excerpt =
         this.$refs.content && this.$refs.content.$el.innerText;
-      if(this.item.excerpt)
+      if (this.item.excerpt)
         this.item.excerpt = this.item.excerpt.substr(0, 160);
 
       if (this.new) {
@@ -226,6 +258,10 @@ export default {
             });
           });
       }
+    },
+    categorySelected(category) {
+      this.item.category = category;
+      this.item.categoryName = category.title;
     },
     titleModified: function() {
       if (!this.item.title || this.item.slugModified) return;

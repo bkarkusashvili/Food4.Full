@@ -10,7 +10,14 @@ const schema = new Schema({
     title: {
         type: String
     },
-    price: Number,
+    price: {
+        type: Number,
+        index: true
+    },
+    stock: {
+        type: Number,
+        index: true
+    },
     description: {
         type: String
     },
@@ -31,11 +38,6 @@ const schema = new Schema({
     featured: {
         type: Boolean,
         default: false,
-        index: true
-    },
-    inStock: {
-        type: Boolean,
-        default: true,
         index: true
     },
     hidden: {

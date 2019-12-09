@@ -31,10 +31,11 @@
     <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th style="width: 40%">სათაური</th>
-          <th style="width: 9em">სტატუსი</th>
+          <th>სათაური</th>
+          <th style="width: 10em">კატეგორია</th>
+          <th style="width: 5em">ფასი</th>
+          <th style="width: 7em">მარაგშია</th>
           <th style="width: 11em">თარიღი</th>
-          <th>ტეგები</th>
           <th style="width: 1em"></th>
         </tr>
       </thead>
@@ -44,15 +45,11 @@
             <a :href="'/shop/items/' + item.slug" target="_blank">{{item.title || item.slug}}</a>
           </td>
           <td>
-            <span class="tag is-warning" v-if="item.featured">რჩეული</span>
-            <span class="tag is-success" v-if="item.status === 'published'">გამოქვეყნებული</span>
-            <span class="tag" v-if="item.status === 'draft'">გამოუქვეყნებელი</span>
-            <span class="tag is-warning" v-if="item.status === 'archived'">დაარქივებული</span>
+            <span class="tag is-medium">{{item.categoryName}}</span>
           </td>
-          <td>{{item.publishedAt | dateTime}}</td>
-          <td>
-            <span v-for="tag in item.tags" class="tag is-medium" :key="tag._id">{{tag.title}}</span>
-          </td>
+          <td>{{item.price | price}}</td>
+          <td>{{item.stock}}</td>
+          <td>{{item.createdAt | dateTime}}</td>
           <td>
             <div class="dropdown is-hoverable is-right">
               <div class="dropdown-trigger">
