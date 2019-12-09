@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-    mailer = require("../mailer");
+    mailer = require("@root/mailer");
 
 function register(userParams) {
     return mongoose.model('User').find({ email: userParams.email }).countDocuments().then(function (count) {
@@ -89,6 +89,15 @@ function resetPassword(code, password) {
         });
 }
 
+async function updateProfile(id, params) {
+    let user = await mongoose.model('User').findById(id);
+    if(!user) return;
+    Object.assign(user, params);
+    if(params.password)
+        await user.setPassword(params.password);
+    return user.save();
+}
+
 function confirmPhone(user, code) {
 
 }
@@ -97,5 +106,6 @@ module.exports = {
     register: register,
     confirmEmail: confirmEmail,
     resetPassword: resetPassword,
+    updateProfile: updateProfile,
     generateAndSendConfirmationCode: generateAndSendConfirmationCode
 };

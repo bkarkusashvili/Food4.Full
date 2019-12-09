@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-    users = require('../../../lib/users');
+    users = require('@lib/users');
 
 module.exports = function (req, res) {
     let email = req.query.email || req.body.email;

@@ -5,6 +5,7 @@ module.exports = function (req, res) {
         .findOne({
             slug: req.params.id
         })
+        .populate('category')
         .lean()
         .then(function (item) {
             if (!item) {

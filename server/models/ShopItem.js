@@ -18,6 +18,10 @@ const schema = new Schema({
         type: Number,
         index: true
     },
+    sold: {
+        type: Number,
+        index: true
+    },
     description: {
         type: String
     },

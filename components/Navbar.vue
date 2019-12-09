@@ -37,17 +37,16 @@
           :class="{'active': cartActive}"
         >
           <a class="navbar-link is-arrowless" @click="cartActive = !cartActive" title="კალათა">
-            <i
-              class="mdi mdi-cart has-badge-rounded has-badge-black has-badge-bottom"
-              :data-badge="$store.getters['cart/itemCount']"
-              aria-hidden="true"
-              v-if="$store.state.cart.items.length"
-            ></i>
-            <i
-              class="mdi mdi-cart"
-              aria-hidden="true"
-              v-else
-            ></i>
+            <span class="icon">
+              <i
+                class="mdi mdi-cart has-badge-rounded has-badge-black has-badge-bottom"
+                :data-badge="$store.getters['cart/itemCount']"
+                aria-hidden="true"
+                v-if="$store.state.cart.items.length"
+              ></i>
+              <i class="mdi mdi-cart" aria-hidden="true" v-else></i>
+            </span>
+            <span class="is-hidden-desktop">კალათა</span>
           </a>
           <div class="navbar-dropdown" @click="showNav = false">
             <cart />

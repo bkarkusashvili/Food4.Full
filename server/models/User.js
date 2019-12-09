@@ -24,17 +24,8 @@ const schema = new Schema({
         type: String,
         default: "user"
     },
-    addresses: [new Schema({
-        line1: String,
-        line2: String,
-        zip: String,
-        city: String,
-        province: String,
-        country: String,
-        phone: String,
-        location: [Schema.Types.Number],
-        default: Boolean
-    })]
+    addresses: [Object],
+    defaultAddress: Number
 }, { timestamps: true, toJSON: { virtuals: true } });
 
 schema.index({ '$**': 'text' });

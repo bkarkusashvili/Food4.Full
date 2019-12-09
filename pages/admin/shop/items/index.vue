@@ -66,7 +66,7 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  <nuxt-link :to="'/admin/news/' + item._id" class="dropdown-item">
+                  <nuxt-link :to="'/admin/shop/items/' + item._id" class="dropdown-item">
                     <span class="icon">
                       <i class="mdi mdi-file-document-edit"></i>
                     </span>

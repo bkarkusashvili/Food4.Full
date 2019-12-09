@@ -1,4 +1,4 @@
-const users = require('../../../lib/users');
+const users = require('@lib/users');
 
 module.exports = function (req, res) {
     const type = req.query.type || "email",

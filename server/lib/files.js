@@ -49,7 +49,7 @@ function processUploadedFile(file, options) {
             path: path.join(options.path, `thumb${options.extension}`)
         }
     };
-    
+
     return fs.mkdirp(options.path).then(() => {
         let promises = [];
         promises.push(sharp(file.data).toFile(variants.original.path));

@@ -1,10 +1,17 @@
-const express = require('express'),
+const moduleAlias = require('module-alias'),
+   express = require('express'),
   session = require('express-session'),
   fileUpload = require('express-fileupload'),
   MongoStore = require('connect-mongo')(session),
-  passport = require('./passport'),
   consola = require('consola'),
-  { Nuxt, Builder } = require('nuxt'),
+  { Nuxt, Builder } = require('nuxt');
+
+// Set up aliases
+moduleAlias.addAlias('@root', __dirname);
+moduleAlias.addAlias('@lib', __dirname + '/lib');
+moduleAlias.addAlias('@models', __dirname + '/models');
+
+const passport = require('./passport'),
   app = express(),
   db = require('./db'),
   mailer = require('./mailer'),
@@ -46,8 +53,8 @@ async function start() {
     } else {
       consola.info("Settings found, checking for missing fields");
       let needUpdate = false;
-      for(let key in config.admin.defaultSettings) {
-        if(config.admin.defaultSettings.hasOwnProperty(key) && (!foundSettings.hasOwnProperty(key) || foundSettings[key] == null)) {
+      for (let key in config.admin.defaultSettings) {
+        if (config.admin.defaultSettings.hasOwnProperty(key) && (!foundSettings.hasOwnProperty(key) || foundSettings[key] == null)) {
           foundSettings[key] = config.admin.defaultSettings[key];
           needUpdate = true;
         }

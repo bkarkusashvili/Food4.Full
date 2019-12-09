@@ -86,9 +86,13 @@ router.get('/shop/items', api.public.shop.items.index);
 router.get('/shop/items/items', api.public.shop.items.index);
 router.get('/shop/items/:id', api.public.shop.items.one);
 
+router.get('/orders/callback', api.public.orders.callback);
+
 /*
 * User API
 */
+
+router.put('/user/users/me', api.user.users.update);
 
 // Favorites
 router.get('/user/favorites', api.user.favorites.index);

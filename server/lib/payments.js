@@ -1,5 +1,5 @@
-const request = require('request-promise-native');
-const mongoose = require('mongoose');
+const request = require('request-promise-native'),
+    mongoose = require('mongoose');
 
 async function authorize(settings) {
     if (!settings)
