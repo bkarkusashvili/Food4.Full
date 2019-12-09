@@ -10,23 +10,20 @@
         <strong>{{$store.getters['cart/total'] | price}} ₾</strong>
       </div>
 
-      <div class="field is-grouped cart-controls">
-        <div class="control">
-          <nuxt-link to="/cart" class="button">
-            <span class="icon">
-              <i class="mdi mdi-cart"></i>
-            </span>
-            <span>სრულად</span>
-          </nuxt-link>
-        </div>
-        <div class="control is-expanded">
-          <nuxt-link to="/order/start" class="button is-black is-fullwidth">
-            <span class="icon">
-              <i class="mdi mdi-shopping"></i>
-            </span>
-            <span>ყიდვა</span>
-          </nuxt-link>
-        </div>
+      <div class="cart-controls flex flex-row">
+        <nuxt-link to="/cart" class="button flex-grow-1" style="flex-basis: 50%">
+          <span class="icon">
+            <i class="mdi mdi-cart"></i>
+          </span>
+          <span>სრულად</span>
+        </nuxt-link>
+        <span class="separator" style="width: .5em"></span>
+        <nuxt-link to="/order" class="button is-black flex-grow-1"  style="flex-basis: 50%">
+          <span class="icon">
+            <i class="mdi mdi-shopping"></i>
+          </span>
+          <span>ყიდვა</span>
+        </nuxt-link>
       </div>
     </div>
 

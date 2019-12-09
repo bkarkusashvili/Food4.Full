@@ -4,7 +4,7 @@
       <button type="button" class="button is-small is-white" @click="remove()">
         <i class="mdi mdi-close"></i>
       </button>
-      <nuxt-link class="cart-item-name" :to="'/shop/items/' + item.slug">{{item.name}}</nuxt-link>
+      <nuxt-link class="cart-item-name" :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
     </div>
     <div class="">
       <div class="field has-addons">

@@ -137,7 +137,7 @@ export default {
     },
     buy() {
       if (!this.isInCart) this.addToCart();
-      this.$router.push("/order/start");
+      this.$router.push("/order");
     }
   },
   computed: {

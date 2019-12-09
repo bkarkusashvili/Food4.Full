@@ -7,7 +7,11 @@ export const getters = {
         return state.items.reduce((sum, item) => sum + item.quantity, 0);
     },
     total(state) {
-        return state.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
+        return state.items.reduce((sum, item) => {
+            if (!item.quantity || !item.price)
+                return sum;
+            return sum + item.quantity * item.price
+        }, 0);
     }
 }
 
