@@ -4,10 +4,11 @@
       <button type="button" class="button is-small is-white" @click="remove()">
         <i class="mdi mdi-close"></i>
       </button>
-      <nuxt-link class="cart-item-name" :to="'/shop/items/' + item.slug">{{item.name}}</nuxt-link>
+      <nuxt-link class="cart-item-name" :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
     </div>
-    <div class="">
+    <div class>
       <div class="field has-addons">
+        <span class="cart-item-price">{{item.price | price}} ₾</span>
         <button type="button" class="button is-small is-white" @click="decrement()">-</button>
         <strong class="cart-item-quantity">{{item.quantity}}</strong>
         <button type="button" class="button is-small is-white" @click="increment()">+</button>
@@ -50,8 +51,8 @@ export default {
 </script>
 
 <style>
-.cart-item-quantity {
-  width: 2em;
+.cart-item-quantity, .cart-item-price {
+  min-width: 2em;
   text-align: center;
   line-height: 30px;
 }

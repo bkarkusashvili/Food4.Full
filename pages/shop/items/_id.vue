@@ -48,10 +48,31 @@
             <div ref="description" v-html="item.description"></div>
           </section>
 
-          <section>
+          <section class="has-text-centered">
             <div v-if="item.stock">
-              ფასი:
-              <strong>{{item.price | price}}</strong>
+              <div class="item-price">
+                ფასი:
+                <strong>{{item.price | price}}</strong>
+              </div>
+              <button
+                type="button"
+                class="button"
+                :class="{'is-success': !isInCart}"
+                @click="addToCart()"
+              >
+                <span class="icon">
+                  <i class="mdi mdi-cart" v-show="!isInCart"></i>
+                  <i class="mdi mdi-check" v-show="isInCart"></i>
+                </span>
+                <span v-show="!isInCart">კალათში დამატება</span>
+                <span v-show="isInCart">კალათში დამატებულია</span>
+              </button>
+              <button type="button" class="button is-success" @click="buy()">
+                <span class="icon">
+                  <i class="mdi mdi-cart"></i>
+                </span>
+                <span>ყიდვა</span>
+              </button>
             </div>
             <div v-else>სამწუხაროდ მარაგი ამოწურულია!</div>
           </section>
@@ -109,8 +130,33 @@ export default {
       .catch(err => {
         error({ statusCode: 404, message: "გვერდი ვერ მოიძებნა" });
       });
+  },
+  methods: {
+    addToCart() {
+      this.$store.commit("cart/add", this.item);
+    },
+    buy() {
+      if (!this.isInCart) this.addToCart();
+      this.$router.push("/order/start");
+    }
+  },
+  computed: {
+    isInCart() {
+      return (
+        this.$store.state.cart &&
+        this.$store.state.cart.items &&
+        findIndex(this.$store.state.cart.items, this.item._id) !== -1
+      );
+    }
   }
 };
+
+function findIndex(items, _id) {
+  for (let i = 0; i < items.length; i++) {
+    if (items[i]._id === _id) return i;
+  }
+  return -1;
+}
 </script>
 
 <style>

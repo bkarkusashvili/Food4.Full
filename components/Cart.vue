@@ -5,7 +5,11 @@
     </div>
 
     <div class="cart-controls" v-if="items.length">
-      სულ: {{$store.getters['cart/total'] | price}}
+      <div class="has-text-centered">
+        სულ:
+        <strong>{{$store.getters['cart/total'] | price}} ₾</strong>
+      </div>
+
       <div class="field is-grouped cart-controls">
         <div class="control">
           <nuxt-link to="/cart" class="button">
@@ -105,7 +109,7 @@ function debounce(func, delay) {
 
 <style>
 .cart {
-  min-width: 250px;
+  min-width: 300px;
 }
 
 .cart .cart-controls {

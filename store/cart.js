@@ -15,7 +15,7 @@ export const mutations = {
     add(state, item) {
         let index = findIndex(state.items, item._id);
         if (index !== -1) {
-            state.items(index).quantity += 1;
+            state.items[index].quantity += 1;
             return;
         }
 
