@@ -56,10 +56,12 @@ async function orderRequest(order) {
     return response;
 }
 
-async function checkOrder(orderId) {
+async function checkOrder(order) {
+    if(!order.payment)
+        return;
     let settings = await mongoose.model('Settings').findOne({ name: 'default' });
     let authorization = await authorize(settings);
-    let response = await request.get(`/checkout/orders/${orderId}`, {
+    let response = await request.get(`/checkout/orders/${order.payment.order_id}`, {
         baseUrl: settings.ipayEndpoint,
         headers: {
             'Accept': 'application/json'
@@ -69,14 +71,17 @@ async function checkOrder(orderId) {
         },
         json: true
     });
+    return response;
 }
 
-async function refundRequest(orderId) {
+async function refundRequest(order) {
+    if(!order.payment)
+        return;
     let settings = await mongoose.model('Settings').findOne({ name: 'default' });
     let authorization = authorize(settings);
     let response = await request.post('/checkout/refund', {
         form: {
-            order_id: orderId
+            order_id: order.payment.order_id
         },
         baseUrl: settings.ipayEndpoint,
         headers: {
@@ -87,16 +92,11 @@ async function refundRequest(orderId) {
         },
         json: true
     });
-}
-
-async function processCallback(callback) {
-    console.log(callback);
-    let settings = await mongoose.model('Settings').findOne({ name: 'default' });
-    let authorization = authorize(settings);
+    return response;
 }
 
 function convertAmount(original) {
     return (original / 100).toFixed(2);
 }
 
-module.exports = { authorize, orderRequest, refundRequest, checkOrder, processCallback };
+module.exports = { authorize, orderRequest, refundRequest, checkOrder };

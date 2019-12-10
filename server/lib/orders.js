@@ -30,7 +30,7 @@ async function checkOrder(orderId, user) {
     let order = await mongoose.model('ShopOrder').findOne(user ? { _id: orderId, user: user._id } : { _id: orderId });
     if (!order)
         return;
-    let paymentResult = await payments.checkOrder(order._id);
+    let paymentResult = await payments.checkOrder(order);
 
     console.log(paymentResult);
 
@@ -55,8 +55,11 @@ async function cancelOrder(orderId) {
     let order = await mongoose.model('ShopOrder').findById(orderId);
     if (!order)
         return;
-    if (order.status === "PAID")
+    if (order.status === "PAID") {
         await unreserveItems(order.items);
+        await payments.refundRequest(order);
+    }
+
     order.status = "CANCELLED";
 
     return order.save();
