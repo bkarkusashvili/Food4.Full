@@ -89,7 +89,8 @@ async function refundRequest(orderId) {
     });
 }
 
-async function processCallback() {
+async function processCallback(callback) {
+    console.log(callback);
     let settings = await mongoose.model('Settings').findOne({ name: 'default' });
     let authorization = authorize(settings);
 }

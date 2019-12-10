@@ -12,6 +12,7 @@ pan
 const payments = require('@lib/payments');
 
 module.exports = function (req, res) {
+    console.log("CALLBACK", req.body);
     payments.processCallback(req.body);
-    res.redirect(301, '/orders/callback');
+    res.redirect(301, '/order/callback');
 }
