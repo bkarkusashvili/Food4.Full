@@ -17,11 +17,16 @@ $mdi-font-path: "~@mdi/font/fonts";
 $footer-padding: 1.5rem;
 $navbar-item-hover-color: black;
 $navbar-dropdown-arrow: black;
+$input-arrow: black;
 $navbar-dropdown-item-active-color: black;
 
 @import "~bulma/bulma";
 @import "~bulma-badge/src/sass/index";
 @import "~bulma-o-steps/bulma-steps.scss";
+
+.select:not(.is-multiple):not(.is-loading)::after, .navbar-link:not(.is-arrowless)::after {
+  border-color: black;
+}
 
 .modal {
   position: fixed;
