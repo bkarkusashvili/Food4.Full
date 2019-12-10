@@ -9,10 +9,9 @@ transaction_id
 pan
 */
 
-const payments = require('@lib/payments');
+const orders = require('@lib/paordersyments');
 
 module.exports = function (req, res) {
-    console.log("CALLBACK", req.body);
-    payments.processCallback(req.body);
-    res.redirect(301, '/order/callback');
+    orders.checkOrder(req.query.id);
+    res.redirect(301, '/orders/' + req.query.id);
 }

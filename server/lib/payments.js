@@ -33,7 +33,7 @@ async function orderRequest(order) {
                 quantity: item.quantity,
                 product_id: item._id
             })),
-            redirect_url: 'https://food4.ge/api/orders/callback',
+            redirect_url: `https://food4.ge/api/orders/callback?id=${order._id}`,
             shop_order_id: order._id,
             purchase_units: [{
                 amount: {
