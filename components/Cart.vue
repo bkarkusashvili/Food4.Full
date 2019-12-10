@@ -117,4 +117,8 @@ function debounce(func, delay) {
 .cart .cart-items {
   padding: 5px;
 }
+
+.cart .cart-no-items {
+  padding-bottom: 10px;
+}
 </style>
