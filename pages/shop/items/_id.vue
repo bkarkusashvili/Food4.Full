@@ -16,28 +16,34 @@
       </nav>
 
       <div class="columns">
-        <div class="column" v-if="(item.pictures && item.pictures.length) || item.video">
-          <siema
-            class="carousel"
-            ref="siema"
-            v-if="(item.pictures && item.pictures.length) || item.video"
-          >
-            <div class="slide" v-if="item.video">
-              <div class="item-video" v-if="item.video">
-                <div class="youtube-embed">
-                  <iframe
-                    :src="item.video | youtubeEmbed"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                  ></iframe>
-                </div>
+        <div class="column carousel-container" v-if="slides.length">
+          <siema class="carousel" ref="siema" v-if="slides.length" :current.sync="curSlide">
+            <div class="slide has-text-centered" v-for="(slide, index) in slides" :key="index">
+              <img class="item-picture" :src="slide.url" alt v-if="slide.type === 'picture'" />
+              <div class="youtube-embed" v-if="slide.type === 'video'">
+                <iframe
+                  :src="item.video | youtubeEmbed"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
               </div>
             </div>
-            <div class="slide" v-for="(picture, index) in item.pictures" :key="index">
-              <img class="item-picture" :src="picture" alt />
-            </div>
           </siema>
+
+          <div class="tabs carousel-selector is-centered">
+            <ul>
+              <li
+                v-for="(slide, index) in slides"
+                :key="index"
+                :class="{'is-active': curSlide === index}"
+              >
+                <a @click="selectSlide(index)">
+                  <img :src="slide.thumb | youtubeThumb" />
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="column">
           <section class="item-header has-text-centered">
@@ -118,7 +124,8 @@
 export default {
   data() {
     return {
-      item: {}
+      item: {},
+      curSlide: 0
     };
   },
   asyncData({ params, error, $axios }) {
@@ -138,6 +145,9 @@ export default {
     buy() {
       if (!this.isInCart) this.addToCart();
       this.$router.push("/order");
+    },
+    selectSlide(index) {
+      this.$refs.siema.goTo(index);
     }
   },
   computed: {
@@ -147,6 +157,33 @@ export default {
         this.$store.state.cart.items &&
         findIndex(this.$store.state.cart.items, this.item._id) !== -1
       );
+    },
+    slides() {
+      let slides = [];
+      if (!this.item) return slides;
+
+      if (this.item.video)
+        slides.push({
+          type: "video",
+          url: this.item.video,
+          thumb: this.item.video
+        });
+
+      if (this.item.pictures && this.item.pictures.length) {
+        this.item.pictures.forEach(picture => {
+          slides.push({
+            type: "picture",
+            url: picture.url,
+            thumb:
+              (picture.variants &&
+                picture.variants.thumb &&
+                picture.variants.thumb.url) ||
+              picture.url
+          });
+        });
+      }
+
+      return slides;
     }
   }
 };
@@ -160,8 +197,20 @@ function findIndex(items, _id) {
 </script>
 
 <style>
-.item-page .carousel {
+.item-page .carousel-container {
   width: 100%;
   overflow: hidden;
+}
+
+.item-page .carousel-selector ul {
+  align-items: stretch;
+}
+
+.item-page .carousel-selector a {
+  height: 100%;
+}
+
+.item-page .carousel-selector img {
+  max-width: 5em;
 }
 </style>

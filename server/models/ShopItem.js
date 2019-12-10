@@ -25,7 +25,7 @@ const schema = new Schema({
     description: {
         type: String
     },
-    pictures: [String],
+    pictures: [Object],
     thumb: {
         type: String
     },
