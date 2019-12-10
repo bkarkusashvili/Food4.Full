@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 module.exports = function (req, res) {
     mongoose.model('ShopOrder').findOne({
         user: req.user._id,
-        id: req.params.id
+        _id: req.params.id
     }).then(function (order) {
         if (order)
             res.json(order);

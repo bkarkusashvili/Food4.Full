@@ -95,7 +95,7 @@ async function unreserveItems(items) {
 }
 
 async function syncItems(items) {
-    let dbItems = await mongoose.model('ShopItem').find({ id: items.map((item) => item._id) });
+    let dbItems = await mongoose.model('ShopItem').find({ _id: items.map((item) => item._id) });
     let newItems = items.map((item) => {
         let dbItem = findIndex(dbItems, item._id);
         if (!dbItem)
