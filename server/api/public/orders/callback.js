@@ -9,7 +9,7 @@ transaction_id
 pan
 */
 
-const orders = require('@lib/paordersyments');
+const orders = require('@lib/orders');
 
 module.exports = function (req, res) {
     orders.checkOrder(req.query.id);

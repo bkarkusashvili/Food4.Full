@@ -60,8 +60,8 @@ async function start() {
         }
       }
       if (needUpdate) {
-        return defaultSettings.save().then(function () {
-          consola.success("Settings updated:", defaultSettings);
+        return foundSettings.save().then(function () {
+          consola.success("Settings updated:", foundSettings);
         });
       }
     }

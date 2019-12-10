@@ -23,7 +23,7 @@ module.exports = function (req, res) {
                     .find(query)
                     .lean()
                     .limit(limit)
-                    .offset(offset)
+                    .skip(offset)
                     .populate('author')
                     .populate('tags')
                     .sort('-featured -createdAt'),
