@@ -75,7 +75,7 @@ async function start() {
   app.use(fileUpload({
     limits: { fileSize: 500 * 1024 * 1024 },
   }));
-  app.use(express.json());
+  app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
   app.set('trust proxy', 1); // trust first proxy (nginx)
   // app.use(function(req, res, next){

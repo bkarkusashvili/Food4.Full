@@ -140,9 +140,9 @@
         <div class="control">
           <client-only>
             <vue-editor
-              v-model="item.content"
-              id="editor-content"
-              ref="content"
+              v-model="item.description"
+              id="editor-description"
+              ref="description"
               useCustomImageHandler
               @imageAdded="handleImageAdded"
             />
@@ -203,7 +203,7 @@ export default {
       if (this.$route.params.id === "new") {
         this.new = true;
         this.item = {
-          content: "",
+          description: "",
           title: "",
           stock: 0
         };
@@ -270,7 +270,7 @@ export default {
     },
     save: function() {
       this.item.excerpt =
-        this.$refs.content && this.$refs.content.$el.innerText;
+        this.$refs.description && this.$refs.description.$el.innerText;
       if (this.item.excerpt)
         this.item.excerpt = this.item.excerpt.substr(0, 160);
 

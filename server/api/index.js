@@ -109,6 +109,7 @@ router.get('/user/orders', api.user.orders.index);
 router.get('/user/orders/:id', api.user.orders.one);
 router.post('/user/orders', api.user.orders.create);
 router.put('/user/orders/:id/pay', api.user.orders.pay);
+router.put('/user/orders/:id/cancel', api.user.orders.cancel);
 
 /*
 * Admin API

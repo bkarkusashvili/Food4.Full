@@ -42,7 +42,7 @@
             სულ:
             <strong>{{$store.getters['cart/total'] | price}} ₾</strong>
           </div>
-          <div class="has-text-centered">
+          <div class="has-text-centered" style="margin-top: 1em">
             <button
               class="button is-large is-success"
               @click="gotoAddress()"
@@ -58,72 +58,74 @@
       </div>
       <div class="columns" v-if="step === 'address'">
         <div class="column">
-          <div class="field">
-            <label class="label">სახელი</label>
-            <div class="control">
-              <input
-                v-model="address.surname"
-                class="input"
-                type="text"
-                :class="{'is-danger': !nameValid}"
-              />
-            </div>
-            <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ სახელი</p>
-          </div>
-
-          <div class="field">
-            <label class="label">გვარი</label>
-            <div class="control">
-              <input
-                v-model="address.name"
-                class="input"
-                type="text"
-                :class="{'is-danger': !surnameValid}"
-              />
-            </div>
-            <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ გვარი</p>
-          </div>
-
-          <div class="field">
-            <label class="label">ტელეფონი</label>
-            <div class="control has-icons-left">
-              <input
-                v-model="address.phone"
-                class="input"
-                :class="{'is-danger': !phoneValid}"
-                type="tel"
-              />
-              <span class="icon is-small is-left">
-                <i class="mdi mdi-phone"></i>
-              </span>
-            </div>
-            <p v-show="!phoneValid" class="help is-danger">ნომერი არასწორია</p>
-          </div>
-
-          <div class="field">
-            <label class="label">მისამართი</label>
-            <div class="control">
-              <textarea
-                v-model="address.address"
-                class="textarea"
-                type="text"
-                rows="3"
-                :class="{'is-danger': !addressValid}"
-              ></textarea>
-            </div>
-            <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ მისამართი</p>
-          </div>
-
-          <div class="field">
-            <label class="label">ქალაქი</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="address.city">
-                  <option value="თბილისი">თბილისი</option>
-                </select>
+          <div style="max-width: 30em; margin: 0 auto">
+            <div class="field">
+              <label class="label">სახელი</label>
+              <div class="control">
+                <input
+                  v-model="address.surname"
+                  class="input"
+                  type="text"
+                  :class="{'is-danger': !nameValid}"
+                />
               </div>
+              <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ სახელი</p>
             </div>
-            <p>&nbsp;</p>
+
+            <div class="field">
+              <label class="label">გვარი</label>
+              <div class="control">
+                <input
+                  v-model="address.name"
+                  class="input"
+                  type="text"
+                  :class="{'is-danger': !surnameValid}"
+                />
+              </div>
+              <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ გვარი</p>
+            </div>
+
+            <div class="field">
+              <label class="label">ტელეფონი</label>
+              <div class="control has-icons-left">
+                <input
+                  v-model="address.phone"
+                  class="input"
+                  :class="{'is-danger': !phoneValid}"
+                  type="tel"
+                />
+                <span class="icon is-small is-left">
+                  <i class="mdi mdi-phone"></i>
+                </span>
+              </div>
+              <p v-show="!phoneValid" class="help is-danger">ნომერი არასწორია</p>
+            </div>
+
+            <div class="field">
+              <label class="label">მისამართი</label>
+              <div class="control">
+                <textarea
+                  v-model="address.address"
+                  class="textarea"
+                  type="text"
+                  rows="3"
+                  :class="{'is-danger': !addressValid}"
+                ></textarea>
+              </div>
+              <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ მისამართი</p>
+            </div>
+
+            <div class="field">
+              <label class="label">ქალაქი</label>
+              <div class="control">
+                <div class="select">
+                  <select v-model="address.city">
+                    <option value="თბილისი">თბილისი</option>
+                  </select>
+                </div>
+              </div>
+              <p>&nbsp;</p>
+            </div>
           </div>
         </div>
 
@@ -139,7 +141,7 @@
             სულ:
             <strong>{{orderTotal | price}} ₾</strong>
           </div>
-          <div class="has-text-centered">
+          <div class="has-text-centered" style="margin-top: 1em">
             <button class="button is-large is-success" @click="gotoPayment()">
               <span>გაგრძელება</span>
               <span class="icon">
@@ -162,17 +164,27 @@
           </div>
           <div class="column has-text-centered">
             <div>{{order.address.name}} {{order.address.surname}}</div>
-            <div><i class="mdi mdi-phone"></i> {{order.address.phone}} {{order.address.city}}</div>
-            <div><i class="mdi mdi-building"></i> {{order.address.address}}</div>
+            <div>
+              <i class="mdi mdi-phone"></i>
+              {{order.address.phone}} {{order.address.city}}
+            </div>
+            <div>
+              <i class="mdi mdi-building"></i>
+              {{order.address.address}}
+            </div>
           </div>
         </div>
 
-        <div class="has-text-centered">
+        <div class="has-text-centered" style="margin-top: 1em">
           <div>
             სულ:
             <strong>{{orderTotal | price}} ₾</strong>
           </div>
 
+          <button class="button is-large" @click="cancelOrder()">
+            <span class="icon"><i class="mdi mdi-cancel"></i></span>
+            <span>გაუქმენა</span>
+          </button>
           <button class="button is-large is-success" @click="payOrder()">
             <span>გადახდა</span>
             <span class="icon">₾</span>
@@ -278,7 +290,7 @@ export default {
         .put("/api/user/orders/" + this.order._id + "/cancel")
         .then(response => {
           this.loading = false;
-          this.$router.replace('/');
+          this.$router.replace("/");
         })
         .catch(err => {
           this.loading = false;

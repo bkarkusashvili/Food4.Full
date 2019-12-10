@@ -51,8 +51,8 @@
             <h1 class="title">{{item.title}}</h1>
           </section>
 
-          <section class="item-description ql-editor" v-if="item.description">
-            <div ref="description" v-html="item.description"></div>
+          <section class="item-description" v-if="item.description">
+            <div class="ql-editor" ref="description" v-html="item.description"></div>
           </section>
 
           <section class="has-text-centered">
