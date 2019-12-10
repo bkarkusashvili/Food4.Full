@@ -1,10 +1,7 @@
-const mongoose = require('mongoose');
+const orders = require('@lib/orders');
 
 module.exports = function (req, res) {
-    mongoose.model('ShopOrder').findOne({
-        user: req.user._id,
-        id: req.params.id
-    }).then(function (order) {
+    orders.checkOrder(req.params.id).then(function (order) {
         if (order)
             res.json(order);
         else

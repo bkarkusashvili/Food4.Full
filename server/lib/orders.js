@@ -26,23 +26,25 @@ async function payOrder(orderId) {
     return order;
 }
 
-async function checkOrder(orderId) {
-    let order = await mongoose.model('ShopOrder').findById(orderId);
+async function checkOrder(orderId, user) {
+    let order = await mongoose.model('ShopOrder').findOne(user ? { _id: orderId, user: user._id } : { _id: orderId });
     if (!order)
         return;
     let paymentResult = await payments.checkOrder(order._id);
 
     console.log(paymentResult);
 
-    order.status = "PAID";
-    await reserveItems(order.items);
+    if(order.status === "CREATED" || order.status === "PAYMENT_PENDING") {
+        order.status = "PAID";
+        await reserveItems(order.items);
+        await order.save();
+    }
 
-    await order.save();
     return order;
 }
 
 async function cancelOwnOrder(orderId, user) {
-    let order = await mongoose.model('ShopOrder').findOne({ _id: id, user: user._id });
+    let order = await mongoose.model('ShopOrder').findOne({ _id: orderId, user: user._id });
     if (order.status !== "CREATED")
         throw new Error("შეკვეთის გასაუქმებლად მიმართეთ ადმინისტრაციას!");
     order.status = "CANCELLED";
@@ -122,4 +124,4 @@ function getTotal(items) {
     }, 0);
 }
 
-module.exports = { createOrder, payOrder, cancelOwnOrder, cancelOrder, updateOrder, syncItems };
+module.exports = { createOrder, payOrder, cancelOwnOrder, cancelOrder, updateOrder, syncItems, checkOrder };
