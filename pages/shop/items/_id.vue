@@ -40,6 +40,7 @@
               >
                 <a @click="selectSlide(index)">
                   <img :src="slide.thumb | youtubeThumb" />
+                  <span class="play-icon" v-if="slide.type === 'video'"><i class="mdi mdi-play"></i></span>
                 </a>
               </li>
             </ul>
@@ -208,9 +209,21 @@ function findIndex(items, _id) {
 
 .item-page .carousel-selector a {
   height: 100%;
+  position: relative;
 }
 
 .item-page .carousel-selector img {
   max-width: 5em;
+}
+
+.item-page .carousel-selector .play-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 32px;
+  color: white;
+  margin-left: -16px;
+  margin-top: -24px;
+  text-shadow: 0 0 5px black;
 }
 </style>

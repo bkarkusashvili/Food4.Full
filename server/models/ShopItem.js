@@ -47,4 +47,6 @@ const schema = new Schema({
     linkedItems: [{ type: Schema.Types.ObjectId, ref: 'ShopItem' }],
 }, { timestamps: true });
 
+schema.index({ '$**': 'text' });
+
 module.exports = schema;

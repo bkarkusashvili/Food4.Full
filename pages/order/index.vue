@@ -66,7 +66,23 @@ export default {
       step: "cart"
     };
   },
-  methods: {}
+  methods: {
+    gotoAddress() {
+      order.items = this.$store.state.cart.items;
+    },
+    gotoConfirmation() {
+
+    },
+    gotoPayment() {
+
+    },
+    selectItems() {
+
+    },
+    selectAddress() {
+
+    }
+  }
 };
 </script>
 
