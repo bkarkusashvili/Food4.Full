@@ -6,5 +6,8 @@ module.exports = function (req, res) {
             res.json(order);
         else
             res.status(404).send("შეკვეთა ვერ მოიძებნა!");
-    }).catch((error) => res.status(500).json(error));
+    }).catch((error) => {
+        console.error("Error while checking order", error);
+        res.status(500).json(error);
+    });
 };
