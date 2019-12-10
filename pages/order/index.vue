@@ -43,7 +43,11 @@
             <strong>{{$store.getters['cart/total'] | price}} ₾</strong>
           </div>
           <div class="has-text-centered">
-            <button class="button is-large is-success" @click="gotoAddress()">
+            <button
+              class="button is-large is-success"
+              @click="gotoAddress()"
+              :disabled="$store.getters['cart/itemCount'] === 0"
+            >
               <span>გაგრძელება</span>
               <span class="icon">
                 <i class="mdi mdi-chevron-right"></i>
@@ -114,8 +118,8 @@
             <label class="label">ქალაქი</label>
             <div class="control">
               <div class="select">
-                <select>
-                  <option value="Tbilisi">თბილისი</option>
+                <select v-model="address.city">
+                  <option value="თბილისი">თბილისი</option>
                 </select>
               </div>
             </div>
@@ -146,22 +150,34 @@
         </div>
       </div>
       <div v-if="step === 'payment'">
-        <table class="table is-fullwidth">
-          <tr v-for="(item, index) in order.items" :key="index">
-            <td>{{item.title}}</td>
-            <td class="has-text-right">{{item.price | price}} ₾</td>
-            <td class="has-text-right">{{item.quantity}} ცალი</td>
-          </tr>
-        </table>
-        <div class="has-text-centered">
-          სულ:
-          <strong>{{orderTotal | price}} ₾</strong>
+        <div class="columns">
+          <div class="column">
+            <table class="table is-fullwidth">
+              <tr v-for="(item, index) in order.items" :key="index">
+                <td>{{item.title}}</td>
+                <td class="has-text-right">{{item.price | price}} ₾</td>
+                <td class="has-text-right">{{item.quantity}} ცალი</td>
+              </tr>
+            </table>
+          </div>
+          <div class="column has-text-centered">
+            <div>{{order.address.name}} {{order.address.surname}}</div>
+            <div><i class="mdi mdi-phone"></i> {{order.address.phone}} {{order.address.city}}</div>
+            <div><i class="mdi mdi-building"></i> {{order.address.address}}</div>
+          </div>
         </div>
 
-        <button class="button is-large is-success" @click="payOrder()">
-          <span>გადახდა</span>
-          <span class="icon">₾</span>
-        </button>
+        <div class="has-text-centered">
+          <div>
+            სულ:
+            <strong>{{orderTotal | price}} ₾</strong>
+          </div>
+
+          <button class="button is-large is-success" @click="payOrder()">
+            <span>გადახდა</span>
+            <span class="icon">₾</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -175,7 +191,9 @@ export default {
   data() {
     return {
       order: {},
-      address: {},
+      address: {
+        city: "თბილისი"
+      },
       phoneValid: true,
       nameValid: true,
       surnameValid: true,
@@ -230,6 +248,7 @@ export default {
         });
     },
     payOrder() {
+      this.$store.commit("cart/setItems", []);
       this.loading = true;
       this.$axios
         .put("/api/user/orders/" + this.order._id + "/pay")
@@ -238,13 +257,28 @@ export default {
           this.order = response.data;
           if (this.order.payment && this.order.payment.links) {
             let redirectLink = null;
-            this.order.payment.links.forEach((link) => {
-              if(link.rel === "approve")
-                redirectLink = link.href;
+            this.order.payment.links.forEach(link => {
+              if (link.rel === "approve") redirectLink = link.href;
             });
-            if(redirectLink)
-              location.href = redirectLink;
+            if (redirectLink) location.href = redirectLink;
           }
+        })
+        .catch(err => {
+          this.loading = false;
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    cancelOrder() {
+      this.loading = true;
+      this.$axios
+        .put("/api/user/orders/" + this.order._id + "/cancel")
+        .then(response => {
+          this.loading = false;
+          this.$router.replace('/');
         })
         .catch(err => {
           this.loading = false;

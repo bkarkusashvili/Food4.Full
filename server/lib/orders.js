@@ -21,6 +21,7 @@ async function payOrder(orderId) {
         return;
     let paymentResult = await payments.orderRequest(order);
     order.payment = paymentResult;
+    order.status = "PAYMENT_PENDING";
     await order.save();
     return order;
 }
