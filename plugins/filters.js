@@ -77,10 +77,12 @@ Vue.filter('navLink', function (object) {
             return object.page ? '/pages/' + object.page.slug : "";
         case "post":
             return object.post ? '/recipes/' + object.post.slug : "";
+        case "category":
+            return object.category ? '/shop/' + object.category.slug : "";
     }
 });
 
 Vue.filter('price', function (number) {
-    if(isNaN(number)) return "";
+    if (isNaN(number)) return "";
     return (parseInt(number) / 100).toFixed(2);
 });

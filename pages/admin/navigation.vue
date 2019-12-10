@@ -28,6 +28,7 @@
               @selectTag="selectTag"
               @selectPage="selectPage"
               @selectPost="selectPost"
+              @selectCategory="selectCategory"
             />
           </transition-group>
         </draggable>
@@ -42,6 +43,11 @@
     />
     <page-chooser :show="showPageChooser" @hide="showPageChooser = false" @select="pageSelected" />
     <post-chooser :show="showPostChooser" @hide="showPostChooser = false" @select="postSelected" />
+    <category-chooser
+      :show="showCategoryChooser"
+      @hide="showCategoryChooser = false"
+      @select="categorySelected"
+    />
   </div>
 </template>
 
@@ -49,16 +55,18 @@
 import TagChooser from "../../components/TagChooser";
 import PageChooser from "../../components/PageChooser";
 import PostChooser from "../../components/PostChooser";
+import CategoryChooser from "../../components/CategoryChooser";
 import AdminNavItem from "../../components/AdminNavItem";
 
 export default {
-  components: { TagChooser, PageChooser, PostChooser },
+  components: { TagChooser, PageChooser, PostChooser, CategoryChooser },
   data() {
     return {
       items: [],
       showTagChooser: false,
       showPageChooser: false,
       showPostChooser: false,
+      showCategoryChooser: false,
       selectionTarget: null
     };
   },
@@ -102,22 +110,33 @@ export default {
     tagSelected(tag) {
       if (!this.selectionTarget) return;
       this.selectionTarget.item.tag = tag;
-      if (!this.selectionTarget.item.title) this.selectionTarget.item.title = tag.title;
-      if(this.selectionTarget.target)
+      if (!this.selectionTarget.item.title)
+        this.selectionTarget.item.title = tag.title;
+      if (this.selectionTarget.target)
         this.selectionTarget.target.$forceUpdate();
     },
     pageSelected(page) {
       if (!this.selectionTarget) return;
       this.selectionTarget.item.page = page;
-      if (!this.selectionTarget.item.title) this.selectionTarget.item.title = page.title;
-      if(this.selectionTarget.target)
+      if (!this.selectionTarget.item.title)
+        this.selectionTarget.item.title = page.title;
+      if (this.selectionTarget.target)
         this.selectionTarget.target.$forceUpdate();
     },
     postSelected(post) {
       if (!this.selectionTarget) return;
       this.selectionTarget.item.post = post;
-      if (!this.selectionTarget.item.title) this.selectionTarget.item.title = post.title;
-      if(this.selectionTarget.target)
+      if (!this.selectionTarget.item.title)
+        this.selectionTarget.item.title = post.title;
+      if (this.selectionTarget.target)
+        this.selectionTarget.target.$forceUpdate();
+    },
+    categorySelected(category) {
+      if (!this.selectionTarget) return;
+      this.selectionTarget.item.category = category;
+      if (!this.selectionTarget.item.title)
+        this.selectionTarget.item.title = category.title;
+      if (this.selectionTarget.target)
         this.selectionTarget.target.$forceUpdate();
     },
     removeItem(index) {
@@ -146,6 +165,10 @@ export default {
     selectPost(item) {
       this.selectionTarget = item;
       this.showPostChooser = true;
+    },
+    selectCategory(item) {
+      this.selectionTarget = item;
+      this.showCategoryChooser = true;
     },
     isEmpty(item) {
       return (

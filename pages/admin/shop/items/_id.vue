@@ -104,7 +104,12 @@
             </button>
           </div>
           <div class="control box" style="margin-top: 10px">
-            <img :src="item.pictures[index].url" class="item-picture" v-if="item.pictures[index].url" alt/>
+            <img
+              :src="item.pictures[index].url"
+              class="item-picture"
+              v-if="item.pictures[index].url"
+              alt
+            />
           </div>
         </div>
       </div>

@@ -150,6 +150,10 @@ html {
   }
 }
 
+.main-layout > .is-fullheight {
+  padding-top: 18px;
+}
+
 @media screen and (max-width: $tablet) {
   .ad-space {
     display: none;

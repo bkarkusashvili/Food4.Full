@@ -36,6 +36,14 @@
     :style="'color:' + item.color"
   >{{item.title}}</nuxt-link>
 
+  <nuxt-link
+    v-else-if="item.type === 'category' && item.category"
+    :to="item | navLink"
+    class="navbar-item"
+    :key="item.id"
+    :style="'color:' + item.color"
+  >{{item.title}}</nuxt-link>
+
   <a
     :href="item.link"
     v-else-if="item.type === 'link'"

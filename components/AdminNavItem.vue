@@ -49,6 +49,7 @@
           <option value="page">გვერდი</option>
           <option value="post">რეცეპტი</option>
           <option value="link">ლინკი</option>
+          <option value="category">მაღაზიის კატეგორია</option>
         </select>
       </div>
 
@@ -90,6 +91,16 @@
           </span>
           <span v-if="item.post">{{item.post.title}}</span>
           <span v-else>რეცეპტის არჩევა</span>
+        </a>
+      </div>
+
+      <div class="control" v-show="item.type === 'category'">
+        <a class="tag is-medium" @click="selectCategory(item)">
+          <span class="icon">
+            <i class="mdi mdi-pencil"></i>
+          </span>
+          <span v-if="item.category">{{item.category.title}}</span>
+          <span v-else>კატეგორიის არჩევა</span>
         </a>
       </div>
     </div>
@@ -166,6 +177,9 @@ export default Vue.component("admin-nav-item", {
     },
     selectPost(item) {
       this.$emit("selectPost", { item, target: this });
+    },
+    selectCategory(item) {
+      this.$emit("selectCategory", { item, target: this });
     }
   }
 });
