@@ -107,6 +107,8 @@ router.put('/user/cart', api.user.cart.update);
 // Orders
 router.get('/user/orders', api.user.orders.index);
 router.get('/user/orders/:id', api.user.orders.one);
+router.post('/user/orders', api.user.orders.create);
+router.put('/user/orders/:id/pay', api.user.orders.pay);
 
 /*
 * Admin API

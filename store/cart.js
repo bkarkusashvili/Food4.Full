@@ -10,7 +10,7 @@ export const getters = {
         return state.items.reduce((sum, item) => {
             if (!item.quantity || !item.price)
                 return sum;
-            return sum + item.quantity * item.price
+            return sum + Math.ceil(item.quantity * item.price)
         }, 0);
     }
 }

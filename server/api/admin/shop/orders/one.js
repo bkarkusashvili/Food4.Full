@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 module.exports = function (req, res) {
     mongoose.model('ShopOrder')
         .findById(req.params.id)
+        .populate('user')
         .lean()
         .then(function (order) {
             if (!order) {

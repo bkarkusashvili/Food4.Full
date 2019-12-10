@@ -19,6 +19,7 @@ module.exports = function (req, res) {
 
     Promise.all([
         mongoose.model('ShopOrder')
+            .populate('user')
             .find(query)
             .limit(limit)
             .skip(offset)

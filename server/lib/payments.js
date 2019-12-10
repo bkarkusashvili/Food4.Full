@@ -4,15 +4,17 @@ const request = require('request-promise-native'),
 async function authorize(settings) {
     if (!settings)
         settings = await mongoose.model('Settings').findOne({ name: 'default' });
-    let authCredentials = genCredentials(settings);
     let response = await request.post('/oauth2/token', {
         form: {
             'grant_type': 'client_credentials'
         },
         baseUrl: settings.ipayEndpoint,
         headers: {
-            'Accept': 'application/json',
-            'Authorization': `Basic ${authCredentials}`
+            'Accept': 'application/json'
+        },
+        auth: {
+            'user': settings.ipayId,
+            'pass': settings.ipaySecret
         },
         json: true
     });
@@ -21,18 +23,18 @@ async function authorize(settings) {
 
 async function orderRequest(order) {
     let settings = await mongoose.model('Settings').findOne({ name: 'default' });
-    let authorization = authorize(settings);
+    let authorization = await authorize(settings);
     let response = await request.post('/checkout/orders', {
         body: {
             intent: 'CAPTURE',
             items: order.items.map((item) => ({
                 description: item.title,
-                amount: convertAmount(item.amount * item.quantity),
+                amount: convertAmount(item.price * item.quantity),
                 quantity: item.quantity,
                 product_id: item._id
             })),
-            redirect_url: ``,
-            shop_order_id: order.id,
+            redirect_url: 'https://food4.ge/api/orders/callback',
+            shop_order_id: order._id,
             purchase_units: [{
                 amount: {
                     currency_code: "GEL",
@@ -43,8 +45,10 @@ async function orderRequest(order) {
         },
         baseUrl: settings.ipayEndpoint,
         headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${authorization.access_token}`
+            'Accept': 'application/json'
+        },
+        auth: {
+            bearer: authorization.access_token
         },
         json: true
     });
@@ -54,12 +58,14 @@ async function orderRequest(order) {
 
 async function checkOrder(orderId) {
     let settings = await mongoose.model('Settings').findOne({ name: 'default' });
-    let authorization = authorize(settings);
+    let authorization = await authorize(settings);
     let response = await request.get(`/checkout/orders/${orderId}`, {
         baseUrl: settings.ipayEndpoint,
         headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${authorization.access_token}`
+            'Accept': 'application/json'
+        },
+        auth: {
+            bearer: authorization.access_token
         },
         json: true
     });
@@ -74,8 +80,10 @@ async function refundRequest(orderId) {
         },
         baseUrl: settings.ipayEndpoint,
         headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${authorization.access_token}`
+            'Accept': 'application/json'
+        },
+        auth: {
+            bearer: authorization.access_token
         },
         json: true
     });
@@ -84,10 +92,6 @@ async function refundRequest(orderId) {
 async function processCallback() {
     let settings = await mongoose.model('Settings').findOne({ name: 'default' });
     let authorization = authorize(settings);
-}
-
-function genCredentials(settings) {
-    return btoa(settings.ipaySecret + settings.ipayId);
 }
 
 function convertAmount(original) {

@@ -145,7 +145,24 @@
           </div>
         </div>
       </div>
-      <div v-if="step === 'payment'"></div>
+      <div v-if="step === 'payment'">
+        <table class="table is-fullwidth">
+          <tr v-for="(item, index) in order.items" :key="index">
+            <td>{{item.title}}</td>
+            <td class="has-text-right">{{item.price | price}} ₾</td>
+            <td class="has-text-right">{{item.quantity}} ცალი</td>
+          </tr>
+        </table>
+        <div class="has-text-centered">
+          სულ:
+          <strong>{{orderTotal | price}} ₾</strong>
+        </div>
+
+        <button class="button is-large is-success" @click="payOrder()">
+          <span>გადახდა</span>
+          <span class="icon">₾</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -163,6 +180,7 @@ export default {
       nameValid: true,
       surnameValid: true,
       addressValid: true,
+      loading: false,
       step: "cart"
     };
   },
@@ -175,13 +193,67 @@ export default {
       if (!this.validate()) return;
       this.order.address = Object.assign({}, this.address);
       this.step = "payment";
+      this.createOrder();
     },
     validate() {
-      this.nameValid = (this.address.name != null && this.address.name.length);
-      this.surnameValid = (this.address.surname != null && this.address.surname.length);
-      this.phoneValid = (this.address.phone != null && this.address.phone.length && this.address.phone.match(/^[0-9]{9,}$/i));
-      this.addressValid = (this.address.address != null && this.address.address.length);
-      return this.nameValid && this.surnameValid && this.phoneValid && this.addressValid;
+      this.nameValid = this.address.name != null && this.address.name.length;
+      this.surnameValid =
+        this.address.surname != null && this.address.surname.length;
+      this.phoneValid =
+        this.address.phone != null &&
+        this.address.phone.length &&
+        this.address.phone.match(/^[0-9]{9,}$/i);
+      this.addressValid =
+        this.address.address != null && this.address.address.length;
+      return (
+        this.nameValid &&
+        this.surnameValid &&
+        this.phoneValid &&
+        this.addressValid
+      );
+    },
+    createOrder() {
+      this.loading = true;
+      this.$axios
+        .post("/api/user/orders", this.order)
+        .then(response => {
+          this.loading = false;
+          this.order = response.data;
+        })
+        .catch(err => {
+          this.loading = false;
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    payOrder() {
+      this.loading = true;
+      this.$axios
+        .put("/api/user/orders/" + this.order._id + "/pay")
+        .then(response => {
+          this.loading = false;
+          this.order = response.data;
+          if (this.order.payment && this.order.payment.links) {
+            let redirectLink = null;
+            this.order.payment.links.forEach((link) => {
+              if(link.rel === "approve")
+                redirectLink = link.href;
+            });
+            if(redirectLink)
+              location.href = redirectLink;
+          }
+        })
+        .catch(err => {
+          this.loading = false;
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     }
   },
   computed: {

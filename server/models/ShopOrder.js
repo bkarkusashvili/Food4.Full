@@ -5,6 +5,7 @@ const schema = new Schema({
     items: [Object],
     status: String,
     payment: Object,
+    address: Object,
     user: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 

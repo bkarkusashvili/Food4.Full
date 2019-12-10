@@ -57,6 +57,26 @@
           <img :src="settings.logo" v-if="settings.logo != null" alt />
         </div>
       </div>
+
+      <h2 class="subtitle">iPay გადახდები</h2>
+      <div class="field">
+        <label class="label">URL</label>
+        <div class="control">
+          <input type="text" class="input" v-model="settings.ipayEndpoint" />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Client ID</label>
+        <div class="control">
+          <input type="text" class="input" v-model="settings.ipayId" />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Secret Key</label>
+        <div class="control">
+          <input type="text" class="input" v-model="settings.ipaySecret" />
+        </div>
+      </div>
     </form>
   </div>
 </template>
