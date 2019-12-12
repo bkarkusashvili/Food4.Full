@@ -42,12 +42,19 @@ async function checkOrder(orderId, user) {
         await order.save();
     }
 
+    if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
+        && paymentResult.status === "REJECTED") {
+        Object.assign(order.payment, paymentResult);
+        order.status = "CANCELLED";
+        await order.save();
+    }
+
     return order;
 }
 
 async function cancelOwnOrder(orderId, user) {
     let order = await mongoose.model('ShopOrder').findOne({ _id: orderId, user: user._id });
-    if (order.status !== "CREATED")
+    if (order.status !== "CREATED" && order.status !== "PAYMENT_PENDING")
         throw new Error("შეკვეთის გასაუქმებლად მიმართეთ ადმინისტრაციას!");
     order.status = "CANCELLED";
     return order.save();
@@ -57,8 +64,11 @@ async function cancelOrder(orderId) {
     let order = await mongoose.model('ShopOrder').findById(orderId);
     if (!order)
         return;
+
     if (order.status === "PAID") {
         await unreserveItems(order.items);
+        await payments.refundRequest(order);
+    } else if (order.status === "PAYMENT_PENDING") {
         await payments.refundRequest(order);
     }
 

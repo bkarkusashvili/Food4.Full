@@ -17,19 +17,21 @@
 
       <div class="columns">
         <div class="column carousel-container" v-if="slides.length">
-          <siema class="carousel" ref="siema" v-if="slides.length" :current.sync="curSlide">
-            <div class="slide has-text-centered" v-for="(slide, index) in slides" :key="index">
-              <img class="item-picture" :src="slide.url" alt v-if="slide.type === 'picture'" />
-              <div class="youtube-embed" v-if="slide.type === 'video'">
-                <iframe
-                  :src="item.video | youtubeEmbed"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
+          <client-only>
+            <siema class="carousel" ref="siema" v-if="slides.length" :current.sync="curSlide">
+              <div class="slide has-text-centered" v-for="(slide, index) in slides" :key="index">
+                <img class="item-picture" :src="slide.url" alt v-if="slide.type === 'picture'" />
+                <div class="youtube-embed" v-if="slide.type === 'video'">
+                  <iframe
+                    :src="item.video | youtubeEmbed"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
               </div>
-            </div>
-          </siema>
+            </siema>
+          </client-only>
 
           <div class="tabs carousel-selector is-centered">
             <ul>
@@ -40,7 +42,9 @@
               >
                 <a @click="selectSlide(index)">
                   <img :src="slide.thumb | youtubeThumb" />
-                  <span class="play-icon" v-if="slide.type === 'video'"><i class="mdi mdi-play"></i></span>
+                  <span class="play-icon" v-if="slide.type === 'video'">
+                    <i class="mdi mdi-play"></i>
+                  </span>
                 </a>
               </li>
             </ul>

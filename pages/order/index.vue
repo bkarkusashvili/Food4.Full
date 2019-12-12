@@ -63,7 +63,8 @@
               <label class="label">სახელი</label>
               <div class="control">
                 <input
-                  v-model="address.surname"
+                  autocomplete="given-name"
+                  v-model="address.name"
                   class="input"
                   type="text"
                   :class="{'is-danger': !nameValid}"
@@ -76,7 +77,8 @@
               <label class="label">გვარი</label>
               <div class="control">
                 <input
-                  v-model="address.name"
+                  autocomplete="family-name"
+                  v-model="address.surname"
                   class="input"
                   type="text"
                   :class="{'is-danger': !surnameValid}"
@@ -89,6 +91,7 @@
               <label class="label">ტელეფონი</label>
               <div class="control has-icons-left">
                 <input
+                  autocomplete="tel-national"
                   v-model="address.phone"
                   class="input"
                   :class="{'is-danger': !phoneValid}"
@@ -105,6 +108,7 @@
               <label class="label">მისამართი</label>
               <div class="control">
                 <textarea
+                  autocomplete="street-address"
                   v-model="address.address"
                   class="textarea"
                   type="text"
@@ -117,11 +121,14 @@
 
             <div class="field">
               <label class="label">ქალაქი</label>
-              <div class="control">
+              <div class="control has-icons-left">
                 <div class="select">
                   <select v-model="address.city">
                     <option value="თბილისი">თბილისი</option>
                   </select>
+                </div>
+                <div class="icon is-small is-left">
+                  <i class="mdi mdi-city"></i>
                 </div>
               </div>
               <p>&nbsp;</p>
@@ -132,17 +139,21 @@
         <div class="column is-4 order-sidebar">
           <table class="table is-fullwidth">
             <tr v-for="(item, index) in order.items" :key="index">
-              <td>{{item.title}}</td>
+              <td>
+                <nuxt-link :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
+              </td>
               <td class="has-text-right">{{item.price | price}} ₾</td>
               <td class="has-text-right">{{item.quantity}} ცალი</td>
             </tr>
+            <tr>
+              <th>სულ</th>
+              <th class="has-text-right">{{orderTotal | price}} ₾</th>
+              <th class="has-text-right">{{itemCount}} ცალი</th>
+            </tr>
           </table>
-          <div class="has-text-centered">
-            სულ:
-            <strong>{{orderTotal | price}} ₾</strong>
-          </div>
+
           <div class="has-text-centered" style="margin-top: 1em">
-            <button class="button is-large is-success" @click="gotoPayment()">
+            <button class="button is-large is-success" @click="gotoPayment()" :disabled="loading">
               <span>გაგრძელება</span>
               <span class="icon">
                 <i class="mdi mdi-chevron-right"></i>
@@ -154,38 +165,50 @@
       <div v-if="step === 'payment'">
         <div class="columns">
           <div class="column">
-            <table class="table is-fullwidth">
-              <tr v-for="(item, index) in order.items" :key="index">
-                <td>{{item.title}}</td>
-                <td class="has-text-right">{{item.price | price}} ₾</td>
-                <td class="has-text-right">{{item.quantity}} ცალი</td>
-              </tr>
-            </table>
-          </div>
-          <div class="column has-text-centered">
-            <div>{{order.address.name}} {{order.address.surname}}</div>
-            <div>
-              <i class="mdi mdi-phone"></i>
-              {{order.address.phone}} {{order.address.city}}
+            <div class="box">
+              <h2 class="subtitle">ჩამონათვალი</h2>
+              <table class="table is-fullwidth">
+                <tr v-for="(item, index) in order.items" :key="index">
+                  <td>
+                    <nuxt-link :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
+                  </td>
+                  <td class="has-text-right">{{item.price | price}} ₾</td>
+                  <td class="has-text-right">{{item.quantity}} ცალი</td>
+                </tr>
+                <tr>
+                  <th>სულ</th>
+                  <th class="has-text-right">{{orderTotal | price}} ₾</th>
+                  <th class="has-text-right">{{itemCount}} ცალი</th>
+                </tr>
+              </table>
             </div>
-            <div>
-              <i class="mdi mdi-building"></i>
-              {{order.address.address}}
+          </div>
+          <div class="column">
+            <div class="box">
+              <h2 class="subtitle">მისამართი</h2>
+              <div>{{order.address.name}} {{order.address.surname}}</div>
+              <div>
+                <i class="mdi mdi-phone"></i>
+                {{order.address.phone}}
+                <i class="mdi mdi-city"></i>
+                {{order.address.city}}
+              </div>
+              <div>
+                <i class="mdi mdi-home"></i>
+                {{order.address.address}}
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="has-text-centered" style="margin-top: 1em">
-          <div>
-            სულ:
-            <strong>{{orderTotal | price}} ₾</strong>
-          </div>
-
-          <button class="button is-large" @click="cancelOrder()">
-            <span class="icon"><i class="mdi mdi-cancel"></i></span>
-            <span>გაუქმენა</span>
+        <div class="has-text-centered" style="margin-top: 1em; padding-bottom: 1em">
+          <button class="button is-danger is-large" @click="cancelOrder()" :disabled="loading">
+            <span class="icon">
+              <i class="mdi mdi-cancel"></i>
+            </span>
+            <span>გაუქმება</span>
           </button>
-          <button class="button is-large is-success" @click="payOrder()">
+          <button class="button is-large is-success" @click="payOrder()" :disabled="loading">
             <span>გადახდა</span>
             <span class="icon">₾</span>
           </button>
@@ -232,7 +255,7 @@ export default {
       this.phoneValid =
         this.address.phone != null &&
         this.address.phone.length &&
-        this.address.phone.match(/^[0-9]{9,}$/i);
+        this.address.phone.match(/^[0-9\- ]{9,}$/i);
       this.addressValid =
         this.address.address != null && this.address.address.length;
       return (
@@ -308,6 +331,13 @@ export default {
       return this.order.items.reduce((sum, item) => {
         if (!item.quantity || !item.price) return sum;
         return sum + item.quantity * item.price;
+      }, 0);
+    },
+    itemCount() {
+      if (!this.order || !this.order.items) return 0;
+      return this.order.items.reduce((sum, item) => {
+        if (!item.quantity) return sum;
+        return sum + item.quantity;
       }, 0);
     }
   }
