@@ -2,6 +2,7 @@ const fs = require('fs'),
     path = require('path'),
     express = require('express'),
     router = express.Router(),
+    middleware = require('@lib/middleware'),
     api = scanDir(__dirname, true);
 
 // Find and register all API handlers
@@ -23,12 +24,7 @@ function scanDir(dirPath, dirsOnly) {
 }
 
 // Disable cache
-router.use(function (req, res, next) {
-    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    res.header('Expires', '-1');
-    res.header('Pragma', 'no-cache');
-    next();
-});
+router.use(middleware.noCache());
 
 // Authorize access to Admin API
 router.use('/admin', (req, res, next) => {
@@ -38,11 +34,7 @@ router.use('/admin', (req, res, next) => {
 });
 
 // Authorize access to User API
-router.use('/user', (req, res, next) => {
-    if (!req.user)
-        return res.status(401).send("Unauthorized");
-    next();
-});
+router.use('/user', middleware.requireAuthenticated());
 
 /*
 * Public API
@@ -170,5 +162,7 @@ router.delete('/admin/shop/items/:id', api.admin.shop.items.remove);
 // Shop orders
 router.get('/admin/shop/orders', api.admin.shop.orders.index);
 router.get('/admin/shop/orders/:id', api.admin.shop.orders.one);
+
+router.use(middleware.handleError());
 
 module.exports = router;

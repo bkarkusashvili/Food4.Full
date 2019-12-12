@@ -78,7 +78,7 @@ async function start() {
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
   app.set('trust proxy', 1); // trust first proxy (nginx)
-  // app.use(function(req, res, next){
+  // app.use(function(req, res, next) {
   //   console.log(req.method, req.path);
   //   next();
   // });

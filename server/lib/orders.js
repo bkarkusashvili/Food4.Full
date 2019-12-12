@@ -34,8 +34,10 @@ async function checkOrder(orderId, user) {
 
     console.log(paymentResult);
 
-    if(order.status === "CREATED" || order.status === "PAYMENT_PENDING") {
+    if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
+        && paymentResult.status === "PERFORMED") {
         order.status = "PAID";
+        Object.assign(order.payment, paymentResult);
         await reserveItems(order.items);
         await order.save();
     }
