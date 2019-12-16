@@ -230,4 +230,9 @@ function findIndex(items, _id) {
   margin-top: -24px;
   text-shadow: 0 0 5px black;
 }
+
+.item-page .item-price {
+  font-size: 18px;
+  margin: 0.5em;
+}
 </style>

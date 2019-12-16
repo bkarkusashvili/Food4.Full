@@ -70,7 +70,7 @@
                   :class="{'is-danger': !nameValid}"
                 />
               </div>
-              <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ სახელი</p>
+              <p v-show="!nameValid" class="help is-danger">გთხოვთ შეიყვანოთ სახელი</p>
             </div>
 
             <div class="field">
@@ -84,7 +84,7 @@
                   :class="{'is-danger': !surnameValid}"
                 />
               </div>
-              <p v-show="!addressValid" class="help is-danger">გთხოვთ შეიყვანოთ გვარი</p>
+              <p v-show="!surnameValid" class="help is-danger">გთხოვთ შეიყვანოთ გვარი</p>
             </div>
 
             <div class="field">
@@ -137,6 +137,28 @@
         </div>
 
         <div class="column is-4 order-sidebar">
+          <a
+            v-for="(addr, index) in $auth.user.addresses"
+            :key="index"
+            class="box"
+            :class="{'address-selected': selectedAddress === index }"
+            @click="selectAddress(addr, index)"
+          >
+            <div>
+              <i class="mdi mdi-account"></i>
+              {{addr.name}} {{addr.surname}}
+            </div>
+            <div>
+              <i class="mdi mdi-phone"></i>
+              {{addr.phone}}
+              <i class="mdi mdi-city"></i>
+              {{addr.city}}
+            </div>
+            <div>
+              <i class="mdi mdi-home"></i>
+              {{addr.address}}
+            </div>
+          </a>
           <table class="table is-fullwidth">
             <tr v-for="(item, index) in order.items" :key="index">
               <td>
@@ -229,6 +251,7 @@ export default {
       address: {
         city: "თბილისი"
       },
+      selectedAddress: null,
       phoneValid: true,
       nameValid: true,
       surnameValid: true,
@@ -240,7 +263,21 @@ export default {
   methods: {
     gotoAddress() {
       this.order.items = this.$store.state.cart.items;
+      if (this.$auth.user.defaultAddress != null && this.$auth.user.addresses) {
+        let address = this.$auth.user.addresses[this.$auth.user.defaultAddress];
+        if (address) {
+          this.selectAddress(address, this.$auth.user.defaultAddress);
+        }
+      }
       this.step = "address";
+    },
+    selectAddress(address, index) {
+      this.selectedAddress = index;
+      this.address.name = address.name;
+      this.address.surname = address.surname;
+      this.address.phone = address.phone;
+      this.address.city = address.city;
+      this.address.address = address.address;
     },
     gotoPayment() {
       if (!this.validate()) return;
@@ -345,4 +382,8 @@ export default {
 </script>
 
 <style>
+.order-page .address-selected {
+  background-color: #9292f3;
+  color: white;
+}
 </style>

@@ -9,8 +9,6 @@ $mdi-font-path: "~@mdi/font/fonts";
 @import "~quill/dist/quill.core";
 @import "~quill/dist/quill.snow";
 
-@import "./flex.scss";
-
 //$family-primary: 'Noto Serif Georgian', 'Noto Sans Georgian', 'Noto Sans', 'Roboto', sans-serif;
 //$primary: #ffb2a4;
 
@@ -23,6 +21,8 @@ $navbar-dropdown-item-active-color: black;
 @import "~bulma/bulma";
 @import "~bulma-badge/src/sass/index";
 @import "~bulma-o-steps/bulma-steps.scss";
+
+@import "./flex.scss";
 
 .select:not(.is-multiple):not(.is-loading)::after, .navbar-link:not(.is-arrowless)::after {
   border-color: black;

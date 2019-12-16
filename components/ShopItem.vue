@@ -5,7 +5,7 @@
       class="item-image"
       :style="(item.thumb || item.video) | youtubeThumb | cssbg"
     ></nuxt-link>
-    <div class="item-description">
+    <div class="item-description has-text-centered">
       <nuxt-link class="item-title" :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
       <div class="item-excerpt" v-html="item.excerpt"></div>
     </div>

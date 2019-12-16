@@ -16,6 +16,9 @@
           <nuxt-link tag="li" to="/users/me/edit" active-class="is-active" exact>
             <a>პროფილის რედაქტირება</a>
           </nuxt-link>
+          <nuxt-link tag="li" to="/users/me/addresses" active-class="is-active" exact>
+            <a>მისამართები</a>
+          </nuxt-link>
         </ul>
       </div>
 

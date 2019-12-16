@@ -1,7 +1,7 @@
 <template>
   <div class="shop-page">
     <div class="container">
-      <h1 class="title">მაღაზია</h1>
+      <h1 class="title has-text-centered flex-justify-content-center">მაღაზია</h1>
 
       <div class="flex flex-row flex-wrap">
         <div class="item-container" v-for="item in items" :item-prop="item" :key="item._id">
