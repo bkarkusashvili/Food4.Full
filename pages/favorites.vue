@@ -70,10 +70,9 @@ export default {
       });
   },
   head() {
-    if (this.tag)
-      return {
-        title: "ფავორიტები" + " - " + this.$store.state.settings.title
-      };
+    return {
+      title: "ფავორიტები" + " - " + this.$store.state.settings.title
+    };
   }
 };
 </script>

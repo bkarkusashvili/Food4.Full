@@ -1,7 +1,7 @@
 const users = require('@lib/users');
 
 module.exports = function (req, res) {
-    const id = req.params.id;
+    const id = req.user.id;
     let params = {};
 
     if (req.body.defaultAddress != null)
@@ -19,5 +19,4 @@ module.exports = function (req, res) {
         else
             res.status(404).send("User not found!");
     }).catch((error) => res.status(500).json(error));
-    
 };

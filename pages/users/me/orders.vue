@@ -13,7 +13,12 @@
         </td>
         <td>
           <div v-for="(item, itemIndex) in order.items" :key="itemIndex">
-            <img :src="item.thumb" alt v-if="item.thumb" style="max-width: 5em; max-height: 5em; vertical-align: middle">
+            <img
+              :src="item.thumb"
+              alt
+              v-if="item.thumb"
+              style="max-width: 5em; max-height: 5em; vertical-align: middle"
+            />
             {{item.title}} x {{item.quantity}}
           </div>
         </td>
@@ -29,27 +34,63 @@
         </td>
       </tr>
     </table>
+
+    <pagination :page="page" :total="total" :per-page="perPage" @goto="gotoPage" />
   </div>
 </template>
 
 <script>
 export default {
-data() {
+  data() {
     return {
-      orders: []
+      orders: [],
+      page: 1,
+      total: 1,
+      perPage: 12
     };
+  },
+  methods: {
+    fetchData() {
+      this.$axios
+        .get("/api/user/orders", { params: this.queryParams() })
+        .then(response => {
+          this.orders = response.data;
+          let total = response.headers["x-total-count"];
+          if (!isNaN(total)) this.total = parseInt(total);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    gotoPage(page) {
+      this.page = parseInt(page);
+      this.fetchData();
+    },
+    queryParams() {
+      return {
+        offset: (this.page - 1) * this.perPage,
+        limit: this.perPage
+      };
+    }
   },
   asyncData({ params, error, $axios }) {
     return $axios
-      .get("/api/user/orders/")
+      .get("/api/user/orders")
       .then(response => {
-        return { orders: response.data };
+        let total = response.headers["x-total-count"];
+        if (!isNaN(total)) total = parseInt(total);
+
+        return { orders: response.data, total: total };
       })
       .catch(err => {
         error({ statusCode: 500, message: "მოხდა შეცდომა!" });
       });
   }
-}
+};
 </script>
 
 <style>
