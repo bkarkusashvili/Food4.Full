@@ -162,6 +162,8 @@ router.delete('/admin/shop/items/:id', api.admin.shop.items.remove);
 // Shop orders
 router.get('/admin/shop/orders', api.admin.shop.orders.index);
 router.get('/admin/shop/orders/:id', api.admin.shop.orders.one);
+router.put('/admin/shop/orders/:id/status', api.admin.shop.orders.setStatus);
+router.post('/admin/shop/orders/:id/check', api.admin.shop.orders.check);
 
 router.use(middleware.handleError());
 

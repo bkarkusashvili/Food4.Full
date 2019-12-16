@@ -9,6 +9,8 @@ module.exports = function (req, res) {
         }
     }
 
+    query.status = req.query.status || { $nin: ["CREATED", "PAYMENT_PENDING", "CANCELLED"] };
+
     let limit = 10, offset = 0;
     if (!isNaN(req.query.limit)) {
         limit = parseInt(req.query.limit);
@@ -19,8 +21,8 @@ module.exports = function (req, res) {
 
     Promise.all([
         mongoose.model('ShopOrder')
-            .populate('user')
             .find(query)
+            .populate('user')
             .limit(limit)
             .skip(offset)
             .sort("-createdAt")

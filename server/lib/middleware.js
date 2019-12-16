@@ -1,5 +1,5 @@
 const consola = require('consola'),
-    {ApiError, UnauthorizedError} = require('@lib/errors');
+    { ApiError, UnauthorizedError } = require('@lib/errors');
 
 module.exports = {
     asyncController(controller) {
@@ -46,7 +46,7 @@ module.exports = {
             if (err instanceof ApiError) {
                 if (err.log)
                     consola.error(err);
-                return res.status(err.internalCode).json(err);
+                return res.status(err.code).json(err);
             }
 
             res.status(500).json(err);
