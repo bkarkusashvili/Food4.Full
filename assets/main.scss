@@ -106,6 +106,12 @@ html {
   padding-right: 1em;
 }
 
+.item-container {
+  flex-shrink: 0;
+  flex-basis: 25%;
+  padding-right: 1em;
+}
+
 @media print {
   .navbar,
   .secondary-navbar {

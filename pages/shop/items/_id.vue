@@ -63,7 +63,7 @@
             <div v-if="item.stock">
               <div class="item-price">
                 ფასი:
-                <strong>{{item.price | price}}</strong>
+                <strong>{{item.price | price}} ₾</strong>
               </div>
               <button
                 type="button"

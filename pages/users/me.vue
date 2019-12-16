@@ -1,13 +1,28 @@
 <template>
-  <nuxt-child />
+  <div class="user-page">
+    <div class="container">
+      <div class="user-profile">
+        <h1 class="title">{{$auth.user.name}}</h1>
+      </div>
+      <div class="tabs is-medium is-centered">
+        <ul>
+          <nuxt-link tag="li" to="/users/me/orders" active-class="is-active" exact>
+            <a>შეკვეთები</a>
+          </nuxt-link>
+          <nuxt-link tag="li" to="/users/me/edit" active-class="is-active" exact>
+            <a>პროფილის რედაქტირება</a>
+          </nuxt-link>
+        </ul>
+      </div>
+
+      <nuxt-child />
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>

@@ -10,11 +10,15 @@ module.exports = function (req, res) {
         offset = parseInt(req.query.offset);
     }
 
+    // Do not show CREATED orders
+    query.status = req.query.status || { $nin: ["CREATED", "PAYMENT_PENDING", "CANCELLED"] };
+
     Promise.all([
         mongoose.model('ShopOrder')
             .find(query)
             .limit(limit)
             .skip(offset)
+            .sort('-createdAt')
             .lean(),
         mongoose.model('ShopOrder')
             .countDocuments(query)

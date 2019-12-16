@@ -3,7 +3,16 @@
     <div class="container">
       <h1 class="title">{{category.title}}</h1>
 
-      <shop-item v-for="item in category.items" :item-prop="item" :key="item._id" />
+      <div class="flex flex-row flex-wrap">
+        <div
+          class="item-container"
+          v-for="item in category.items"
+          :item-prop="item"
+          :key="item._id"
+        >
+          <shop-item :item-prop="item" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
