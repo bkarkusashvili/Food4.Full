@@ -58,6 +58,13 @@
           <button class="button is-medium is-success" type="submit" :disabled="loading">შენახვა</button>
         </div>
       </div>
+      <div class="has-text-centered notification is-success" v-if="success">
+        <h1 class="title">პროფილი წარმატებით განახლდა!</h1>
+      </div>
+      <div class="has-text-centered notification is-danger" v-if="error">
+        <h1 class="title">მოხდა შეცდომა!</h1>
+        <p>{{error}}</p>
+      </div>
     </form>
   </div>
 </template>
@@ -69,6 +76,8 @@ export default {
       name: "",
       password: "",
       passwordConfirm: "",
+      error: null,
+      success: false,
       loading: false,
       nameValid: true,
       passwordValid: true,
@@ -86,14 +95,20 @@ export default {
       };
       if (this.password != "") data.password = this.password;
       this.loading = true;
+      this.success = false;
+      this.error = null;
       this.$axios
         .put("/api/user/users/me", data)
         .then(response => {
           this.loading = false;
+          this.success = true;
+          this.error = null;
           this.$store.commit("auth/SET", { key: "user", value: response.data });
         })
         .catch(error => {
           this.loading = false;
+          this.success = false;
+          this.error = error.message;
         });
     },
     reset() {
@@ -103,6 +118,8 @@ export default {
       this.passwordValid = true;
       this.passwordMatch = true;
       this.nameValid = true;
+      this.success = false;
+      this.error = null;
     },
     validate() {
       this.passwordValid = this.password == "" || this.password.length >= 8;

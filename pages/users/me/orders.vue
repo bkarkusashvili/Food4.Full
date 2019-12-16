@@ -1,6 +1,10 @@
 <template>
   <div class="user-orders">
-    <table class="table is-fullwidth is-hoverable">
+    <div class="has-text-centered notification is-info no-orders" v-if="!orders.length">
+      <h1 class="title">თქვენ არ გაქვთ შეკვეთები</h1>
+        <nuxt-link to="/shop">მაღაზია</nuxt-link>
+    </div>
+    <table class="table is-fullwidth is-hoverable" v-else>
       <tr>
         <th>თარიღი</th>
         <th>ჩამონათვალი</th>
@@ -94,6 +98,10 @@ export default {
 </script>
 
 <style>
+.user-orders {
+  padding-top: 5px;
+}
+
 .user-orders table td {
   vertical-align: middle;
 }
