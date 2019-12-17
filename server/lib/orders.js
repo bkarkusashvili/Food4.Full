@@ -67,14 +67,12 @@ async function checkOrder(orderId, user) {
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
         && paymentResult.status === "PERFORMED") {
         order.status = "PAID";
-        Object.assign(order.payment, paymentResult);
-        await reserveItems(order.items);
         sendOrderConfirmedEmail(order, order.user);
+        await reserveItems(order.items);
     }
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
         && paymentResult.status === "REJECTED") {
-        Object.assign(order.payment, paymentResult);
         order.status = "CANCELLED";
     }
 
@@ -117,14 +115,20 @@ async function updateOrder(orderId, orderParams) {
     if (!order)
         return;
 
-    if(orderParams.status === "SHIPPED" && order.status !== "SHIPPED") {
+    let originalStatus = order.status;
+
+    Object.assign(order, orderParams);
+
+    if (orderParams.status === "PAID" && originalStatus !== "PAID") {
+        sendOrderConfirmedEmail(order, order.user);
+    }
+    if (orderParams.status === "SHIPPED" && originalStatus !== "SHIPPED") {
         sendOrderShippedEmail(order, order.user);
     }
-    if(orderParams.status === "FINISHED" && order.status !== "FINISHED") {
+    if (orderParams.status === "FINISHED" && originalStatus !== "FINISHED") {
         sendOrderFinishedEmail(order, order.user);
     }
 
-    Object.assign(order, orderParams);
     return order.save();
 }
 
@@ -132,7 +136,7 @@ async function sendOrderConfirmedEmail(order, user) {
     let orderUrl = `https://food4.ge/orders/${order._id}`;
 
     try {
-        return await mailer.sendTemplated('order-confirmation', {
+        let result = await mailer.sendTemplated('order-confirmation', {
             orderUrl: orderUrl,
             order: order
         }, {
@@ -140,15 +144,17 @@ async function sendOrderConfirmedEmail(order, user) {
             subject: "შეკვეთის დადასტურება - FOOD4.GE",
             text: `თქვენი შეკვეთა მიღებულია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
         });
+        consola.info("Sent order confirmed email", result);
+        return result;
     } catch (error) {
         consola.error("Error sending order email", error);
     }
 }
 async function sendOrderShippedEmail(order, user) {
     let orderUrl = `https://food4.ge/orders/${order._id}`;
-    
+
     try {
-        return await mailer.sendTemplated('order-shipped', {
+        let result = await mailer.sendTemplated('order-shipped', {
             orderUrl: orderUrl,
             order: order
         }, {
@@ -156,6 +162,8 @@ async function sendOrderShippedEmail(order, user) {
             subject: "შეკვეთის განახლება - FOOD4.GE",
             text: `თქვენი შეკვეთა გამოგზავნილია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
         });
+        consola.info("Sent order shipped email", result);
+        return result;
     } catch (error) {
         consola.error("Error sending order email", error);
     }
@@ -164,7 +172,7 @@ async function sendOrderFinishedEmail(order, user) {
     let orderUrl = `https://food4.ge/orders/${order._id}`;
 
     try {
-        return await mailer.sendTemplated('order-finished', {
+        let result = await mailer.sendTemplated('order-finished', {
             orderUrl: orderUrl,
             order: order
         }, {
@@ -172,6 +180,8 @@ async function sendOrderFinishedEmail(order, user) {
             subject: "შეკვეთის განახლება - FOOD4.GE",
             text: `თქვენი შეკვეთა დასრულებულია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
         });
+        consola.info("Sent order shipped email", result);
+        return result;
     } catch (error) {
         consola.error("Error sending order email", error);
     }
@@ -180,7 +190,7 @@ async function sendOrderRefundedEmail(order, user) {
     let orderUrl = `https://food4.ge/orders/${order._id}`;
 
     try {
-        return await mailer.sendTemplated('order-refunded', {
+        let result = await mailer.sendTemplated('order-refunded', {
             orderUrl: orderUrl,
             order: order
         }, {
@@ -188,6 +198,8 @@ async function sendOrderRefundedEmail(order, user) {
             subject: "შეკვეთის გაუქმება - FOOD4.GE",
             text: `თქვენი შეკვეთა გაუქმებულია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
         });
+        consola.info("Sent order refunded email", result);
+        return result;
     } catch (error) {
         consola.error("Error sending order email", error);
     }

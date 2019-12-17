@@ -57,7 +57,7 @@
             <table class="table is-fullwidth">
               <tr v-for="(item, index) in order.items" :key="index">
                 <td>
-                  <nuxt-link :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
+                  <a :href="'/shop/items/' + item.slug" target="_blank">{{item.title}}</a>
                 </td>
                 <td class="has-text-right">{{item.price | price}} ₾</td>
                 <td class="has-text-right">{{item.quantity}} ცალი</td>

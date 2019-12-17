@@ -293,16 +293,52 @@ export default {
     },
     selectAddress(address, index) {
       this.selectedAddress = index;
-      this.address.name = address.name;
-      this.address.surname = address.surname;
-      this.address.phone = address.phone;
-      this.address.city = address.city;
-      this.address.address = address.address;
+      this.address = this.cloneAddress(address);
+    },
+    cloneAddress(address) {
+      return {
+        name: address.name,
+        surname: address.surname,
+        phone: address.phone,
+        city: address.city,
+        address: address.address
+      };
+    },
+    saveAddress() {
+      let addresses = this.$auth.user.addresses.map(address =>
+        this.cloneAddress(address)
+      );
+
+      if (this.selectedAddress != null)
+        addresses[this.selectedAddress] = this.address;
+      else {
+        addresses.push(this.address);
+      }
+
+      let data = {
+        addresses: addresses
+      };
+
+      if (this.$auth.user.defaultAddress == null)
+        data.defaultAddress =
+          this.selectedAddress == null
+            ? data.addresses.length - 1
+            : this.selectedAddress;
+
+      this.$axios
+        .put("/api/user/users/me", data)
+        .then(response => {
+          console.log("Address saved");
+        })
+        .catch(error => {
+          console.error("Error saving address", error);
+        });
     },
     gotoPayment() {
       if (!this.validate()) return;
       this.order.address = Object.assign({}, this.address);
       this.step = "payment";
+      this.saveAddress();
       if (this.order._id == null) this.createOrder();
       else this.updateOrder();
     },
