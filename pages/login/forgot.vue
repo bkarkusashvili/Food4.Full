@@ -19,7 +19,7 @@
           <button class="button is-success is-large is-fullwidth" :disabled="loading">
             <span>აღდგენა</span>
             <span class="icon" v-show="loading">
-              <i class="mdi-refresh mdi-spin"></i>
+              <i class="mdi mdi-reload mdi-spin"></i>
             </span>
           </button>
         </div>

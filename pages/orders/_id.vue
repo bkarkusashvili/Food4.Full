@@ -65,7 +65,7 @@
               <tr>
                 <th>სულ</th>
                 <th class="has-text-right">{{order.amount | price}} ₾</th>
-                <th class="has-text-right">{{itemCount}} ცალი</th>
+                <th class="has-text-right">{{order.itemCount}} ცალი</th>
               </tr>
             </table>
           </div>
@@ -111,13 +111,6 @@ export default {
       });
   },
   computed: {
-    itemCount() {
-      if (!this.order || !this.order.items) return 0;
-      return this.order.items.reduce((sum, item) => {
-        if (!item.quantity) return sum;
-        return sum + item.quantity;
-      }, 0);
-    }
   },
   head() {
     return {

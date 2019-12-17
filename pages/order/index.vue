@@ -272,6 +272,10 @@ export default {
       step: "cart"
     };
   },
+  mounted() {
+    if (!this.$auth.user)
+      this.$router.replace("/login?return=" + this.$route.path);
+  },
   methods: {
     gotoAddress() {
       this.order.items = this.$store.state.cart.items;

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose'),
-    payments = require('./payments');
+    consola = require('consola'),
+    payments = require('./payments'),
+    mailer = require('../mailer');
 
 async function createOrder(orderParams, user) {
     let items = await syncItems(orderParams.items);
@@ -10,12 +12,13 @@ async function createOrder(orderParams, user) {
         items: items,
         user: user,
         amount: getTotal(items),
+        itemCount: itemCount(items),
         status: "CREATED"
     });
     return order.save();
 }
 
-async function updateOrder(orderId, orderParams, user) {
+async function updateOwnOrder(orderId, orderParams, user) {
     let order = await mongoose.model('ShopOrder').findOne({
         user: user._id,
         _id: orderId
@@ -29,11 +32,15 @@ async function updateOrder(orderId, orderParams, user) {
     order.address = orderParams.address;
     order.items = orderParams.items;
     order.amount = getTotal(items);
+    order.itemCount = itemCount(items);
     return order.save();
 }
 
-async function payOrder(orderId) {
-    let order = await mongoose.model('ShopOrder').findById(orderId);
+async function payOrder(orderId, user) {
+    let order = await mongoose.model('ShopOrder').findOne({
+        user: user._id,
+        _id: orderId
+    });
     if (!order)
         return;
     let paymentResult = await payments.orderRequest(order);
@@ -42,6 +49,7 @@ async function payOrder(orderId) {
     order.paymentLog.push({ date: new Date(), operation: "pay", result: paymentResult });
     order.payment = paymentResult;
     order.status = "PAYMENT_PENDING";
+    sendOrderConfirmedEmail(order, user);
     await order.save();
     return order;
 }
@@ -62,6 +70,7 @@ async function checkOrder(orderId, user) {
         order.status = "PAID";
         Object.assign(order.payment, paymentResult);
         await reserveItems(order.items);
+        sendOrderConfirmedEmail(order, user);
     }
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
@@ -82,16 +91,18 @@ async function cancelOwnOrder(orderId, user) {
 }
 
 async function cancelOrder(orderId) {
-    let order = await mongoose.model('ShopOrder').findById(orderId);
+    let order = await mongoose.model('ShopOrder').findById(orderId).populate('user');
     if (!order)
         return;
 
     if (!order.paymentLog || !(order.paymentLog instanceof Array))
         order.paymentLog = [];
+
     if (order.status === "PAID") {
         await unreserveItems(order.items);
         let refundResult = await payments.refundRequest(order);
         order.paymentLog.push({ date: new Date(), operation: "refund", result: refundResult });
+        sendOrderRefundedEmail(order, user);
     } else if (order.status === "PAYMENT_PENDING") {
         let refundResult = await payments.refundRequest(order);
         order.paymentLog.push({ date: new Date(), operation: "refund", result: refundResult });
@@ -103,11 +114,84 @@ async function cancelOrder(orderId) {
 }
 
 async function updateOrder(orderId, orderParams) {
-    let order = await mongoose.model('ShopOrder').findById(orderId);
+    let order = await mongoose.model('ShopOrder').findById(orderId).populate('user');
     if (!order)
         return;
+
+    if(orderParams.status === "SHIPPED" && order.status !== "SHIPPED") {
+        sendOrderShippedEmail(order, order.user);
+    }
+    if(orderParams.status === "FINISHED" && order.status !== "FINISHED") {
+        sendOrderFinishedEmail(order, order.user);
+    }
+
     Object.assign(order, orderParams);
     return order.save();
+}
+
+async function sendOrderConfirmedEmail(order, user) {
+    let orderUrl = `https://food4.ge/orders/${order._id}`;
+
+    try {
+        return await mailer.sendTemplated('order-confirmation', {
+            orderUrl: orderUrl,
+            order: order
+        }, {
+            to: user.email,
+            subject: "შეკვეთის დადასტურება - FOOD4.GE",
+            text: `თქვენი შეკვეთა მიღებულია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
+        });
+    } catch (error) {
+        consola.error("Error sending order email", error);
+    }
+}
+async function sendOrderShippedEmail(order, user) {
+    let orderUrl = `https://food4.ge/orders/${order._id}`;
+    
+    try {
+        return await mailer.sendTemplated('order-shipped', {
+            orderUrl: orderUrl,
+            order: order
+        }, {
+            to: user.email,
+            subject: "შეკვეთის განახლება - FOOD4.GE",
+            text: `თქვენი შეკვეთა გამოგზავნილია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
+        });
+    } catch (error) {
+        consola.error("Error sending order email", error);
+    }
+}
+async function sendOrderFinishedEmail(order, user) {
+    let orderUrl = `https://food4.ge/orders/${order._id}`;
+
+    try {
+        return await mailer.sendTemplated('order-finished', {
+            orderUrl: orderUrl,
+            order: order
+        }, {
+            to: user.email,
+            subject: "შეკვეთის განახლება - FOOD4.GE",
+            text: `თქვენი შეკვეთა დასრულებულია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
+        });
+    } catch (error) {
+        consola.error("Error sending order email", error);
+    }
+}
+async function sendOrderRefundedEmail(order, user) {
+    let orderUrl = `https://food4.ge/orders/${order._id}`;
+
+    try {
+        return await mailer.sendTemplated('order-refunded', {
+            orderUrl: orderUrl,
+            order: order
+        }, {
+            to: user.email,
+            subject: "შეკვეთის გაუქმება - FOOD4.GE",
+            text: `თქვენი შეკვეთა გაუქმებულია, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
+        });
+    } catch (error) {
+        consola.error("Error sending order email", error);
+    }
 }
 
 async function reserveItems(items) {
@@ -164,4 +248,12 @@ function getTotal(items) {
     }, 0);
 }
 
-module.exports = { createOrder, payOrder, cancelOwnOrder, cancelOrder, updateOrder, syncItems, checkOrder };
+function itemCount(items) {
+    return items.reduce((sum, item) => {
+        if (!item.quantity)
+            return sum;
+        return sum + item.quantity
+    }, 0);
+}
+
+module.exports = { createOrder, payOrder, cancelOwnOrder, cancelOrder, updateOwnOrder, updateOrder, syncItems, checkOrder };

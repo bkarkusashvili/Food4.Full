@@ -2,6 +2,7 @@ const Schema = require('mongoose').Schema;
 
 const schema = new Schema({
     amount: Number,
+    itemCount: Number,
     items: [Object],
     status: String,
     payment: Object,

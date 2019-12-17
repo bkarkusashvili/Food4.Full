@@ -59,7 +59,9 @@ export default {
           this.success = true;
           this.loading = false;
           setTimeout(() => {
-            this.$router.replace('/login');
+            let redirUrl = localStorage.getItem("redirectAfterConfirm");
+            localStorage.removeItem("redirectAfterConfirm");
+            this.$router.replace(redirUrl || "/");
           }, 5000);
         })
         .catch(err => {

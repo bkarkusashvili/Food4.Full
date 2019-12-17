@@ -35,10 +35,13 @@ function generateAndSendConfirmationCode(user) {
 }
 
 function sendConfirmationCode(confirmationCode) {
-    return mailer.sendMail({
+    let confirmationUrl = `https://food4.ge/login/confirm?code=${confirmationCode.code}`;
+    return mailer.sendTemplated('email-confirmation', {
+        confirmationUrl: confirmationUrl
+    }, {
         to: confirmationCode.email,
-        subject: "ელ-ფოსტის დადასტურება",
-        text: `გთხოვთ დაადასტუროთ თქვენი ელ-ფოსტა შემდეგ ლინკზე გადასვლით: https://food4.ge/login/confirm?code=${confirmationCode.code}`
+        subject: "ელ-ფოსტის დადასტურება - FOOD4.GE",
+        text: `გთხოვთ დაადასტუროთ თქვენი ელ-ფოსტა შემდეგ ლინკზე გადასვლით: ${confirmationUrl}`
     });
 }
 
@@ -91,9 +94,9 @@ function resetPassword(code, password) {
 
 async function updateProfile(id, params) {
     let user = await mongoose.model('User').findById(id);
-    if(!user) return;
+    if (!user) return;
     Object.assign(user, params);
-    if(params.password)
+    if (params.password)
         await user.setPassword(params.password);
     return user.save();
 }

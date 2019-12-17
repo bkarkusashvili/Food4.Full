@@ -48,7 +48,7 @@
           <button class="button is-success is-medium is-fullwidth" :disabled="loading">
             <span>რეგისტრაცია</span>
             <span class="icon" v-show="loading">
-              <i class="mdi-refresh mdi-spin"></i>
+              <i class="mdi mdi-reload mdi-spin"></i>
             </span>
           </button>
         </div>
@@ -101,6 +101,7 @@ export default {
         .then(response => {
           this.loading = false;
           this.showEmailConfirmation = true;
+          localStorage.setItem('redirectAfterConfirm', this.$route.query.return);
         })
         .catch(err => {
           this.loading = false;

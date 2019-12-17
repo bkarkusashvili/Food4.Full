@@ -3,10 +3,10 @@
     <div class="container page-container">
       <div class="tabs is-medium is-centered is-primary is-toggle">
         <ul>
-          <nuxt-link tag="li" to="/login" active-class="is-active" exact>
+          <nuxt-link tag="li" :to="{ path: '/login', query: $route.query }" active-class="is-active" exact>
             <a>შესვლა</a>
           </nuxt-link>
-          <nuxt-link tag="li" to="/login/register" active-class="is-active" exact>
+          <nuxt-link tag="li" :to="{ path: '/login/register', query: $route.query }" active-class="is-active" exact>
             <a>რეგისტრაცია</a>
           </nuxt-link>
         </ul>

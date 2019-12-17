@@ -1,7 +1,7 @@
 const orders = require("@lib/orders");
 
 module.exports = function (req, res) {
-    orders.updateOrder(req.params.id, req.body, req.user).then(function (order) {
+    orders.updateOwnOrder(req.params.id, req.body, req.user).then(function (order) {
         if (order)
             res.json(order);
         else
