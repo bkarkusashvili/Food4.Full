@@ -67,24 +67,25 @@
           <div class="has-text-danger" v-if="order.status === 'CANCELLED'">გაუქმებულია</div>
         </td>
         <td class="has-text-centered" style="line-height: 2">
-          <div v-if="order.status === 'PAYMENT_PENDING'">
+          <div v-show="order.status !== 'CREATED'">
             <button
               type="button"
               class="button is-info is-small"
               @click="checkOrder(order)"
-            >შემოწმება</button>
+            >გადახდის შემოწმება</button>
           </div>
           <button
             type="button"
             class="button is-primary is-small"
             @click="showChangeStatus(order)"
           >სტატუსის შეცვლა</button>
-          <br />
-          <button
-            type="button"
-            class="button is-danger is-small"
-            @click="cancelOrder(order)"
-          >გაუქმება</button>
+          <div v-show="order.status !== 'CANCELLED'">
+            <button
+              type="button"
+              class="button is-danger is-small"
+              @click="cancelOrder(order)"
+            >გაუქმება</button>
+          </div>
         </td>
       </tr>
     </table>
@@ -165,7 +166,9 @@ export default {
     },
     setStatus(order, status) {
       this.$axios
-        .put("/api/admin/shop/orders/" + order._id + "/status", { status: status })
+        .put("/api/admin/shop/orders/" + order._id + "/status", {
+          status: status
+        })
         .then(response => {
           this.$notifySuccess({
             title: "სტატუსი შეცვლილია"

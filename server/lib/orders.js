@@ -46,7 +46,7 @@ async function payOrder(orderId, user) {
     let paymentResult = await payments.orderRequest(order);
     if (!order.paymentLog || !(order.paymentLog instanceof Array))
         order.paymentLog = [];
-    order.paymentLog.push({ date: new Date(), operation: "pay", result: paymentResult });
+    order.paymentLog.unshift({ date: new Date(), operation: "pay", result: paymentResult });
     order.payment = paymentResult;
     order.status = "PAYMENT_PENDING";
     await order.save();
@@ -62,7 +62,7 @@ async function checkOrder(orderId, user) {
     if (!order.paymentLog || !(order.paymentLog instanceof Array))
         order.paymentLog = [];
 
-    order.paymentLog.push({ date: new Date(), operation: "check", result: paymentResult });
+    order.paymentLog.unshift({ date: new Date(), operation: "check", result: paymentResult });
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
         && paymentResult.status === "PERFORMED") {
@@ -98,11 +98,11 @@ async function cancelOrder(orderId) {
     if (order.status === "PAID") {
         await unreserveItems(order.items);
         let refundResult = await payments.refundRequest(order);
-        order.paymentLog.push({ date: new Date(), operation: "refund", result: refundResult });
+        order.paymentLog.unshift({ date: new Date(), operation: "refund", result: refundResult });
         sendOrderRefundedEmail(order, user);
     } else if (order.status === "PAYMENT_PENDING") {
         let refundResult = await payments.refundRequest(order);
-        order.paymentLog.push({ date: new Date(), operation: "refund", result: refundResult });
+        order.paymentLog.unshift({ date: new Date(), operation: "refund", result: refundResult });
     }
 
     order.status = "CANCELLED";
