@@ -1,5 +1,25 @@
 <template>
   <div>
+    <form class="form">
+      <div class="field is-grouped">
+        <div class="control">
+          <div class="select">
+            <select v-model="filter.status">
+              <option :value="null">აქტიური</option>
+              <option value="CREATED">შექმნილი</option>
+              <option value="PAYMENT_PENDING">გადასახდელი</option>
+              <option value="PAID">გადახდილი</option>
+              <option value="SHIPPED">გაგზავნილი</option>
+              <option value="FINISHED">დასრულებული</option>
+              <option value="CANCELLED">გაუქმებული</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="control">
+          <input type="text" class="input" v-model="filter.q" placeholder="სათაური" />
+        </div>-->
+      </div>
+    </form>
     <table class="table is-fullwidth is-hoverable">
       <tr>
         <th>თარიღი</th>
@@ -11,7 +31,7 @@
       </tr>
       <tr v-for="(order, index) in orders" :key="index">
         <td>
-          <nuxt-link :to="'/admin/shop/orders/' + order._id">{{order.createdAt | date}}</nuxt-link>
+          <nuxt-link :to="'/admin/shop/orders/' + order._id">{{order.createdAt | dateTime}}</nuxt-link>
         </td>
         <td>
           <div
@@ -39,6 +59,7 @@
           <strong>{{order.amount}} ₾</strong>
         </td>
         <td>
+          <div class="has-text-grey" v-if="order.status === 'CREATED'">შექმნილია</div>
           <div class="has-text-grey" v-if="order.status === 'PAYMENT_PENDING'">გადასახდელია</div>
           <div class="has-text-info" v-if="order.status === 'PAID'">გადახდილია</div>
           <div class="has-text-primary" v-if="order.status === 'SHIPPED'">გამოგზავნილია</div>
@@ -46,6 +67,13 @@
           <div class="has-text-danger" v-if="order.status === 'CANCELLED'">გაუქმებულია</div>
         </td>
         <td class="has-text-centered" style="line-height: 2">
+          <div v-if="order.status === 'PAYMENT_PENDING'">
+            <button
+              type="button"
+              class="button is-info is-small"
+              @click="checkOrder(order)"
+            >შემოწმება</button>
+          </div>
           <button
             type="button"
             class="button is-primary is-small"
@@ -159,6 +187,9 @@ export default {
         limit: this.perPage
       });
     }
+  },
+  watch: {
+    "filter.status": "fetchData"
   }
 };
 </script>
