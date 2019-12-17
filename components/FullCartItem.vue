@@ -5,7 +5,7 @@
     </div>
     <div class="flex-grow-1">
       <a class="cart-item-name" target="_blank" :href="'/shop/items/' + item.slug">{{item.title}}</a>
-      <br>
+      <br />
       ფასი: {{item.price | price}} ₾
     </div>
     <div class="has-text-centered">
@@ -42,6 +42,8 @@ export default {
       });
     },
     decrement() {
+      if (this.item.quantity === 1) return this.remove();
+
       this.$store.commit("cart/setQuantity", {
         _id: this.item._id,
         quantity: this.item.quantity - 1

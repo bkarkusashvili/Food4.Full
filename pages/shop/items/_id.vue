@@ -65,18 +65,17 @@
                 ფასი:
                 <strong>{{item.price | price}} ₾</strong>
               </div>
-              <button
-                type="button"
-                class="button"
-                :class="{'is-success': !isInCart}"
-                @click="addToCart()"
-              >
+              <button type="button" class="button is-success" @click="addToCart()" v-show="!isInCart">
                 <span class="icon">
-                  <i class="mdi mdi-cart" v-show="!isInCart"></i>
-                  <i class="mdi mdi-check" v-show="isInCart"></i>
+                  <i class="mdi mdi-cart"></i>
                 </span>
-                <span v-show="!isInCart">კალათში დამატება</span>
-                <span v-show="isInCart">კალათში დამატებულია</span>
+                <span>კალათში დამატება</span>
+              </button>
+              <button type="button" class="button" @click="removeFromCart()" v-show="isInCart">
+                <span class="icon">
+                  <i class="mdi mdi-delete"></i>
+                </span>
+                <span>კალათიდან წაშლა</span>
               </button>
               <button type="button" class="button is-success" @click="buy()">
                 <span class="icon">
@@ -146,6 +145,9 @@ export default {
   methods: {
     addToCart() {
       this.$store.commit("cart/add", this.item);
+    },
+    removeFromCart() {
+      this.$store.commit("cart/remove", this.item._id);
     },
     buy() {
       if (!this.isInCart) this.addToCart();

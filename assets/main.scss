@@ -28,6 +28,10 @@ $navbar-dropdown-item-active-color: black;
   border-color: black;
 }
 
+.table tr:last-child td, .table tr:last-child th {
+  border-bottom: none;
+}
+
 .modal {
   position: fixed;
 }

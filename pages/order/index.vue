@@ -159,11 +159,19 @@
               {{addr.address}}
             </div>
           </a>
+          <a
+            class="box has-text-centered"
+            @click="selectAddress({ city: 'თბილისი' }, null)"
+            :class="{'address-selected': selectedAddress == null }"
+          >
+            <span class="icon">
+              <i class="mdi mdi-plus"></i>
+            </span>
+            <span>ახალი მისამართი</span>
+          </a>
           <table class="table is-fullwidth">
             <tr v-for="(item, index) in order.items" :key="index">
-              <td>
-                <nuxt-link :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
-              </td>
+              <td>{{item.title}}</td>
               <td class="has-text-right">{{item.price | price}} ₾</td>
               <td class="has-text-right">{{item.quantity}} ცალი</td>
             </tr>
@@ -188,12 +196,15 @@
         <div class="columns">
           <div class="column">
             <div class="box">
-              <h2 class="subtitle">ჩამონათვალი</h2>
+              <a class="subtitle" @click="step = 'cart'" title="ჩამონათვალის ცვლილება">
+                <span class="icon">
+                  <i class="mdi mdi-pencil"></i>
+                </span>
+                <span>ჩამონათვალი</span>
+              </a>
               <table class="table is-fullwidth">
                 <tr v-for="(item, index) in order.items" :key="index">
-                  <td>
-                    <nuxt-link :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
-                  </td>
+                  <td>{{item.title}}</td>
                   <td class="has-text-right">{{item.price | price}} ₾</td>
                   <td class="has-text-right">{{item.quantity}} ცალი</td>
                 </tr>
@@ -207,7 +218,12 @@
           </div>
           <div class="column">
             <div class="box">
-              <h2 class="subtitle">მისამართი</h2>
+              <a class="subtitle" @click="step = 'address'" title="მისამართის ცვლილება">
+                <span class="icon">
+                  <i class="mdi mdi-pencil"></i>
+                </span>
+                <span>მისამართი</span>
+              </a>
               <div>{{order.address.name}} {{order.address.surname}}</div>
               <div>
                 <i class="mdi mdi-phone"></i>
@@ -224,16 +240,12 @@
         </div>
 
         <div class="has-text-centered" style="margin-top: 1em; padding-bottom: 1em">
-          <button class="button is-danger is-large" @click="cancelOrder()" :disabled="loading">
-            <span class="icon">
-              <i class="mdi mdi-cancel"></i>
-            </span>
-            <span>გაუქმება</span>
-          </button>
-          <button class="button is-large is-success" @click="payOrder()" :disabled="loading">
-            <span>გადახდა</span>
-            <span class="icon">₾</span>
-          </button>
+          <button
+            class="button is-danger is-large"
+            @click="cancelOrder()"
+            :disabled="loading"
+          >გაუქმება</button>
+          <button class="button is-large is-success" @click="payOrder()" :disabled="loading">გადახდა</button>
         </div>
       </div>
     </div>
@@ -263,7 +275,11 @@ export default {
   methods: {
     gotoAddress() {
       this.order.items = this.$store.state.cart.items;
-      if (this.$auth.user.defaultAddress != null && this.$auth.user.addresses) {
+      if (
+        this.order.address == null &&
+        this.$auth.user.defaultAddress != null &&
+        this.$auth.user.addresses
+      ) {
         let address = this.$auth.user.addresses[this.$auth.user.defaultAddress];
         if (address) {
           this.selectAddress(address, this.$auth.user.defaultAddress);
@@ -283,7 +299,8 @@ export default {
       if (!this.validate()) return;
       this.order.address = Object.assign({}, this.address);
       this.step = "payment";
-      this.createOrder();
+      if (this.order._id == null) this.createOrder();
+      else this.updateOrder();
     },
     validate() {
       this.nameValid = this.address.name != null && this.address.name.length;
@@ -306,6 +323,23 @@ export default {
       this.loading = true;
       this.$axios
         .post("/api/user/orders", this.order)
+        .then(response => {
+          this.loading = false;
+          this.order = response.data;
+        })
+        .catch(err => {
+          this.loading = false;
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    updateOrder() {
+      this.loading = true;
+      this.$axios
+        .put("/api/user/orders/" + this.order._id, this.order)
         .then(response => {
           this.loading = false;
           this.order = response.data;
@@ -382,6 +416,10 @@ export default {
 </script>
 
 <style>
+.order-page {
+  padding-bottom: 2em;
+}
+
 .order-page .address-selected {
   background-color: #9292f3;
   color: white;

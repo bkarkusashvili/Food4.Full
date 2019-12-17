@@ -15,6 +15,23 @@ async function createOrder(orderParams, user) {
     return order.save();
 }
 
+async function updateOrder(orderId, orderParams, user) {
+    let order = await mongoose.model('ShopOrder').findOne({
+        user: user._id,
+        _id: orderId
+    });
+    if (!order)
+        return;
+
+    let items = await syncItems(orderParams.items);
+    if (!items.length)
+        throw new Error("შეკვეთა ცარიელია!");
+    order.address = orderParams.address;
+    order.items = orderParams.items;
+    order.amount = getTotal(items);
+    return order.save();
+}
+
 async function payOrder(orderId) {
     let order = await mongoose.model('ShopOrder').findById(orderId);
     if (!order)
@@ -32,24 +49,25 @@ async function checkOrder(orderId, user) {
         return;
     let paymentResult = await payments.checkOrder(order);
 
-    console.log(paymentResult);
+    if (!order.paymentLog || !(order.paymentLog instanceof Array))
+    order.paymentLog = [];
+
+    order.paymentLog.push(paymentResult);
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
         && paymentResult.status === "PERFORMED") {
         order.status = "PAID";
         Object.assign(order.payment, paymentResult);
         await reserveItems(order.items);
-        await order.save();
     }
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
         && paymentResult.status === "REJECTED") {
         Object.assign(order.payment, paymentResult);
         order.status = "CANCELLED";
-        await order.save();
     }
 
-    return order;
+    return order.save();
 }
 
 async function cancelOwnOrder(orderId, user) {
