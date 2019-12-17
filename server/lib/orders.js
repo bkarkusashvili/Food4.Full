@@ -30,7 +30,7 @@ async function updateOwnOrder(orderId, orderParams, user) {
     if (!items.length)
         throw new Error("შეკვეთა ცარიელია!");
     order.address = orderParams.address;
-    order.items = orderParams.items;
+    order.items = items;
     order.amount = getTotal(items);
     order.itemCount = itemCount(items);
     return order.save();
@@ -49,13 +49,12 @@ async function payOrder(orderId, user) {
     order.paymentLog.push({ date: new Date(), operation: "pay", result: paymentResult });
     order.payment = paymentResult;
     order.status = "PAYMENT_PENDING";
-    sendOrderConfirmedEmail(order, user);
     await order.save();
     return order;
 }
 
 async function checkOrder(orderId, user) {
-    let order = await mongoose.model('ShopOrder').findOne(user ? { _id: orderId, user: user._id } : { _id: orderId });
+    let order = await mongoose.model('ShopOrder').findOne(user ? { _id: orderId, user: user._id } : { _id: orderId }).populate('user');
     if (!order)
         return;
     let paymentResult = await payments.checkOrder(order);
@@ -70,7 +69,7 @@ async function checkOrder(orderId, user) {
         order.status = "PAID";
         Object.assign(order.payment, paymentResult);
         await reserveItems(order.items);
-        sendOrderConfirmedEmail(order, user);
+        sendOrderConfirmedEmail(order, order.user);
     }
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")

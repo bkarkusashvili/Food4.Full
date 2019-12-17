@@ -124,7 +124,21 @@ export default {
   methods: {
     cancelOrder(order) {
       if (!confirm("დარწმუნებული ხართ რომ გინდათ შეკვეთის გაუქმება?")) return;
-      this.setStatus(order, "CANCELLED");
+      this.$axios
+        .post("/api/admin/shop/orders/" + order._id + "/cancel")
+        .then(response => {
+          this.$notifySuccess({
+            title: "შეკვეთა გაუქმებულია"
+          });
+          Object.assign(order, response.data);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     showChangeStatus(order) {
       this.orderToChange = order;
@@ -151,9 +165,12 @@ export default {
     },
     setStatus(order, status) {
       this.$axios
-        .put("/api/admin/shop/orders/" + order._id + "/status")
+        .put("/api/admin/shop/orders/" + order._id + "/status", { status: status })
         .then(response => {
-          this.fetchData();
+          this.$notifySuccess({
+            title: "სტატუსი შეცვლილია"
+          });
+          Object.assign(order, response.data);
         })
         .catch(err => {
           console.error(err);
@@ -167,7 +184,10 @@ export default {
       this.$axios
         .post("/api/admin/shop/orders/" + order._id + "/check")
         .then(response => {
-          this.fetchData();
+          this.$notifySuccess({
+            title: "შემოწმება დასრულებულია"
+          });
+          Object.assign(order, response.data);
         })
         .catch(err => {
           console.error(err);

@@ -78,7 +78,7 @@ async function refundRequest(order) {
     if(!order.payment)
         return;
     let settings = await mongoose.model('Settings').findOne({ name: 'default' });
-    let authorization = authorize(settings);
+    let authorization = await authorize(settings);
     let response = await request.post('/checkout/refund', {
         form: {
             order_id: order.payment.order_id

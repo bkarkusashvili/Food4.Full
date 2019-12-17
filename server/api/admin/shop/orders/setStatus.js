@@ -1,10 +1,11 @@
-const mongoose = require('mongoose');
+const orders = require('@lib/orders');
 
 module.exports = function (req, res) {
-    mongoose.model('ShopOrder')
-        .findById(req.params.id)
-        .populate('user')
-        .lean()
+    let orderParams = {
+        status: req.body.status
+    };
+    
+    orders.updateOrder(req.params.id, orderParams)
         .then(function (order) {
             if (!order) {
                 return res.status(404).send("Order not found");
