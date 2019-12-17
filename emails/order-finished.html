@@ -39,6 +39,11 @@
                     </tr>
                     <tr>
                         <table align="center" border="0" cellpadding="5" cellspacing="5" width="600">
+                            <tr>
+                                <td colspan="3" align="center">
+                                    <h2 align="center">ჩამონათვალი</h2>
+                                </td>
+                            </tr>
                             <% order.items.forEach(function(item){ %>
                             <tr>
                                 <td align="left"><%= item.title %></td>
@@ -52,6 +57,37 @@
                                 <th align="right"><%= order.itemCount %> ცალი</th>
                             </tr>
                         </table>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table align="center" border="0" cellpadding="5" cellspacing="5" width="600">
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <h2 align="center">მისამართი</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="50%" align="right">სახელი</th>
+                                    <td width="50%"><%= order.address.name %></td>
+                                </tr>
+                                <tr>
+                                    <th width="50%" align="right">გვარი</th>
+                                    <td width="50%"><%= order.address.surname %></td>
+                                </tr>
+                                <tr>
+                                    <th width="50%" align="right">ტელეფონი</th>
+                                    <td width="50%"><%= order.address.phone %></td>
+                                </tr>
+                                <tr>
+                                    <th width="50%" align="right">მისამართი</th>
+                                    <td width="50%"><%= order.address.address %></td>
+                                </tr>
+                                <tr>
+                                    <th width="50%" align="right">ქალაქი</th>
+                                    <td width="50%"><%= order.address.city %></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </td>

@@ -29,6 +29,7 @@
         "ads": {},
         "ipayId": "1881",
         "ipaySecret": "ead838ef7c913c1688daaa279a7c8e37",
-        "ipayEndpoint": "https://ipay.ge/opay/api/v1"
+        "ipayEndpoint": "https://ipay.ge/opay/api/v1",
+        "orderNotifyEmails": []
     }
 }

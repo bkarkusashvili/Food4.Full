@@ -21,7 +21,8 @@ const schema = new Schema({
     },
     ipaySecret: String,
     ipayId: String,
-    ipayEndpoint: String
+    ipayEndpoint: String,
+    orderNotifyEmails: [String]
 });
 
 module.exports = schema;

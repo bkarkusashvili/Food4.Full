@@ -67,6 +67,7 @@ async function checkOrder(orderId, user) {
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
         && paymentResult.status === "PERFORMED") {
         order.status = "PAID";
+        sendOrderNotification(order);
         sendOrderConfirmedEmail(order, order.user);
         await reserveItems(order.items);
     }
@@ -132,10 +133,32 @@ async function updateOrder(orderId, orderParams) {
     return order.save();
 }
 
-async function sendOrderConfirmedEmail(order, user) {
-    let orderUrl = `https://food4.ge/orders/${order._id}`;
+async function sendOrderNotification(order) {
+    let settings = await mongoose.model('Settings').findOne({ name: 'default' });
 
+    if (!settings.orderNotifyEmails || !settings.orderNotifyEmails.length)
+        return;
+    
     try {
+        let orderUrl = `https://food4.ge/admin/shop/orders/${order._id}`;
+        let result = await mailer.sendTemplated('order-notification', {
+            orderUrl: orderUrl,
+            order: order
+        }, {
+            to: settings.orderNotifyEmails,
+            subject: "შეკვეთა მიღებულია - FOOD4.GE",
+            text: `მიღებულია ახალი შეკვეთა, შეკვეთის სანახავად ეწვიეთ ლინკს: ${orderUrl}`
+        });
+        consola.info("Sent order notification email", result);
+        return result;
+    } catch (error) {
+        consola.error("Error sending order notification email", error);
+    }
+}
+
+async function sendOrderConfirmedEmail(order, user) {
+    try {
+        let orderUrl = `https://food4.ge/orders/${order._id}`;
         let result = await mailer.sendTemplated('order-confirmation', {
             orderUrl: orderUrl,
             order: order
@@ -151,9 +174,8 @@ async function sendOrderConfirmedEmail(order, user) {
     }
 }
 async function sendOrderShippedEmail(order, user) {
-    let orderUrl = `https://food4.ge/orders/${order._id}`;
-
     try {
+        let orderUrl = `https://food4.ge/orders/${order._id}`;
         let result = await mailer.sendTemplated('order-shipped', {
             orderUrl: orderUrl,
             order: order
@@ -169,9 +191,8 @@ async function sendOrderShippedEmail(order, user) {
     }
 }
 async function sendOrderFinishedEmail(order, user) {
-    let orderUrl = `https://food4.ge/orders/${order._id}`;
-
     try {
+        let orderUrl = `https://food4.ge/orders/${order._id}`;
         let result = await mailer.sendTemplated('order-finished', {
             orderUrl: orderUrl,
             order: order
@@ -187,9 +208,8 @@ async function sendOrderFinishedEmail(order, user) {
     }
 }
 async function sendOrderRefundedEmail(order, user) {
-    let orderUrl = `https://food4.ge/orders/${order._id}`;
-
     try {
+        let orderUrl = `https://food4.ge/orders/${order._id}`;
         let result = await mailer.sendTemplated('order-refunded', {
             orderUrl: orderUrl,
             order: order

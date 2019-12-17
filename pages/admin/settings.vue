@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="settings-page">
     <h1 class="title">
       <span>პარამეტრები</span>
     </h1>
@@ -9,10 +9,6 @@
       </span>
       <span>შენახვა</span>
     </button>
-
-    <div class="field field-grouped field-grouped-centered">
-      <div class="control"></div>
-    </div>
 
     <form class="form" @submit.prevent="save">
       <h2 class="subtitle">საიტის ინფორმაცია</h2>
@@ -25,7 +21,10 @@
       </div>
 
       <div class="field">
-        <label class="label">საიტის <strong>მოკლე</strong> აღწერა საძიებო სისტემებისთვის (არაუმეტეს 150 სიმბოლო)</label>
+        <label class="label">
+          საიტის
+          <strong>მოკლე</strong> აღწერა საძიებო სისტემებისთვის (არაუმეტეს 150 სიმბოლო)
+        </label>
         <div class="control">
           <textarea rows="5" maxlength="150" class="textarea" v-model="settings.description"></textarea>
         </div>
@@ -58,6 +57,40 @@
         </div>
       </div>
 
+      <h2 class="subtitle">შეკვეთები</h2>
+      <div class="field">
+        <label class="label">ახალი შეკვეთების შესახებ შეტყობინებები გაეგზავნოს:</label>
+        <div
+          class="field has-addons"
+          v-for="(email, index) in settings.orderNotifyEmails"
+          :key="index"
+        >
+          <div class="control">
+            <input
+              type="email"
+              class="input"
+              v-model="settings.orderNotifyEmails[index]"
+              placeholder="ელ-ფოსტის მისამართი"
+            />
+          </div>
+          <div class="control">
+            <button class="button" type="button" @click="removeNotifyEmail(index)" title="წაშლა">
+              <span class="icon">
+                <i class="mdi mdi-delete"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div class="control">
+          <button class="button" type="button" @click="addNotifyEmail()">
+            <span class="icon">
+              <i class="mdi mdi-plus"></i>
+            </span>
+            <span>დამატება</span>
+          </button>
+        </div>
+      </div>
+
       <h2 class="subtitle">iPay გადახდები</h2>
       <div class="field">
         <label class="label">URL</label>
@@ -77,6 +110,13 @@
           <input type="text" class="input" v-model="settings.ipaySecret" />
         </div>
       </div>
+
+      <button type="submit" class="button is-success is-medium">
+        <span class="icon">
+          <i class="mdi mdi-floppy"></i>
+        </span>
+        <span>შენახვა</span>
+      </button>
     </form>
   </div>
 </template>
@@ -105,6 +145,14 @@ export default {
             text: err.message
           });
         });
+    },
+    addNotifyEmail() {
+      if (!(this.settings.orderNotifyEmails instanceof Array))
+        this.settings.orderNotifyEmails = [];
+      this.settings.orderNotifyEmails.push("");
+    },
+    removeNotifyEmail(index) {
+      this.settings.orderNotifyEmails.splice(index, 1);
     },
     uploadPicture: function() {
       let file = this.$refs.file.files[0],
@@ -144,4 +192,7 @@ export default {
 </script>
 
 <style>
+.settings-page .subtitle {
+  margin-top: 1.5em;
+}
 </style>
