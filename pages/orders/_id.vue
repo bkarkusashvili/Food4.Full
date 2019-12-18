@@ -4,7 +4,7 @@
       <h1 class="title has-text-centered">თქვენი შეკვეთა</h1>
 
       <ul
-        class="steps is-narrow is-medium is-centered has-content-centered"
+        class="steps is-horizontal is-narrow is-medium is-centered has-content-centered"
         v-if="order.status === 'CANCELLED'"
       >
         <li class="steps-segment is-active">
@@ -19,7 +19,7 @@
         </li>
       </ul>
 
-      <ul class="steps is-narrow is-medium is-centered has-content-centered" v-else>
+      <ul class="steps is-horizontal is-narrow is-medium is-centered has-content-centered" v-else>
         <li class="steps-segment" :class="{'is-active': order.status === 'PAID' }">
           <span class="steps-marker">
             <span class="icon">₾</span>

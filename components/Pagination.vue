@@ -68,4 +68,7 @@ export default Vue.component("pagination", {
 </script>
 
 <style>
+.pagination .pagination-link {
+  justify-content: center;
+}
 </style>

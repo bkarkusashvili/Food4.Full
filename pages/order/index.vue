@@ -1,7 +1,7 @@
 <template>
   <div class="order-page">
-    <div class="container">
-      <ul class="steps is-narrow is-medium is-centered has-content-centered">
+    <div class="container" style="padding: 0 15px;">
+      <ul class="steps is-narrow is-horizontal is-medium is-centered has-content-centered">
         <li class="steps-segment" :class="{'is-active': step === 'cart'}">
           <span class="steps-marker">
             <span class="icon">
@@ -59,6 +59,41 @@
       <div class="columns" v-if="step === 'address'">
         <div class="column">
           <div style="max-width: 30em; margin: 0 auto">
+            <div class="is-hidden-desktop is-hidden-tablet" style="margin-bottom: 30px">
+              <a
+                v-for="(addr, index) in $auth.user.addresses"
+                :key="index"
+                class="box"
+                :class="{'address-selected': selectedAddress === index }"
+                @click="selectAddress(addr, index)"
+              >
+                <div>
+                  <i class="mdi mdi-account"></i>
+                  {{addr.name}} {{addr.surname}}
+                </div>
+                <div>
+                  <i class="mdi mdi-phone"></i>
+                  {{addr.phone}}
+                  <i class="mdi mdi-city"></i>
+                  {{addr.city}}
+                </div>
+                <div>
+                  <i class="mdi mdi-home"></i>
+                  {{addr.address}}
+                </div>
+              </a>
+              <a
+                class="box has-text-centered"
+                @click="selectAddress({ city: 'თბილისი' }, null)"
+                :class="{'address-selected': selectedAddress == null }"
+              >
+                <span class="icon">
+                  <i class="mdi mdi-plus"></i>
+                </span>
+                <span>ახალი მისამართი</span>
+              </a>
+            </div>
+
             <div class="field">
               <label class="label">სახელი</label>
               <div class="control">
@@ -137,38 +172,41 @@
         </div>
 
         <div class="column is-4 order-sidebar">
-          <a
-            v-for="(addr, index) in $auth.user.addresses"
-            :key="index"
-            class="box"
-            :class="{'address-selected': selectedAddress === index }"
-            @click="selectAddress(addr, index)"
-          >
-            <div>
-              <i class="mdi mdi-account"></i>
-              {{addr.name}} {{addr.surname}}
-            </div>
-            <div>
-              <i class="mdi mdi-phone"></i>
-              {{addr.phone}}
-              <i class="mdi mdi-city"></i>
-              {{addr.city}}
-            </div>
-            <div>
-              <i class="mdi mdi-home"></i>
-              {{addr.address}}
-            </div>
-          </a>
-          <a
-            class="box has-text-centered"
-            @click="selectAddress({ city: 'თბილისი' }, null)"
-            :class="{'address-selected': selectedAddress == null }"
-          >
-            <span class="icon">
-              <i class="mdi mdi-plus"></i>
-            </span>
-            <span>ახალი მისამართი</span>
-          </a>
+          <div class="is-hidden-mobile" style="margin-bottom: 20px">
+            <a
+              v-for="(addr, index) in $auth.user.addresses"
+              :key="index"
+              class="box"
+              :class="{'address-selected': selectedAddress === index }"
+              @click="selectAddress(addr, index)"
+            >
+              <div>
+                <i class="mdi mdi-account"></i>
+                {{addr.name}} {{addr.surname}}
+              </div>
+              <div>
+                <i class="mdi mdi-phone"></i>
+                {{addr.phone}}
+                <i class="mdi mdi-city"></i>
+                {{addr.city}}
+              </div>
+              <div>
+                <i class="mdi mdi-home"></i>
+                {{addr.address}}
+              </div>
+            </a>
+            <a
+              class="box has-text-centered"
+              @click="selectAddress({ city: 'თბილისი' }, null)"
+              :class="{'address-selected': selectedAddress == null }"
+            >
+              <span class="icon">
+                <i class="mdi mdi-plus"></i>
+              </span>
+              <span>ახალი მისამართი</span>
+            </a>
+          </div>
+
           <table class="table is-fullwidth">
             <tr v-for="(item, index) in order.items" :key="index">
               <td>{{item.title}}</td>
@@ -292,6 +330,7 @@ export default {
       this.step = "address";
     },
     selectAddress(address, index) {
+      if (this.selectedAddress === index) return;
       this.selectedAddress = index;
       this.address = this.cloneAddress(address);
     },
