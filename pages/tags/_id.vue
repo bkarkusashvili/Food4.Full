@@ -33,7 +33,7 @@ export default {
   methods: {
     fetchData() {
       this.$axios
-        .get("/api/tags/" + this.$route.params.id)
+        .get("/api/tags/" + this.$route.params.id, { params: this.queryParams() })
         .then(response => {
           this.tag = response.data;
           let total = response.headers["x-total-count"];
