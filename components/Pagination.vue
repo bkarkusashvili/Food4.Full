@@ -1,7 +1,7 @@
 <template>
   <nav class="pagination is-centered" role="navigation" aria-label="pagination" v-if="pages > 1">
-    <a class="pagination-previous" :disabled="!canGoBack">წინა გვერდი</a>
-    <a class="pagination-next" :disabled="!canGoForward">შემდეგი გვერდი</a>
+    <a class="pagination-previous" :disabled="!canGoBack" @click="goto(page-1)">წინა გვერდი</a>
+    <a class="pagination-next" :disabled="!canGoForward" @click="goto(page+1)">შემდეგი გვერდი</a>
     <ul class="pagination-list">
       <li v-if="page > 3">
         <a class="pagination-link" aria-label="გვერდი 1" :disabled="!canGoBack" @click="goto(1)">1</a>
