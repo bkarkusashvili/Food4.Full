@@ -73,7 +73,7 @@ async function checkOrder(orderId, user) {
     }
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
-        && paymentResult.status === "REJECTED") {
+        && (paymentResult.status === "REJECTED" || paymentResult.status === "VIEWED")) {
         order.status = "CANCELLED";
     }
 
