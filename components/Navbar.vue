@@ -34,7 +34,6 @@
         <div
           class="navbar-item has-dropdown navbar-cart"
           v-if="$auth.user"
-          v-show="false"
           :class="{'active': cartActive}"
         >
           <a class="navbar-link is-arrowless" @click="cartActive = !cartActive" title="კალათა">

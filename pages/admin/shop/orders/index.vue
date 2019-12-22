@@ -15,6 +15,27 @@
             </select>
           </div>
         </div>
+        <div class="control" v-if="!selectedUser">
+          <button type="button" class="button" @click="showUserChooser=true">
+            <span class="icon">
+              <i class="mdi mdi-face"></i>
+            </span>
+            <span>მომხმარებლით გაფილტრვა</span>
+          </button>
+        </div>
+        <div class="field has-addons" v-else>
+          <div class="control">
+            <button type="button" class="button" @click="showUserChooser=true">
+              <span class="icon">
+                <i class="mdi mdi-face"></i>
+              </span>
+              <span>{{selectedUser.name}}</span>
+            </button>
+          </div>
+          <div class="control">
+            <button type="button" class="button is-danger" @click="clearUser">x</button>
+          </div>
+        </div>
         <!-- <div class="control">
           <input type="text" class="input" v-model="filter.q" placeholder="სათაური" />
         </div>-->
@@ -59,32 +80,51 @@
           <strong>{{order.amount}} ₾</strong>
         </td>
         <td>
-          <div class="has-text-grey" v-if="order.status === 'CREATED'">შექმნილია</div>
-          <div class="has-text-grey" v-if="order.status === 'PAYMENT_PENDING'">გადასახდელია</div>
-          <div class="has-text-info" v-if="order.status === 'PAID'">გადახდილია</div>
-          <div class="has-text-primary" v-if="order.status === 'SHIPPED'">გამოგზავნილია</div>
-          <div class="has-text-success" v-if="order.status === 'FINISHED'">მიღებულია</div>
-          <div class="has-text-danger" v-if="order.status === 'CANCELLED'">გაუქმებულია</div>
+          <div class="has-text-grey" v-if="order.status === 'CREATED'">შექმნილი</div>
+          <div class="has-text-grey" v-if="order.status === 'PAYMENT_PENDING'">გადასახდელი</div>
+          <div class="has-text-info" v-if="order.status === 'PAID'">გადახდილი</div>
+          <div class="has-text-primary" v-if="order.status === 'SHIPPED'">გაგზავნილი</div>
+          <div class="has-text-success" v-if="order.status === 'FINISHED'">დასრულებული</div>
+          <div class="has-text-danger" v-if="order.status === 'CANCELLED'">გაუქმებული</div>
         </td>
         <td class="has-text-centered" style="line-height: 2">
-          <div v-show="order.status !== 'CREATED'">
-            <button
-              type="button"
-              class="button is-info is-small"
-              @click="checkOrder(order)"
-            >გადახდის შემოწმება</button>
-          </div>
-          <button
-            type="button"
-            class="button is-primary is-small"
-            @click="showChangeStatus(order)"
-          >სტატუსის შეცვლა</button>
-          <div v-show="order.status !== 'CANCELLED'">
-            <button
-              type="button"
-              class="button is-danger is-small"
-              @click="cancelOrder(order)"
-            >გაუქმება</button>
+          <div class="dropdown is-hoverable is-right">
+            <div class="dropdown-trigger">
+              <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span>მოქმედება</span>
+                <span class="icon">
+                  <i class="mdi mdi-chevron-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a
+                  class="dropdown-item has-text-success"
+                  @click="setStatus(order, 'SHIPPED')"
+                  v-show="order.status === 'PAID'"
+                >გაგზავნილია</a>
+                <a
+                  class="dropdown-item has-text-success"
+                  @click="setStatus(order, 'FINISHED')"
+                  v-show="order.status === 'SHIPPED'"
+                >დასრულებულია</a>
+                <a
+                  class="dropdown-item has-text-info"
+                  @click="checkOrder(order)"
+                  v-show="order.status !== 'CREATED'"
+                >გადახდის შემოწმება</a>
+                <a
+                  class="dropdown-item has-text-primary"
+                  @click="showChangeStatus(order)"
+                >სტატუსის შეცვლა</a>
+                <a
+                  class="dropdown-item has-text-danger"
+                  @click="cancelOrder(order)"
+                  v-show="order.status !== 'CANCELLED'"
+                >გაუქმება</a>
+              </div>
+            </div>
           </div>
         </td>
       </tr>
@@ -98,14 +138,16 @@
       @select="orderStatusChanged"
       :order="orderToChange"
     />
+    <user-chooser :show="showUserChooser" @hide="showUserChooser = false" @select="userSelected" />
   </div>
 </template>
 
 <script>
 import OrderStatusChanger from "../../../../components/OrderStatusChanger";
+import UserChooser from "../../../../components/UserChooser";
 
 export default {
-  components: { OrderStatusChanger },
+  components: { OrderStatusChanger, UserChooser },
   data() {
     return {
       orders: [],
@@ -113,9 +155,12 @@ export default {
       total: 1,
       perPage: 20,
       filter: {
-        status: null
+        status: null,
+        user: null
       },
       showOrderStatusChanger: false,
+      showUserChooser: false,
+      selectedUser: null,
       orderToChange: null
     };
   },
@@ -147,6 +192,14 @@ export default {
     },
     orderStatusChanged(status) {
       this.setStatus(this.orderToChange, status);
+    },
+    userSelected(user) {
+      this.selectedUser = user;
+      this.filter.user = user._id;
+    },
+    clearUser() {
+      this.selectedUser = null;
+      this.filter.user = null;
     },
     fetchData() {
       this.$axios
@@ -212,7 +265,8 @@ export default {
     }
   },
   watch: {
-    "filter.status": "fetchData"
+    "filter.status": "fetchData",
+    "filter.user": "fetchData"
   }
 };
 </script>

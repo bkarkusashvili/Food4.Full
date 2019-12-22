@@ -11,6 +11,9 @@ module.exports = function (req, res) {
 
     query.status = req.query.status || { $nin: ["CREATED", "PAYMENT_PENDING", "CANCELLED"] };
 
+    if (req.query.user != null)
+        query.user = req.query.user;
+
     let limit = 10, offset = 0;
     if (!isNaN(req.query.limit)) {
         limit = parseInt(req.query.limit);
