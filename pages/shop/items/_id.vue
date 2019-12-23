@@ -16,7 +16,7 @@
       </nav>
 
       <div class="columns">
-        <div class="column carousel-container" v-if="slides.length">
+        <div class="column is-5 carousel-container" v-if="slides.length">
           <client-only>
             <siema class="carousel" ref="siema" v-if="slides.length" :current.sync="curSlide">
               <div class="slide has-text-centered" v-for="(slide, index) in slides" :key="index">
@@ -50,7 +50,7 @@
             </ul>
           </div>
         </div>
-        <div class="column">
+        <div class="column is-8">
           <section class="item-header has-text-centered">
             <h1 class="title">{{item.title}}</h1>
           </section>
@@ -205,7 +205,6 @@ function findIndex(items, _id) {
 
 <style>
 .item-page .carousel-container {
-  width: 100%;
   overflow: hidden;
 }
 
