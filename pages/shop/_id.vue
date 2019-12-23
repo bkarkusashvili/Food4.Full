@@ -1,9 +1,18 @@
 <template>
   <div class="shop-category-page">
     <div class="container">
-      <h1 class="title">{{category.title}}</h1>
+      <nav class="breadcrumb title" aria-label="breadcrumbs">
+        <ul class="flex-justify-content-center">
+          <li>
+            <nuxt-link to="/shop">მაღაზია</nuxt-link>
+          </li>
+          <li class="is-active">
+            <a href="#">{{category.title}}</a>
+          </li>
+        </ul>
+      </nav>
 
-      <div class="flex flex-row flex-wrap">
+      <div class="flex flex-row flex-wrap flex-justify-content-center">
         <div
           class="item-container"
           v-for="item in category.items"

@@ -18,6 +18,9 @@ const schema = new Schema({
         type: Number,
         index: true
     },
+    limit: {
+        type: Number, 
+    },
     sold: {
         type: Number,
         index: true
