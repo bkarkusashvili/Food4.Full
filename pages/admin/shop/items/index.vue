@@ -35,7 +35,7 @@
           <th style="width: 9em">სტატუსი</th>
           <th style="width: 10em">კატეგორია</th>
           <th style="width: 5em">ფასი</th>
-          <th style="width: 7em">მარაგშია</th>
+          <th style="width: 7em">ლიმიტი</th>
           <th style="width: 11em">თარიღი</th>
           <th style="width: 1em"></th>
         </tr>
@@ -54,7 +54,7 @@
             <span class="tag is-medium">{{item.categoryName}}</span>
           </td>
           <td>{{item.price | price}}</td>
-          <td>{{item.stock}}</td>
+          <td>{{[item.limit, item.stock].filter((a)=>a!=null).join(' / ')}}</td>
           <td>{{item.createdAt | dateTime}}</td>
           <td>
             <div class="dropdown is-hoverable is-right">

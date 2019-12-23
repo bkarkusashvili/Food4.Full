@@ -19,7 +19,7 @@ export const mutations = {
     add(state, item) {
         let index = findIndex(state.items, item._id);
         if (index !== -1) {
-            state.items[index].quantity += 1;
+            limitQuantity(state.items[index], state.items[index].quantity + 1);
             return;
         }
 
@@ -37,8 +37,9 @@ export const mutations = {
             return mutations.remove(state, _id);
 
         let index = findIndex(state.items, _id);
-        if (index !== -1)
-            state.items[index].quantity = quantity;
+        if (index !== -1) {
+            limitQuantity(state.items[index], quantity);
+        }
     },
     setItems(state, items) {
         state.items = items;
@@ -54,4 +55,12 @@ function findIndex(items, _id) {
             return i;
     }
     return -1;
+}
+
+function limitQuantity(item, quantity) {
+    let maxQuantity = Math.min(item.stock == null ? Infinity : item.stock, item.limit || Infinity);
+    if (quantity >= maxQuantity)
+        item.quantity = maxQuantity;
+    else
+        item.quantity = quantity;
 }

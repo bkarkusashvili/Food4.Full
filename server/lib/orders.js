@@ -138,7 +138,7 @@ async function sendOrderNotification(order) {
 
     if (!settings.orderNotifyEmails || !settings.orderNotifyEmails.length)
         return;
-    
+
     try {
         let orderUrl = `https://food4.ge/admin/shop/orders/${order._id}`;
         let result = await mailer.sendTemplated('order-notification', {
@@ -256,8 +256,9 @@ async function syncItems(items) {
         if (!dbItem)
             return null;
         Object.assign(item, dbItem);
-        if (item.quantity > item.stock)
-            item.quantity = item.stock;
+        let maxQuantity = Math.min(item.stock == null ? Infinity : item.stock, item.limit || Infinity);
+        if (item.quantity > maxQuantity)
+            item.quantity = maxQuantity;
         return item;
     }).filter((item) => item != null);
     return newItems;

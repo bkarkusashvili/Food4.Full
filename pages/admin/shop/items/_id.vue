@@ -42,6 +42,13 @@
       </div>
 
       <div class="field">
+        <label class="label">ლიმიტი შეკვეთაში</label>
+        <div class="control">
+          <input type="number" class="input" v-model="item.limit" />
+        </div>
+      </div>
+
+      <div class="field">
         <label class="label">რაოდენობა მარაგში</label>
         <div class="control">
           <input type="number" class="input" v-model="item.stock" />
