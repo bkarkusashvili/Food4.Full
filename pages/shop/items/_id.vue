@@ -17,21 +17,30 @@
 
       <div class="columns">
         <div class="column is-5 carousel-container" v-if="slides.length">
-          <client-only>
-            <siema class="carousel" ref="siema" v-if="slides.length" :current.sync="curSlide">
-              <div class="slide has-text-centered" v-for="(slide, index) in slides" :key="index">
-                <img class="item-picture" :src="slide.url" alt v-if="slide.type === 'picture'" />
-                <div class="youtube-embed" v-if="slide.type === 'video'">
-                  <iframe
-                    :src="item.video | youtubeEmbed"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                  ></iframe>
+          <div class="carousel-wrapper">
+            <client-only>
+              <siema class="carousel" ref="siema" v-if="slides.length" :current.sync="curSlide">
+                <div class="slide has-text-centered" v-for="(slide, index) in slides" :key="index">
+                  <img class="item-picture" :src="slide.url" alt v-if="slide.type === 'picture'" />
+                  <div class="youtube-embed" v-if="slide.type === 'video'">
+                    <iframe
+                      :src="item.video | youtubeEmbed"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
                 </div>
-              </div>
-            </siema>
-          </client-only>
+              </siema>
+            </client-only>
+
+            <a class="carousel-nav carousel-prev" v-show="slides.length > 1" @click="prevSlide">
+              <i class="mdi mdi-chevron-left-circle"></i>
+            </a>
+            <a class="carousel-nav carousel-next" v-show="slides.length > 1" @click="nextSlide">
+              <i class="mdi mdi-chevron-right-circle"></i>
+            </a>
+          </div>
 
           <div class="tabs carousel-selector is-centered">
             <ul>
@@ -65,7 +74,12 @@
                 ფასი:
                 <strong>{{item.price | price}} ₾</strong>
               </div>
-              <button type="button" class="button is-success" @click="addToCart()" v-show="!isInCart">
+              <button
+                type="button"
+                class="button is-success"
+                @click="addToCart()"
+                v-show="!isInCart"
+              >
                 <span class="icon">
                   <i class="mdi mdi-cart"></i>
                 </span>
@@ -155,6 +169,14 @@ export default {
     },
     selectSlide(index) {
       this.$refs.siema.goTo(index);
+    },
+    prevSlide() {
+      if (this.curSlide <= 0) this.selectSlide(this.slides.length - 1);
+      else this.selectSlide(this.curSlide - 1);
+    },
+    nextSlide() {
+      if (this.curSlide >= this.slides.length - 1) this.selectSlide(0);
+      else this.selectSlide(this.curSlide + 1);
     }
   },
   computed: {
@@ -206,6 +228,33 @@ function findIndex(items, _id) {
 <style>
 .item-page .carousel-container {
   overflow: hidden;
+}
+
+.item-page .carousel-wrapper {
+  position: relative;
+}
+
+.item-page .carousel-nav {
+  position: absolute;
+  transform: none;
+  display: block;
+  padding: 0 5px;
+  font-size: 32px;
+  color: rgba(255, 255, 255, 0.8);
+  top: 50%;
+  margin-top: -16px;
+  transition: 0.5s;
+}
+
+.item-page .carousel-nav:hover {
+  color: white;
+}
+
+.item-page .carousel-nav.carousel-prev {
+  left: 0;
+}
+.item-page .carousel-nav.carousel-next {
+  right: 0;
 }
 
 .item-page .carousel-selector ul {

@@ -3,7 +3,7 @@
     <div class="container">
       <h1 class="title has-text-centered flex-justify-content-center">მაღაზია</h1>
 
-      <div class="flex flex-row flex-wrap">
+      <div class="flex flex-row flex-wrap flex-justify-content-center">
         <div class="item-container" v-for="item in items" :item-prop="item" :key="item._id">
           <shop-item :item-prop="item" />
         </div>
