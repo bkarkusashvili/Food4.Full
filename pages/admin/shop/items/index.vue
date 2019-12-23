@@ -32,6 +32,7 @@
       <thead>
         <tr>
           <th>სათაური</th>
+          <th style="width: 9em">სტატუსი</th>
           <th style="width: 10em">კატეგორია</th>
           <th style="width: 5em">ფასი</th>
           <th style="width: 7em">მარაგშია</th>
@@ -43,6 +44,11 @@
         <tr v-for="item in items" :key="item._id">
           <td>
             <a :href="'/shop/items/' + item.slug" target="_blank">{{item.title || item.slug}}</a>
+          </td>
+          <td>
+            <span class="tag is-success" v-if="item.status === 'published'">გამოქვეყნებული</span>
+            <span class="tag" v-if="item.status === 'draft'">გამოუქვეყნებელი</span>
+            <span class="tag is-warning" v-if="item.status === 'archived'">დაარქივებული</span>
           </td>
           <td>
             <span class="tag is-medium">{{item.categoryName}}</span>

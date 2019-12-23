@@ -152,11 +152,27 @@
 
       <div class="field is-grouped is-grouped-centered">
         <div class="control">
-          <button type="submit" class="button is-primary is-large">
+          <button type="submit" class="button is-primary is-large" :disabled="loading">
             <span class="icon">
-              <i class="mdi mdi-content-save"></i>
+              <i class="mdi mdi-content-save" v-show="!loading"></i>
+              <i class="mdi mdi-reload mdi-spin" v-show="loading"></i>
             </span>
             <span>შენახვა</span>
+          </button>
+        </div>
+        <div class="control">
+          <button
+            type="button"
+            @click="saveAndPublish"
+            class="button is-success is-large"
+            :disabled="loading"
+            v-show="item.status !== 'published'"
+          >
+            <span class="icon">
+              <i class="mdi mdi-content-save" v-show="!loading"></i>
+              <i class="mdi mdi-reload mdi-spin" v-show="loading"></i>
+            </span>
+            <span>შენახვა და გამოქვეყნება</span>
           </button>
         </div>
       </div>
@@ -189,6 +205,7 @@ export default {
       item: {},
       new: false,
       saved: false,
+      loading: false,
       showTagDialog: false,
       showCategoryDialog: false,
       showPictureDialog: false,
@@ -205,7 +222,8 @@ export default {
         this.item = {
           description: "",
           title: "",
-          stock: 0
+          stock: 0,
+          status: "draft"
         };
         return;
       }
@@ -268,6 +286,11 @@ export default {
           });
         });
     },
+    saveAndPublish() {
+      this.item.status = "published";
+      if (!this.item.publishedAt) this.item.publishedAt = new Date();
+      this.save();
+    },
     save: function() {
       this.item.excerpt =
         this.$refs.description && this.$refs.description.$el.innerText;
@@ -284,6 +307,8 @@ export default {
         this.item.thumb = this.item.pictures[0].url;
       }
 
+      this.loading = true;
+
       if (this.new) {
         this.$axios
           .post("/api/admin/shop/items", this.item)
@@ -293,6 +318,7 @@ export default {
               title: "შენახულია",
               text: "შენახვა წარმატებით დასრულდა!"
             });
+            this.loading = false;
           })
           .catch(err => {
             console.error(err);
@@ -300,6 +326,7 @@ export default {
               title: "მოხდა შეცდომა!",
               text: err.message
             });
+            this.loading = false;
           });
       } else {
         this.$axios
@@ -309,6 +336,7 @@ export default {
               title: "შენახულია",
               text: "შენახვა წარმატებით დასრულდა!"
             });
+            this.loading = false;
           })
           .catch(err => {
             console.error(err);
@@ -316,6 +344,7 @@ export default {
               title: "მოხდა შეცდომა!",
               text: err.message
             });
+            this.loading = false;
           });
       }
     },

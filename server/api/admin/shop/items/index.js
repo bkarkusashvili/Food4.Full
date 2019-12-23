@@ -9,6 +9,10 @@ module.exports = function (req, res) {
         }
     }
 
+    if (req.query.status) {
+        query.status = req.query.status;
+    }
+
     let limit = 10, offset = 0;
     if (!isNaN(req.query.limit)) {
         limit = parseInt(req.query.limit);
