@@ -106,7 +106,7 @@ function debounce(func, delay) {
 
 <style>
 .cart {
-  min-width: 300px;
+  min-width: 350px;
 }
 
 .cart .cart-controls {
