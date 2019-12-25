@@ -77,7 +77,7 @@
           </div>
         </td>
         <td>
-          <strong>{{order.amount}} ₾</strong>
+          <strong>{{order.amount | price}} ₾</strong>
         </td>
         <td>
           <div class="has-text-grey" v-if="order.status === 'CREATED'">შექმნილი</div>

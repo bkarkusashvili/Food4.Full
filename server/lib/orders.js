@@ -98,8 +98,8 @@ async function cancelOrder(orderId) {
 
     if (order.status === "PAID") {
         await unreserveItems(order.items);
-        let refundResult = await payments.refundRequest(order);
-        order.paymentLog.unshift({ date: new Date(), operation: "refund", result: refundResult });
+        // let refundResult = await payments.refundRequest(order);
+        // order.paymentLog.unshift({ date: new Date(), operation: "refund", result: refundResult });
         sendOrderRefundedEmail(order, user);
     } else if (order.status === "PAYMENT_PENDING") {
         let refundResult = await payments.refundRequest(order);

@@ -95,21 +95,71 @@
           </div>
         </div>
       </div>
+
+      <div class="field is-grouped is-grouped-centered">
+        <div class="control">
+          <button
+            type="button"
+            class="button is-success"
+            @click="setStatus(order, 'SHIPPED')"
+            v-show="order.status === 'PAID'"
+          >გაგზავნილია</button>
+        </div>
+        <div class="control">
+          <button
+            type="button"
+            class="button is-success"
+            @click="setStatus(order, 'FINISHED')"
+            v-show="order.status === 'SHIPPED'"
+          >დასრულებულია</button>
+        </div>
+        <div class="control">
+          <button
+            type="button"
+            class="button is-info"
+            @click="checkOrder(order)"
+            v-show="order.status !== 'CREATED'"
+          >გადახდის შემოწმება</button>
+        </div>
+        <div class="control">
+          <button
+            type="button"
+            class="button is-primary"
+            @click="showChangeStatus(order)"
+          >სტატუსის შეცვლა</button>
+        </div>
+        <div class="control">
+          <button
+            type="button"
+            class="button is-danger"
+            @click="cancelOrder(order)"
+            v-show="order.status !== 'CANCELLED'"
+          >გაუქმება</button>
+        </div>
+      </div>
     </div>
 
+    <order-status-changer
+      :show="showOrderStatusChanger"
+      @hide="showOrderStatusChanger = false"
+      @select="orderStatusChanged"
+      :order="order"
+    />
     <order-payment-log :show="showPaymentLog" @hide="showPaymentLog = false" :order="order" />
   </div>
 </template>
 
 <script>
 import OrderPaymentLog from "../../../../components/OrderPaymentLog";
+import OrderStatusChanger from "../../../../components/OrderStatusChanger";
 
 export default {
-  components: { OrderPaymentLog },
+  components: { OrderPaymentLog, OrderStatusChanger },
   data() {
     return {
       order: {},
-      showPaymentLog: false
+      showPaymentLog: false,
+      showOrderStatusChanger: false
     };
   },
   asyncData({ params, error, $axios }) {
@@ -122,7 +172,81 @@ export default {
         error({ statusCode: 404, message: "გვერდი ვერ მოიძებნა" });
       });
   },
-  methods: {},
+  methods: {
+    cancelOrder() {
+      if (!confirm("დარწმუნებული ხართ რომ გინდათ შეკვეთის გაუქმება?")) return;
+      this.$axios
+        .post("/api/admin/shop/orders/" + this.order._id + "/cancel")
+        .then(response => {
+          this.$notifySuccess({
+            title: "შეკვეთა გაუქმებულია"
+          });
+          Object.assign(this.order, response.data);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    showChangeStatus() {
+      this.showOrderStatusChanger = true;
+    },
+    orderStatusChanged(status) {
+      this.setStatus(status);
+    },
+    fetchData() {
+      this.$axios
+        .get("/api/admin/shop/orders/" + this.$route.params.id)
+        .then(response => {
+          this.order = response.data;
+        })
+        .catch(err => {
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    setStatus(status) {
+      this.$axios
+        .put("/api/admin/shop/orders/" + this.order._id + "/status", {
+          status: status
+        })
+        .then(response => {
+          this.$notifySuccess({
+            title: "სტატუსი შეცვლილია"
+          });
+          Object.assign(this.order, response.data);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    },
+    checkOrder() {
+      this.$axios
+        .post("/api/admin/shop/orders/" + this.order._id + "/check")
+        .then(response => {
+          this.$notifySuccess({
+            title: "შემოწმება დასრულებულია"
+          });
+          Object.assign(this.order, response.data);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
+    }
+  },
   computed: {
     itemCount() {
       if (!this.order || !this.order.items) return 0;
