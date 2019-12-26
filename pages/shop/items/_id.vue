@@ -214,6 +214,50 @@ export default {
 
       return slides;
     }
+  },
+  head() {
+    if (!this.item) return;
+
+    let head = {
+      title: this.item.title + " - " + this.$store.state.settings.title,
+      meta: [
+        {
+          hid: "og:type",
+          property: "og:type",
+          content: "article"
+        },
+        {
+          hid: "og:title",
+          property: "og:title",
+          content: this.item.title + " - " + this.$store.state.settings.title
+        },
+        {
+          hid: "og:description",
+          property: "og:description",
+          content: this.item.excerpt
+        },
+        {
+          hid: "description",
+          content: this.item.excerpt
+        }
+      ]
+    };
+
+    if (this.item.thumb) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: "https://food4.ge" + this.item.thumb
+      });
+    } else if (this.item.video) {
+      head.meta.push({
+        hid: "og:image",
+        property: "og:image",
+        content: this.$options.filters.youtubeThumb(this.item.video)
+      });
+    }
+
+    return head;
   }
 };
 
