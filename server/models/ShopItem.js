@@ -28,6 +28,9 @@ const schema = new Schema({
     description: {
         type: String
     },
+    excerpt: {
+        type: String
+    },
     pictures: [Object],
     thumb: {
         type: String

@@ -234,11 +234,11 @@ export default {
         {
           hid: "og:description",
           property: "og:description",
-          content: this.item.excerpt
+          content: this.item.excerpt || this.item.description || ""
         },
         {
           hid: "description",
-          content: this.item.excerpt
+          content: this.item.excerpt || this.item.description || ""
         }
       ]
     };
