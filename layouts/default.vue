@@ -15,7 +15,6 @@
     />
     <client-only>
       <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148021181-1"></script>
       <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() {
@@ -27,12 +26,6 @@
       </script>
 
       <div id="fb-root"></div>
-      <script
-        async
-        defer
-        crossorigin="anonymous"
-        src="https://connect.facebook.net/ka_GE/sdk.js#xfbml=1&version=v4.0&appId=3019510804998107&autoLogAppEvents=1"
-      ></script>
     </client-only>
   </div>
 </template>
@@ -61,6 +54,20 @@ export default {
         {
           rel: "canonical",
           href: "https://food4.ge" + this.$route.path
+        }
+      ],
+      script: [
+        {
+          src: "https://www.googletagmanager.com/gtag/js?id=UA-148021181-1",
+          async: true,
+          body: true
+        },
+        { src: "https://counter.top.ge/counter.js", async: true, body: true },
+        {
+          src:
+            "https://connect.facebook.net/ka_GE/sdk.js#xfbml=1&version=v4.0&appId=3019510804998107&autoLogAppEvents=1",
+          async: true,
+          body: true
         }
       ],
       meta: [
@@ -109,9 +116,9 @@ export default {
     return head;
   },
   watch: {
-    '$route': function() {
-      if(process.browser && FB) {
-        setTimeout(()=>FB.XFBML.parse(), 500);
+    $route: function() {
+      if (process.browser && FB) {
+        setTimeout(() => FB.XFBML.parse(), 500);
       }
     }
   }
