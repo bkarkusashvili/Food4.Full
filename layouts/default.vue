@@ -33,6 +33,8 @@
         crossorigin="anonymous"
         src="https://connect.facebook.net/ka_GE/sdk.js#xfbml=1&version=v4.0&appId=3019510804998107&autoLogAppEvents=1"
       ></script>
+
+      <script async src="https://counter.top.ge/counter.js"></script>
     </client-only>
   </div>
 </template>

@@ -7,7 +7,7 @@
     ></nuxt-link>
     <div class="item-description has-text-centered">
       <nuxt-link class="item-title" :to="'/shop/items/' + item.slug">{{item.title}}</nuxt-link>
-      <div class="item-excerpt" v-html="item.excerpt"></div>
+      <!-- <div class="item-excerpt" v-html="item.excerpt"></div> -->
     </div>
   </div>
 </template>
