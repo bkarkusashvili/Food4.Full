@@ -6,6 +6,7 @@
       </p>
       <client-only>
         <div id="top-ge-counter-container" data-site-id="113422"></div>
+        <script async src="https://counter.top.ge/counter.js"></script>
       </client-only>
     </div>
   </footer>
