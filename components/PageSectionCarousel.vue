@@ -54,6 +54,7 @@ export default {
 .page-section-carousel {
   width: 100%;
   overflow: hidden;
+  position: relative;
   
   .carousel-item-container {
     position: relative;
