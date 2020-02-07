@@ -6,6 +6,7 @@
         auto-play
         ref="siema"
         :options="{loop: true}"
+        @init="siemaInit"
         v-if="$store.state.settings && $store.state.settings.carousel && $store.state.settings.carousel.length"
       >
         <div class="slide" v-for="(item, index) in $store.state.settings.carousel" :key="index">
@@ -48,12 +49,13 @@
 export default {
   name: "page-section-carousel",
   components: {},
-  mounted() {
-    if (process.browser) {
-      setTimeout(() => {
-        console.log("Triggering resize");
-        document.dispatchEvent(new Event("resize"));
-      }, 1000);
+  methods: {
+    siemaInit() {
+      if (process.browser) {
+        setTimeout(() => {
+          document.dispatchEvent(new Event("resize"));
+        }, 3000);
+      }
     }
   },
   props: {
