@@ -71,7 +71,7 @@ export default {
             }
           })
           .catch(err => console.error(err));
-      } else if (process.client) {
+      } else if (process.browser) {
         let items = JSON.parse(localStorage.getItem("cartItems"));
         if (items != null) {
           this.$store.commit("cart/setItems", items);
@@ -87,7 +87,7 @@ export default {
             console.log("Saved cart to server");
           })
           .catch(err => console.error(err));
-      } else if (process.client) {
+      } else if (process.browser) {
         localStorage.setItem("cartItems", JSON.stringify(this.items));
         console.log("Saved cart to localStorage");
       }

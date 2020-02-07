@@ -44,6 +44,10 @@
 export default {
   name: "page-section-carousel",
   components: {},
+  mounted() {
+    if(process.browser)
+      setTimeout(() => { document.dispatchEvent(new Event('resize')) }, 50);
+  },
   props: {
     section: { type: Object, required: true }
   }
