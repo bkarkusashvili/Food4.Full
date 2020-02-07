@@ -18,7 +18,11 @@
               <div class="carousel-item-content has-text-centered">
                 <h1 class="title" v-if="item.post.title">{{item.post.title}}</h1>
                 <h2 class="subtitle" v-if="item.post.subtitle">{{item.post.subtitle}}</h2>
-                <nuxt-link class="button is-success" :to="item | navLink" v-if="item.post.video">ვიდეო რეცეპტზე გადასვლა</nuxt-link>
+                <nuxt-link
+                  class="button is-success"
+                  :to="item | navLink"
+                  v-if="item.post.video"
+                >ვიდეო რეცეპტზე გადასვლა</nuxt-link>
                 <nuxt-link class="button is-success" :to="item | navLink" v-else>რეცეპტზე გადასვლა</nuxt-link>
               </div>
             </div>
@@ -45,8 +49,12 @@ export default {
   name: "page-section-carousel",
   components: {},
   mounted() {
-    if(process.browser)
-      setTimeout(() => { document.dispatchEvent(new Event('resize')) }, 50);
+    if (process.browser) {
+      setTimeout(() => {
+        console.log("Triggering resize");
+        document.dispatchEvent(new Event("resize"));
+      }, 1000);
+    }
   },
   props: {
     section: { type: Object, required: true }
@@ -59,7 +67,7 @@ export default {
   width: 100%;
   overflow: hidden;
   position: relative;
-  
+
   .carousel-item-container {
     position: relative;
     height: 0;
