@@ -3,12 +3,17 @@
     <client-only>
       <hooper
         class="carousel"
+        ref="hooper"
         :infinite-scroll="true"
         :wheel-control="false"
         :auto-play="true"
         v-if="$store.state.settings && $store.state.settings.carousel && $store.state.settings.carousel.length"
       >
-        <hooper-slide v-for="(item, index) in $store.state.settings.carousel" :key="index" :index="index">
+        <hooper-slide
+          v-for="(item, index) in $store.state.settings.carousel"
+          :key="index"
+          :index="index"
+        >
           <div class="carousel-item-container">
             <div
               class="carousel-item flex flex-align-content-center flex-align-items-center flex-justify-content-center"
@@ -48,8 +53,19 @@
 export default {
   name: "page-section-carousel",
   components: {},
-  methods: {
-    
+  methods: {},
+  mounted() {
+    if (process.browser) {
+      setTimeout(() => {
+        this.$refs.hooper && this.$refs.hooper.update();
+        if (typeof ResizeObserver !== "undefined" && this.$refs.hooper) {
+          let observer = new ResizeObserver(() => {
+            this.$refs.hooper && this.$refs.hooper.update();
+          });
+          observer.observe(this.$refs.hooper.$el);
+        }
+      }, 1000);
+    }
   },
   props: {
     section: { type: Object, required: true }
