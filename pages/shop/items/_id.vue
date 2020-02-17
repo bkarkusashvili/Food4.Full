@@ -19,8 +19,19 @@
         <div class="column is-5 carousel-container" v-if="slides.length">
           <div class="carousel-wrapper">
             <client-only>
-              <siema class="carousel" ref="siema" v-if="slides.length" :current.sync="curSlide">
-                <div class="slide has-text-centered" v-for="(slide, index) in slides" :key="index">
+              <hooper
+                class="carousel"
+                ref="hooper"
+                v-if="slides.length"
+                @slide="onSlide"
+                :wheel-control="false"
+              >
+                <hooper-slide
+                  class="slide has-text-centered"
+                  v-for="(slide, index) in slides"
+                  :key="index"
+                  :index="index"
+                >
                   <img class="item-picture" :src="slide.url" alt v-if="slide.type === 'picture'" />
                   <div class="youtube-embed" v-if="slide.type === 'video'">
                     <iframe
@@ -30,8 +41,8 @@
                       allowfullscreen
                     ></iframe>
                   </div>
-                </div>
-              </siema>
+                </hooper-slide>
+              </hooper>
             </client-only>
 
             <a class="carousel-nav carousel-prev" v-show="slides.length > 1" @click="prevSlide">
@@ -157,6 +168,9 @@ export default {
       });
   },
   methods: {
+    onSlide(event) {
+      this.curSlide = event.currentSlide;
+    },
     addToCart() {
       this.$store.commit("cart/add", this.item);
     },
@@ -168,7 +182,7 @@ export default {
       this.$router.push("/order");
     },
     selectSlide(index) {
-      this.$refs.siema.goTo(index);
+      this.$refs.hooper.slideTo(index);
     },
     prevSlide() {
       if (this.curSlide <= 0) this.selectSlide(this.slides.length - 1);

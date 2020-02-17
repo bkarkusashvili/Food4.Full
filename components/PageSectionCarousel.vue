@@ -1,15 +1,14 @@
 <template>
   <div class="page-section-carousel">
     <client-only>
-      <siema
+      <hooper
         class="carousel"
-        auto-play
-        ref="siema"
-        :options="{loop: true}"
-        @init="siemaInit"
+        :infinite-scroll="true"
+        :wheel-control="false"
+        :auto-play="true"
         v-if="$store.state.settings && $store.state.settings.carousel && $store.state.settings.carousel.length"
       >
-        <div class="slide" v-for="(item, index) in $store.state.settings.carousel" :key="index">
+        <hooper-slide v-for="(item, index) in $store.state.settings.carousel" :key="index" :index="index">
           <div class="carousel-item-container">
             <div
               class="carousel-item flex flex-align-content-center flex-align-items-center flex-justify-content-center"
@@ -39,8 +38,8 @@
               </div>
             </div>
           </div>
-        </div>
-      </siema>
+        </hooper-slide>
+      </hooper>
     </client-only>
   </div>
 </template>
@@ -50,13 +49,7 @@ export default {
   name: "page-section-carousel",
   components: {},
   methods: {
-    siemaInit() {
-      if (process.browser) {
-        setTimeout(() => {
-          document.dispatchEvent(new Event("resize"));
-        }, 3000);
-      }
-    }
+    
   },
   props: {
     section: { type: Object, required: true }
@@ -69,6 +62,10 @@ export default {
   width: 100%;
   overflow: hidden;
   position: relative;
+
+  .hooper {
+    height: auto;
+  }
 
   .carousel-item-container {
     position: relative;
