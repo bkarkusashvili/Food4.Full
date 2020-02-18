@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section-carousel">
+  <div class="page-section-carousel" ref="container">
     <client-only>
       <hooper
         class="carousel"
@@ -56,14 +56,18 @@ export default {
   methods: {},
   mounted() {
     if (process.browser) {
+      let observer;
+      if (typeof ResizeObserver !== "undefined") {
+        observer = new ResizeObserver(() => {
+          this.$refs.hooper && this.$refs.hooper.update();
+        });
+        if (this.$refs.container) {
+          observer.observe(this.$refs.container);
+        }
+      }
+
       setTimeout(() => {
         this.$refs.hooper && this.$refs.hooper.update();
-        if (typeof ResizeObserver !== "undefined" && this.$refs.hooper) {
-          let observer = new ResizeObserver(() => {
-            this.$refs.hooper && this.$refs.hooper.update();
-          });
-          observer.observe(this.$refs.hooper.$el);
-        }
       }, 1000);
     }
   },
