@@ -8,6 +8,9 @@ module.exports = function (req, res) {
                 return res.status(404).send("User not found");
             }
 
+            if (!req.body.password)
+                delete req.body.password;
+
             Object.assign(user, req.body);
             let promise;
             if (req.body.password) {
