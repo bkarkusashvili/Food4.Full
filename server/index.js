@@ -70,8 +70,6 @@ async function start() {
   // Init Nuxt.js
   const nuxt = new Nuxt(nuxtConf);
 
-  const { host, port } = nuxt.options.server;
-
   app.use(fileUpload({
     limits: { fileSize: 500 * 1024 * 1024 },
   }));
@@ -101,23 +99,31 @@ async function start() {
 
   app.use('/api', api);
 
+
+  // Build only in dev mode
+  if (nuxtConf.dev) {
+    listen(app, nuxt);
+    const builder = new Builder(nuxt);
+    await builder.build();
+  } else {
+    await nuxt.ready();
+    // Await nuxt before listening to connections on prod
+    listen(app, nuxt);
+  }
+
+  // Give nuxt middleware to express
+  app.use(nuxt.render);
+}
+
+function listen(app, nuxt) {
+  const { host, port } = nuxt.options.server;
+
   // Listen the server
   app.listen(port, host);
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true
   });
-
-  // Build only in dev mode
-  if (nuxtConf.dev) {
-    const builder = new Builder(nuxt);
-    await builder.build();
-  } else {
-    await nuxt.ready();
-  }
-
-  // Give nuxt middleware to express
-  app.use(nuxt.render);
 }
 
 start();

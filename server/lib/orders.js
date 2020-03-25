@@ -250,15 +250,28 @@ async function unreserveItems(items) {
 }
 
 async function syncItems(items) {
-    let dbItems = await mongoose.model('ShopItem').find({ _id: items.map((item) => item._id) });
+    console.log(items.map((item) => item._id));
+    let dbItems = await mongoose.model('ShopItem').find({ _id: items.map((item) => item._id) }).lean();
     let newItems = items.map((item) => {
-        let dbItem = findIndex(dbItems, item._id);
-        if (!dbItem)
+        const index = findIndex(dbItems, item._id);
+        if (index === -1)
             return null;
+        const dbItem = dbItems[index];
+        if (dbItem.status === "ARCHIVED" || dbItem.status === "DELETED")
+            return null;
+
+        // Override item fields
         Object.assign(item, dbItem);
+        item.price = dbItem.price;
+
         let maxQuantity = Math.min(item.stock == null ? Infinity : item.stock, item.limit || Infinity);
         if (item.quantity > maxQuantity)
             item.quantity = maxQuantity;
+
+        // Remove 0 quantity items
+        if (!item.quantity)
+            return null;
+        
         return item;
     }).filter((item) => item != null);
     return newItems;
@@ -266,7 +279,7 @@ async function syncItems(items) {
 
 function findIndex(items, _id) {
     for (let i = 0; i < items.length; i++) {
-        if (items[i]._id === _id)
+        if (String(items[i]._id) === _id)
             return i;
     }
     return -1;

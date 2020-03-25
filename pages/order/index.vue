@@ -376,10 +376,16 @@ export default {
     gotoPayment() {
       if (!this.validate()) return;
       this.order.address = Object.assign({}, this.address);
-      this.step = "payment";
       this.saveAddress();
-      if (this.order._id == null) this.createOrder();
-      else this.updateOrder();
+      if (this.order._id == null) {
+        this.createOrder().then(() => {
+          this.step = "payment";
+        });
+      } else {
+        this.updateOrder().then(() => {
+          this.step = "payment";
+        });
+      }
     },
     validate() {
       this.nameValid = this.address.name != null && this.address.name.length;
@@ -400,7 +406,7 @@ export default {
     },
     createOrder() {
       this.loading = true;
-      this.$axios
+      return this.$axios
         .post("/api/user/orders", this.order)
         .then(response => {
           this.loading = false;
@@ -413,11 +419,12 @@ export default {
             title: "მოხდა შეცდომა!",
             text: err.message
           });
+          throw err;
         });
     },
     updateOrder() {
       this.loading = true;
-      this.$axios
+      return this.$axios
         .put("/api/user/orders/" + this.order._id, this.order)
         .then(response => {
           this.loading = false;
@@ -430,6 +437,7 @@ export default {
             title: "მოხდა შეცდომა!",
             text: err.message
           });
+          throw err;
         });
     },
     payOrder() {
