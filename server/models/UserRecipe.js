@@ -7,9 +7,6 @@ const schema = new Schema({
     content: {
         type: String
     },
-    excerpt: {
-        type: String
-    },
     status: {
         type: String
     },

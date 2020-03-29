@@ -98,11 +98,6 @@ export default {
 
     },
     save() {
-      this.post.excerpt =
-        this.$refs.description && this.$refs.description.$el.innerText;
-      if (this.post.excerpt)
-        this.post.excerpt = this.post.excerpt.substr(0, 160);
-
       this.loading = true;
 
       return this.$axios

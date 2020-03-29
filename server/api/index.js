@@ -55,6 +55,9 @@ router.get('/posts', api.public.posts.index);
 router.get('/posts/latest', api.public.posts.latest);
 router.get('/posts/:id', api.public.posts.one);
 
+// User recipes
+router.post('/user-recipes', api.public.userRecipes.submit);
+
 // Pages
 router.get('/pages/:id', api.public.pages.one);
 
@@ -120,6 +123,7 @@ router.delete('/admin/posts/:id', api.admin.posts.remove);
 router.get('/admin/user-recipes', api.admin.userRecipes.index);
 router.get('/admin/user-recipes/:id', api.admin.userRecipes.one);
 router.put('/admin/user-recipes/:id', api.admin.userRecipes.update);
+router.post('/admin/user-recipes/:id/publish', api.admin.userRecipes.publish);
 router.delete('/admin/user-recipes/:id', api.admin.userRecipes.remove);
 
 // Pages
