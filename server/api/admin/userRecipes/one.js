@@ -5,11 +5,11 @@ module.exports = function (req, res) {
         .findById(req.params.id)
         .lean()
         .populate('submitter')
-        .then(function (post) {
-            if (!post) {
+        .then(function (userRecipe) {
+            if (!userRecipe) {
                 return res.status(404).send("User recipe not found");
             }
-            res.json(post);
+            res.json(userRecipe);
         })
         .catch((error) => res.status(500).json(error));
 };

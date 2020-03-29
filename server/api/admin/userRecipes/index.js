@@ -33,8 +33,8 @@ module.exports = function (req, res) {
             .select('-content'),
         mongoose.model('UserRecipe')
             .countDocuments(query)
-    ]).then(function ([posts, count]) {
+    ]).then(function ([userRecipes, count]) {
         res.header('X-Total-Count', count);
-        res.json(posts);
+        res.json(userRecipes);
     }).catch((error) => res.status(500).json(error));
 };

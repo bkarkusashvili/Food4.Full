@@ -1,16 +1,40 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 module.exports = function (req, res) {
+    let userRecipe;
+
     mongoose.model('UserRecipe')
-        .findByIdAndUpdate(req.params.id, req.body, { new: true })
-        .then(function (post) {
-            res.json(post);
-            post.setTextTags();
-            return post.save().then();
+        .findById(req.params.id)
+        .then(found => {
+            if (!found) {
+                throw { message: "რეცეპტი ვერ მოიძებნა!" };
+            }
+            userRecipe = found;
+
+            let post = {
+                type: "recipe",
+                status: "draft",
+                title: userRecipe.title,
+                slug: slugify(userRecipe.title),
+                content: userRecipe.content,
+                excerpt: userRecipe.content
+            };
+
+            return mongoose.model('Post').create(post);
         })
-        .catch((error) => {
-            console.log(JSON.stringify(req.body));
-            console.error("Error updating user recipe", error);
+        .then(post => {
+            res.json(post);
+
+            userRecipe.status = "published";
+            userRecipe.publishedAt = new Date();
+            userRecipe.publishedRecipe = post;
+            return userRecipe.save().catch(error => {
+                console.error("Error updating user recipe", error);
+            });
+        })
+        .catch(error => {
+            console.error("Error publishing", error);
             res.status(500).json(error)
         });
 };

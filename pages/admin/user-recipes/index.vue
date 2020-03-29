@@ -24,6 +24,7 @@
       <thead>
         <tr>
           <th style="width: 40%">სათაური</th>
+          <th>გამომგზავნი</th>
           <th style="width: 9em">სტატუსი</th>
           <th style="width: 10em">თარიღი</th>
           <th style="width: 1em"></th>
@@ -31,11 +32,20 @@
       </thead>
       <tbody>
         <tr v-for="post in posts" :key="post._id">
+          <td>{{post.title}}</td>
           <td>
-            {{post.title}}
+            <i class="mdi mdi-account"></i>
+            {{post.submitterName}}
+            <br />
+            <i class="mdi mdi-email"></i>
+            {{post.submitterEmail}}
           </td>
           <td>
-            <span class="tag is-success" v-if="post.status === 'published'">გამოქვეყნებული</span>
+            <nuxt-link
+              :to="'/admin/recipes/' + post.publishedRecipe"
+              class="tag is-success"
+              v-if="post.status === 'published'"
+            >გამოქვეყნებული</nuxt-link>
             <span class="tag" v-if="post.status === 'draft'">გამოუქვეყნებელი</span>
             <span class="tag is-warning" v-if="post.status === 'archived'">დაარქივებული</span>
           </td>
@@ -56,7 +66,7 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  <nuxt-link :to="'/admin/recipes/' + post._id" class="dropdown-item">
+                  <nuxt-link :to="'/admin/user-recipes/' + post._id" class="dropdown-item">
                     <span class="icon">
                       <i class="mdi mdi-file-document-edit"></i>
                     </span>
@@ -151,13 +161,14 @@ export default {
     publishPost: function(post) {
       if (!confirm("ნამდვილად გსურთ რეცეპტის გამოქვეყნება?")) return;
       this.$axios
-        .post("/api/admin/user-recipes/" + post._id, "+/publish", {
-          publishedAt: post.publishedAt || new Date()
-        })
+        .post("/api/admin/user-recipes/" + post._id + "/publish")
         .then(response => {
           this.$notifySuccess({
-            title: "რეცეპტი გამოქვეყნებულია",
-            text: "რეცეპტი წარმატებით გამოქვეყნდა!"
+            title: "გამოქვეყნებულია",
+            text:
+              "<a href='/admin/recipes/" +
+              response.data._id +
+              "'>რეცეპტზე გადასვლა</a>"
           });
           this.fetchData();
         })

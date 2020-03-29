@@ -60,7 +60,11 @@
           </div>
         </div>
       </form>
-      <div v-show="success"></div>
+      <div v-show="success">
+        <div class="notification is-success">
+          თქვენი რეცეპტი მიღებულია!
+        </div>
+      </div>
     </div>
   </div>
 </template>

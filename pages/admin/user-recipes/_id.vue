@@ -4,14 +4,21 @@
       <div class="field">
         <label class="label">სათაური</label>
         <div class="control">
-          <input type="text" class="input is-medium" v-model="post.title" @keyup="titleModified" />
+          <input type="text" class="input" v-model="post.title" />
         </div>
       </div>
 
       <div class="field">
-        <label class="label">გამოქვეყნების თარიღი</label>
+        <label class="label">სახელი და გვარი</label>
         <div class="control">
-          <datetime type="datetime" input-class="input" v-model="post.publishedAt" />
+          <input type="text" class="input" v-model="post.submitterName" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">საკონტაქტო ელ-ფოსტა</label>
+        <div class="control">
+          <input type="text" class="input" v-model="post.submitterEmail" />
         </div>
       </div>
 
@@ -19,10 +26,7 @@
         <label class="label">მომზადება</label>
         <div class="control">
           <client-only>
-            <vue-editor
-              v-model="post.content"
-              id="editor-content"
-            />
+            <vue-editor v-model="post.content" id="editor-content" />
           </client-only>
         </div>
       </div>
@@ -90,12 +94,27 @@ export default {
         });
     },
     saveAndPublish() {
-      // this.post.status = "published";
-      // if (!this.post.publishedAt) this.post.publishedAt = new Date();
-      // this.save();
+      this.save().then(this.publish);
     },
     publish() {
-
+      this.loading = true;
+      return this.$axios
+        .post("/api/admin/user-recipes/" + this.post._id + "/publish")
+        .then(response => {
+          this.loading = false;
+          this.$notifySuccess({
+            title: "გამოქვეყნებულია",
+            text: "<a href='/admin/recipes/" + response.data._id + "'>რეცეპტზე გადასვლა</a>"
+          });
+        })
+        .catch(err => {
+          this.loading = false;
+          console.error(err);
+          this.$notifyError({
+            title: "მოხდა შეცდომა!",
+            text: err.message
+          });
+        });
     },
     save() {
       this.loading = true;
