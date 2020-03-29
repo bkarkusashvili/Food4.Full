@@ -13,13 +13,17 @@ const schema = new Schema({
     status: {
         type: String
     },
+    publishedAt: {
+        type: Date
+    },
     submitterName: {
         type: String
     },
     submitterEmail: {
         type: String
     },
-    submitter: { type: Schema.Types.ObjectId, ref: 'User' }
+    publishedRecipe: { type: Schema.Types.ObjectId, ref: 'Post' },
+    submitter: { type: Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true });
 
 module.exports = schema;

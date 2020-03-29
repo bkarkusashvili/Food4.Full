@@ -63,6 +63,14 @@
                 <span>ბლოგი</span>
               </nuxt-link>
             </li>
+            <li>
+              <nuxt-link to="/admin/user-recipes" active-class="is-active">
+                <span class="icon">
+                  <i class="mdi mdi-account"></i>
+                </span>
+                <span>მომხმარებლის რეცეპტები</span>
+              </nuxt-link>
+            </li>
           </ul>
           <p class="menu-label">
             <span class="icon">

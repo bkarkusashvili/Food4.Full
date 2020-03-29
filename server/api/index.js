@@ -116,6 +116,12 @@ router.post('/admin/posts', api.admin.posts.create);
 router.put('/admin/posts/:id', api.admin.posts.update);
 router.delete('/admin/posts/:id', api.admin.posts.remove);
 
+// User recipes
+router.get('/admin/user-recipes', api.admin.userRecipes.index);
+router.get('/admin/user-recipes/:id', api.admin.userRecipes.one);
+router.put('/admin/user-recipes/:id', api.admin.userRecipes.update);
+router.delete('/admin/user-recipes/:id', api.admin.userRecipes.remove);
+
 // Pages
 router.get('/admin/pages', api.admin.pages.index);
 router.get('/admin/pages/:id', api.admin.pages.one);
