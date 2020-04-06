@@ -284,6 +284,10 @@ function findIndex(items, _id) {
 </script>
 
 <style>
+.item-page .hooper {
+  height: auto !important;
+}
+
 .item-page .carousel-container {
   overflow: hidden;
 }
