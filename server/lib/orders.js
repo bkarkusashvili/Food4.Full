@@ -118,6 +118,13 @@ async function updateOrder(orderId, orderParams) {
 
     let originalStatus = order.status;
 
+    if (!order.paymentLog || !(order.paymentLog instanceof Array))
+        order.paymentLog = [];
+    order.paymentLog.unshift({ date: new Date(), operation: "manual_change", result: {
+        originalStatus,
+        params: orderParams
+    } });
+
     Object.assign(order, orderParams);
 
     if (orderParams.status === "PAID" && originalStatus !== "PAID") {
@@ -271,7 +278,7 @@ async function syncItems(items) {
         // Remove 0 quantity items
         if (!item.quantity)
             return null;
-        
+
         return item;
     }).filter((item) => item != null);
     return newItems;
