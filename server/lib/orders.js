@@ -61,7 +61,6 @@ async function checkOrder(orderId, user) {
 
     if (!order.paymentLog || !(order.paymentLog instanceof Array))
         order.paymentLog = [];
-
     order.paymentLog.unshift({ date: new Date(), operation: "check", result: paymentResult });
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
@@ -77,6 +76,10 @@ async function checkOrder(orderId, user) {
         order.status = "CANCELLED";
     }
 
+    if (paymentResult.status === "REJECTED") {
+        order.status = "CANCELLED";
+    }
+
     return order.save();
 }
 
@@ -84,6 +87,10 @@ async function cancelOwnOrder(orderId, user) {
     let order = await mongoose.model('ShopOrder').findOne({ _id: orderId, user: user._id });
     if (order.status !== "CREATED" && order.status !== "PAYMENT_PENDING")
         throw new Error("შეკვეთის გასაუქმებლად მიმართეთ ადმინისტრაციას!");
+
+    if (!order.paymentLog || !(order.paymentLog instanceof Array))
+        order.paymentLog = [];
+    order.paymentLog.unshift({ date: new Date(), operation: "cancel_own" });
     order.status = "CANCELLED";
     return order.save();
 }
@@ -100,6 +107,7 @@ async function cancelOrder(orderId) {
         await unreserveItems(order.items);
         // let refundResult = await payments.refundRequest(order);
         // order.paymentLog.unshift({ date: new Date(), operation: "refund", result: refundResult });
+        order.paymentLog.unshift({ date: new Date(), operation: "cancel" });
         sendOrderRefundedEmail(order, user);
     } else if (order.status === "PAYMENT_PENDING") {
         let refundResult = await payments.refundRequest(order);
@@ -120,10 +128,12 @@ async function updateOrder(orderId, orderParams) {
 
     if (!order.paymentLog || !(order.paymentLog instanceof Array))
         order.paymentLog = [];
-    order.paymentLog.unshift({ date: new Date(), operation: "manual_change", result: {
-        originalStatus,
-        params: orderParams
-    } });
+    order.paymentLog.unshift({
+        date: new Date(), operation: "manual_change", result: {
+            originalStatus,
+            params: orderParams
+        }
+    });
 
     Object.assign(order, orderParams);
 
