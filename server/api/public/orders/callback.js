@@ -12,8 +12,10 @@ pan
 const orders = require('@lib/orders');
 
 module.exports = function (req, res) {
-    orders.checkOrder(req.query.id).catch((error) => {
+    orders.checkOrder(req.query.id).then(() => {
+        res.redirect(301, '/order/callback?id=' + req.query.id);
+    }).catch((error) => {
         console.error("Error while checking order", error);
+        res.redirect(301, '/order/callback?id=' + req.query.id);
     });
-    res.redirect(301, '/order/callback?id=' + req.query.id);
 }
