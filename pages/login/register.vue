@@ -80,7 +80,6 @@ export default {
       repeatPassword: "",
       name: "",
       valid: true,
-      emailTaken: false,
       showEmailConfirmation: false
     };
   },
@@ -104,8 +103,12 @@ export default {
           localStorage.setItem('redirectAfterConfirm', this.$route.query.return);
         })
         .catch(err => {
+          if(err.response && err.response.data && err.response.data.taken) {
+            this.error = "მომხმარებელი ასეთი ელ-ფოსტით უკვე რეგისტრირებულია!"
+          } else {
+            this.error = (err.response && err.response.data && err.response.data.message) || err.message;
+          }
           this.loading = false;
-          this.error = err.message;
         });
     }
   }

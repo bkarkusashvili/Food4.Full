@@ -68,7 +68,7 @@ async function checkOrder(orderId, user) {
         order.status = "PAID";
         sendOrderNotification(order);
         sendOrderConfirmedEmail(order, order.user);
-        await reserveItems(order.items);
+        reserveItems(order.items).catch((e) => console.error("Error reserving items", e));
     }
 
     if ((order.status === "CREATED" || order.status === "PAYMENT_PENDING")
