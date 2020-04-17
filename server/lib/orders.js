@@ -76,10 +76,11 @@ async function checkOrder(orderId, user) {
         order.status = "CANCELLED";
     }
 
-    if (paymentResult.status === "REJECTED") {
+    if (order.status !== "FINISHED" && paymentResult.status === "REJECTED") {
         order.status = "CANCELLED";
     }
 
+    delete order.__v;
     return order.save();
 }
 
