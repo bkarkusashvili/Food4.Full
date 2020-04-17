@@ -3,9 +3,9 @@
     <form @submit.prevent="requestReset" v-show="!showEmailConfirmation">
       <h1 class="title">პაროლის აღდგენა</h1>
       <div class="field">
-        <label class="label is-large">ელ-ფოსტა</label>
+        <label class="label is-large">შეიყვანეთ თქვენი ელ-ფოსტა:</label>
         <div class="control">
-          <input class="input is-large" type="email" v-model="email" />
+          <input class="input is-large" type="email" v-model="email" autocomplete="email" />
         </div>
       </div>
 
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       error: null,
+      loading: false,
       email: "",
       showEmailConfirmation: false
     };
@@ -49,7 +50,21 @@ export default {
   created() {},
   methods: {
     requestReset: function() {
-      this.showEmailConfirmation = true;
+      this.loading = true;
+      this.error = false;
+      this.$axios
+        .post("/api/auth/forgot", { email: this.email })
+        .then(() => {
+          this.loading = false;
+          this.showEmailConfirmation = true;
+        })
+        .catch(err => {
+          this.loading = false;
+          this.error = err.message;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
 };

@@ -72,11 +72,40 @@ function confirmEmail(code) {
         });
 }
 
+function forgotPassword(email) {
+    return mongoose.model('User').findOne({ email: email }).then((user) => {
+        if (user)
+            return generateAndSendResetCode(user);
+    });
+}
+
+function generateAndSendResetCode(user) {
+    return mongoose.model('ConfirmationCode').generate({
+        user: user._id,
+        type: "password",
+        email: user.email
+    })
+        .then((confirmationCode) => confirmationCode.save())
+        .then((confirmationCode) => sendResetCode(confirmationCode))
+        .catch(err => console.error('Cannot send reset code', err));
+}
+
+function sendResetCode(confirmationCode) {
+    let resetUrl = `https://food4.ge/login/reset?code=${confirmationCode.code}`;
+    return mailer.sendTemplated('password-reset', {
+        resetUrl: resetUrl
+    }, {
+        to: confirmationCode.email,
+        subject: "პაროლის აღდგენა - FOOD4.GE",
+        text: `შეგიძლიათ შეცვალოთ თქვენი პაროლი შემდეგ ლინკზე გადასვლით: ${resetUrl}`
+    });
+}
+
 function resetPassword(code, password) {
     return mongoose.model('ConfirmationCode')
         .findOne({
             code: code,
-            type: "email"
+            type: "password"
         })
         .populate('user')
         .then(function (confirmationCode) {
@@ -110,5 +139,6 @@ module.exports = {
     confirmEmail: confirmEmail,
     resetPassword: resetPassword,
     updateProfile: updateProfile,
-    generateAndSendConfirmationCode: generateAndSendConfirmationCode
+    generateAndSendConfirmationCode: generateAndSendConfirmationCode,
+    forgotPassword: forgotPassword,
 };

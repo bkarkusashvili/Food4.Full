@@ -4,7 +4,7 @@ const Schema = require('mongoose').Schema,
 const schema = new Schema({
     type: {
         type: String,
-        enum: ["phone", "email"]
+        enum: ["phone", "email", "password"]
     },
     code: {
         type: String
