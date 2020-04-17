@@ -21,6 +21,9 @@
             </select>
           </div>
         </div>
+        <div class="control">
+          <input type="text" class="input" v-model="filter.q" placeholder="ძებნა" />
+        </div>
       </div>
     </form>
 
