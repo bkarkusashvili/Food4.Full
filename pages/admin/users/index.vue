@@ -33,6 +33,7 @@
           <th>სახელი</th>
           <th>ელ-ფოსტა</th>
           <th>როლი</th>
+          <th style="width: 10em">თარიღი</th>
           <th></th>
         </tr>
       </thead>
@@ -49,6 +50,7 @@
             </span>
           </td>
           <td>{{user.role}}</td>
+          <td>{{user.createdAt | dateTime}}</td>
           <td style="width: 1em">
             <div class="dropdown is-hoverable is-right">
               <div class="dropdown-trigger">
