@@ -23,7 +23,8 @@ const schema = new Schema({
     },
     sold: {
         type: Number,
-        index: true
+        index: true,
+        default: 0
     },
     description: {
         type: String
