@@ -248,7 +248,8 @@ async function reserveItems(items) {
     let promises = items.map((item) => {
         return ShopItem.findByIdAndUpdate(item._id, {
             $inc: {
-                stock: - item.quantity
+                stock: - item.quantity,
+                sold: item.quantity,
             }
         });
     });
@@ -260,7 +261,8 @@ async function unreserveItems(items) {
     let promises = items.map((item) => {
         return ShopItem.findByIdAndUpdate(item._id, {
             $inc: {
-                stock: item.quantity
+                stock: item.quantity,
+                sold: - item.quantity,
             }
         });
     });
