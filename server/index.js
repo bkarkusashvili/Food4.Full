@@ -126,4 +126,6 @@ function listen(app, nuxt) {
   });
 }
 
-start();
+start().catch((error) => {
+  console.error(error);
+});

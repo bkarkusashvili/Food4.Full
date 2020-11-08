@@ -126,8 +126,9 @@ export default {
           limit: 8
         },
         {
-          type: "tags",
-          compact: true
+          type: "shop",
+          compact: true,
+          //title: "მაღაზია"
           //tags: ["5d36e717452aac0656d518ad", "5d373520478a544f3e7e5fb2"]
         },
         {
