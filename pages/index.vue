@@ -128,7 +128,7 @@ export default {
         {
           type: "shop",
           compact: true,
-          //title: "მაღაზია"
+          title: "მაღაზია"
           //tags: ["5d36e717452aac0656d518ad", "5d373520478a544f3e7e5fb2"]
         },
         {
