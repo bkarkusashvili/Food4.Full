@@ -24,7 +24,7 @@ export default {
       items: [],
       total: 1,
       page: 1,
-      perPage: 12
+      perPage: 20
     };
   },
   methods: {
@@ -53,7 +53,7 @@ export default {
   },
   asyncData({ params, error, $axios }) {
     return $axios
-      .get("/api/shop/items/")
+      .get("/api/shop/items/", { params: { limit: 20 } })
       .then(response => {
         return { items: response.data };
       })
