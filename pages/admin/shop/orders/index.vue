@@ -43,11 +43,11 @@
     </form>
     <table class="table is-fullwidth is-hoverable">
       <tr>
-        <th>თარიღი</th>
+        <th style="width: 8em">თარიღი</th>
         <th>ჩამონათვალი</th>
         <th>მისამართი</th>
-        <th>სულ</th>
-        <th>სტატუსი</th>
+        <th style="width: 6em">სულ</th>
+        <th style="width: 8em">სტატუსი</th>
         <th></th>
       </tr>
       <tr v-for="(order, index) in orders" :key="index">
