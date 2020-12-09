@@ -116,6 +116,7 @@
             @selectTag="childSelectTag"
             @selectPage="childSelectPage"
             @selectPost="childSelectPost"
+            @selectCategory="childSelectCategory"
             child
           />
         </transition-group>
@@ -168,6 +169,9 @@ export default Vue.component("admin-nav-item", {
     },
     childSelectPost(item) {
       this.$emit("selectPost", item);
+    },
+    childSelectCategory(item) {
+      this.$emit("selectCategory", item);
     },
     selectTag(item) {
       this.$emit("selectTag", { item, target: this });
