@@ -1,13 +1,13 @@
-@import url("../static/noto/stylesheet.css");
+@import url('../static/noto/stylesheet.css');
 
-$mdi-font-path: "~@mdi/font/fonts";
-@import "~@mdi/font/scss/materialdesignicons";
+$mdi-font-path: '~@mdi/font/fonts';
+@import '~@mdi/font/scss/materialdesignicons';
 
-@import "~bulma/sass/utilities/initial-variables";
-@import "~bulma/sass/utilities/functions";
+@import '~bulma/sass/utilities/initial-variables';
+@import '~bulma/sass/utilities/functions';
 
-@import "~quill/dist/quill.core";
-@import "~quill/dist/quill.snow";
+@import '~quill/dist/quill.core';
+@import '~quill/dist/quill.snow';
 
 //$family-primary: 'Noto Serif Georgian', 'Noto Sans Georgian', 'Noto Sans', 'Roboto', sans-serif;
 //$primary: #ffb2a4;
@@ -18,13 +18,14 @@ $navbar-dropdown-arrow: black;
 $input-arrow: black;
 $navbar-dropdown-item-active-color: black;
 
-@import "~bulma/bulma";
-@import "~bulma-badge/src/sass/index";
-@import "~bulma-o-steps/bulma-steps.scss";
+@import '~bulma/bulma';
+@import '~bulma-badge/src/sass/index';
+@import '~bulma-o-steps/bulma-steps.scss';
 
-@import "./flex.scss";
+@import './flex.scss';
 
-.select:not(.is-multiple):not(.is-loading)::after, .navbar-link:not(.is-arrowless)::after {
+.select:not(.is-multiple):not(.is-loading)::after,
+.navbar-link:not(.is-arrowless)::after {
   border-color: black;
 }
 
@@ -32,7 +33,8 @@ $navbar-dropdown-item-active-color: black;
   justify-content: center;
 }
 
-.table tr:last-child td, .table tr:last-child th {
+.table tr:last-child td,
+.table tr:last-child th {
   border-bottom: none;
 }
 
@@ -230,7 +232,8 @@ html {
     text-align: center;
   }
 
-  .recipe-container, .item-container {
+  .recipe-container,
+  .item-container {
     flex-basis: 50%;
     padding-right: 0.5em;
   }
@@ -264,7 +267,11 @@ html {
   }
 
   .main-layout > .is-fullheight {
-    padding-top: 100px;
+    padding-top: 18px;
+  }
+
+  .main-layout > .banner {
+    padding-top: 82px;
   }
 }
 

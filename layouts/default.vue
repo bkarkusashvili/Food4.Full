@@ -4,6 +4,13 @@
       <secondary-navbar />
       <site-navbar />
     </div>
+    <a
+      class="banner"
+      href="https://goodwilldelivery.ge/?lang=ge"
+      target="_blank"
+    >
+      <img src="~/static/img/banner.jpg" alt="" srcset="" />
+    </a>
     <nuxt class="is-fullheight" ref="page" />
     <site-footer />
     <notifications
@@ -16,13 +23,13 @@
     <client-only>
       <!-- Global site tag (gtag.js) - Google Analytics -->
       <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
 
-  gtag("config", "UA-148021181-1");
+        gtag("config", "UA-148021181-1");
       </script>
 
       <div id="fb-root"></div>
@@ -45,7 +52,7 @@ export default {
     siteNavbar: Navbar,
     siteFooter: Footer,
     SecondaryNavbar: SecondaryNavbar,
-    Pagination: Pagination
+    Pagination: Pagination,
   },
   head() {
     let head = {
@@ -53,60 +60,60 @@ export default {
       link: [
         {
           rel: "canonical",
-          href: "https://food4.ge" + this.$route.path
-        }
+          href: "https://food4.ge" + this.$route.path,
+        },
       ],
       script: [
         {
           src: "https://www.googletagmanager.com/gtag/js?id=UA-148021181-1",
           async: true,
-          body: true
+          body: true,
         },
         { src: "https://counter.top.ge/counter.js", async: true, body: true },
         {
           src:
             "https://connect.facebook.net/ka_GE/sdk.js#xfbml=1&version=v4.0&appId=3019510804998107&autoLogAppEvents=1",
           async: true,
-          body: true
-        }
+          body: true,
+        },
       ],
       meta: [
         {
           hid: "description",
           name: "description",
-          content: this.$store.state.settings.description
+          content: this.$store.state.settings.description,
         },
         {
           hid: "og:description",
           property: "og:description",
-          content: this.$store.state.settings.description
+          content: this.$store.state.settings.description,
         },
         {
           hid: "og:title",
           property: "og:title",
-          content: this.$store.state.settings.title
+          content: this.$store.state.settings.title,
         },
         {
           hid: "fb:app_id",
           property: "fb:app_id",
-          content: "3019510804998107"
+          content: "3019510804998107",
         },
         {
           hid: "og:site_name",
           property: "og:site_name",
-          content: this.$store.state.settings.title
+          content: this.$store.state.settings.title,
         },
         {
           hid: "og:image",
           property: "og:image",
-          content: "https://food4.ge" + this.$store.state.settings.logo
+          content: "https://food4.ge" + this.$store.state.settings.logo,
         },
         {
           hid: "apple-mobile-web-app-title",
           property: "apple-mobile-web-app-title",
-          content: this.$store.state.settings.title
-        }
-      ]
+          content: this.$store.state.settings.title,
+        },
+      ],
     };
 
     if (this.$store.state.settings.noIndex) {
@@ -116,12 +123,12 @@ export default {
     return head;
   },
   watch: {
-    $route: function() {
+    $route: function () {
       if (process.browser && FB) {
         setTimeout(() => FB.XFBML.parse(), 500);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -133,6 +140,12 @@ export default {
 
   & > .is-fullheight {
     flex-grow: 1;
+  }
+
+  .banner {
+    img {
+      width: 100%;
+    }
   }
 }
 </style>
