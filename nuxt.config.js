@@ -99,7 +99,7 @@ module.exports = {
     }
   },
   server: {
-    port: 3000, // default: 3000
+    port: 3001, // default: 3001
     host: 'localhost', // default: localhost,
     timing: false
   }
