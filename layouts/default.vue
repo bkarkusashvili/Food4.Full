@@ -4,12 +4,8 @@
       <secondary-navbar />
       <site-navbar />
     </div>
-    <a
-      class="banner"
-      href="https://goodwilldelivery.ge/?lang=ge"
-      target="_blank"
-    >
-      <img src="~/static/img/banner.jpg" alt="" srcset="" />
+    <a class="banner" href="https://www.gastronome.ge" target="_blank">
+      <img src="~/static/img/banner.jpg?ver=2" alt="" srcset="" />
     </a>
     <nuxt class="is-fullheight" ref="page" />
     <site-footer />
@@ -71,8 +67,7 @@ export default {
         },
         { src: "https://counter.top.ge/counter.js", async: true, body: true },
         {
-          src:
-            "https://connect.facebook.net/ka_GE/sdk.js#xfbml=1&version=v4.0&appId=3019510804998107&autoLogAppEvents=1",
+          src: "https://connect.facebook.net/ka_GE/sdk.js#xfbml=1&version=v4.0&appId=3019510804998107&autoLogAppEvents=1",
           async: true,
           body: true,
         },
